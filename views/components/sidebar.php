@@ -1,28 +1,28 @@
-<div class="hidden md:flex md:shrink-0">
+<div class="hidden md:flex md:flex-shrink-0">
     <div class="flex flex-col w-64 bg-indigo-800">
         <div class="flex items-center justify-center h-16 px-4 bg-indigo-900">
             <div class="flex items-center mb-10">
                 <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
                     <i class="fas fa-chart-pie text-white text-sm"></i>
                 </div>
-                <a href="/" class="text-xl font-bold ml-3 text-white">ExpenseTracker</a>
+                <a href="<?= url('public/index.php') ?>" class="text-xl font-bold ml-3 text-white">BudgetBoard</a>
             </div>  
         </div>
         <div class="flex flex-col flex-1 px-4 py-4 overflow-y-auto">
             <div class="space-y-1">
-                <a href="<?= url('index.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('index.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/index.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/index.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fas fa-house mr-3"></i>
                     Dashboard
                 </a>
-                <a href="<?= url('expense.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('expense.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/expenses.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/expenses.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fa-solid fa-dollar-sign mr-3"></i>
                     Expenses
                 </a>
-                <a href="<?= url('category.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('category.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/categories.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/categories.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fas fa-tags mr-3"></i>
                     Categories
                 </a>
-                <a href="<?= url('reports.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('reports.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/reports.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/reports.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fas fa-chart-pie mr-3"></i>
                     Reports
                 </a>

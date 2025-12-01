@@ -1,6 +1,6 @@
 <?php
 if (!isset($title)) {
-    $title = "ExpenseTracker";
+    $title = "BudgetBoard";
 }
 ?>
 <!DOCTYPE html>
@@ -10,10 +10,11 @@ if (!isset($title)) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($title) ?></title>
   <link rel="icon" type="image/png" href="../../public/assets/extc.png">
+  <link rel="stylesheet" href="../../public/assets/css/input.css?v=<?= time() ?>">
   <link rel="stylesheet" href="../../public/assets/css/output.css?v=<?= time() ?>">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -37,9 +38,9 @@ if (!isset($title)) {
   </div>
 
   <!-- Common JS -->
-  <script src="/public/js/index.js"></script>
-  <script src="/public/js/reports.js"></script>
-  <script src="/public/js/expenses.js"></script>
-  <script src="/public/js/categories.js"></script>
+  <script src="/public/assets/js/index.js"></script>
+  <script src="/public/assets/js/reports.js"></script>
+  <script src="/public/assets/js/expenses.js"></script>
+  <script src="/public/assets/js/categories.js"></script>
 </body>
 </html>

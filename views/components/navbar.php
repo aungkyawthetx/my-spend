@@ -38,7 +38,7 @@
                     <i class="fas fa-cog mr-2"></i> Settings
                 </a>
                 <div class="border-t border-gray-100"></div>
-                <form method="POST" action="<?= url('src/function/logout.php') ?>" class="w-full">
+                <form method="POST" action="<?= url('src/helpers/logout.php') ?>" class="w-full">
                     <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem" onclick="return confirm('Are you sure you want to logout?')">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </button>

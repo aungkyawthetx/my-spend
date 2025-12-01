@@ -1,7 +1,7 @@
 <?php
-    include __DIR__ . '/../src/function/url.php';
+    include __DIR__ . '/../src/helpers/url.php';
     include __DIR__ . '/../src/bootstrap.php';
-    require_once __DIR__ . '/../src/function/isGuest.php';
+    require_once __DIR__ . '/../src/helpers/isGuest.php';
 
     $title = "Login";
     ob_start();
@@ -41,7 +41,7 @@
                 // set cookie
                 setcookie('remember_token', $token, $expiry, '/', '', true, true);
             }
-            header("Location: ../index.php");
+            header("Location: ../public/index.php");
             exit();
         } else {
             $errors['login'] = "Invalid username or password";
@@ -77,17 +77,17 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-indigo-600">ExpenseTracker</h1>
-        <!-- <p class="text-gray-600 mt-2">" A simple expense-tracking web app to help you manage your personal finances. "</p> -->
+        <h1 class="text-3xl font-bold text-indigo-600">BudgetBoard</h1>
+        <p class="text-gray-600 mt-2">A simple web-based expense-tracking app to help you manage your personal finances.</p>
     </div>
     
     <form method="POST" action="">
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                User Name
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                Username
             </label>
             <input class="bg-gray-50 py-2 px-3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 block w-full <?= isset($errors['username']) ? 'border-red-500' : '' ?>" 
-                id="email" 
+                id="username" 
                 type="text" 
                 placeholder="Enter your username"
                 name="username"
@@ -134,8 +134,8 @@
         </p>
     </div>
 </div>
-<?php include __DIR__ . '/../src/views/components/copyright.php'; ?>
+<?php include __DIR__ . '/../views/components/copyright.php'; ?>
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../src/views/components/auth_layout.php';
+include __DIR__ . '/../views/components/auth_layout.php';

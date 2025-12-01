@@ -1,7 +1,7 @@
 <?php
-    include __DIR__ . '/../src/function/url.php';
+    include __DIR__ . '/../src/helpers/url.php';
     include __DIR__ . '/../src/bootstrap.php';
-    require_once __DIR__ . '/../src/function/isGuest.php';
+    require_once __DIR__ . '/../src/helpers/isGuest.php';
 
     $title = "Register";
     ob_start();
@@ -75,7 +75,7 @@
                 $_SESSION['user_email'] = $email;
                 $_SESSION['user_name'] = $username;
 
-                header("Location: ../index.php");
+                header("Location: ../public/index.php");
                 exit();
             } else {
                 $errors['database'] = 'Registration failed. Please try again';
@@ -97,8 +97,8 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-indigo-600">ExpenseTracker</h1>
-        <!-- <p class="text-gray-600 mt-2">A simple web-based expense-tracking app to help you manage your personal finances.</p> -->
+        <h1 class="text-3xl font-bold text-indigo-600">BudgetBoard</h1>
+        <p class="text-gray-600 mt-2">A simple web-based expense-tracking app to help you manage your personal finances.</p>
     </div>
     
     <form method="POST" action="">
@@ -184,7 +184,7 @@
         </p>
     </div>
 </div>
-<?php include __DIR__ . '/../src/views/components/copyright.php'; ?>
+<?php include __DIR__ . '/../views/components/copyright.php'; ?>
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../src/views/components/auth_layout.php';
+include __DIR__ . '/../views/components/auth_layout.php';

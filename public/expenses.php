@@ -1,7 +1,7 @@
 <?php
-  include __DIR__ . '/src/function/url.php';
-  require_once __DIR__ . '/src/function/isLoggedIn.php';
-  require_once __DIR__ . '/src/bootstrap.php';
+  include __DIR__ . '/../src/helpers/url.php';
+  require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
+  require_once __DIR__ . '/../src/bootstrap.php';
   $title = "Expenses";
 
   $stmt = $pdo->prepare("SELECT * FROM categories");
@@ -81,19 +81,19 @@
   $expenses = $stmt->fetchAll();
 
   ob_start();
-  include __DIR__ . '/src/views/components/expenses/header.php';
-  include __DIR__ . '/src/views/components/expenses/filters.php';
+  include __DIR__ . '/../views/expenses/header.php';
+  include __DIR__ . '/../views/expenses/filters.php';
 ?>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
-  <?php include __DIR__ . '/src/views/components/expenses/table.php'; ?>
-  <?php include __DIR__ . '/src/views/components/pagination.php'; ?>
+  <?php include __DIR__ . '/../views/expenses/table.php'; ?>
+  <?php include __DIR__ . '/../views/components/pagination.php'; ?>
 </div>
 
-<?php include __DIR__ . '/src/views/components/modals/add-expense-modal.php' ?>
-<?php include __DIR__ . '/src/views/components/modals/delete-expense-modal.php' ?>
+<?php include __DIR__ . '/../views/components/modals/add-expense-modal.php' ?>
+<?php include __DIR__ . '/../views/components/modals/delete-expense-modal.php' ?>
 
 <?php
   $content = ob_get_clean();
-  include __DIR__ . '/src/views/components/layout.php';
+  include __DIR__ . '/../views/components/layout.php';
 ?>

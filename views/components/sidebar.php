@@ -1,12 +1,14 @@
-<div class="hidden md:flex md:flex-shrink-0">
+<div class="hidden md:flex md:shrink-0">
     <div class="flex flex-col w-64 bg-indigo-800">
-        <div class="flex items-center justify-center h-16 px-4 bg-indigo-900">
-            <div class="flex items-center mb-10">
-                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-chart-pie text-white text-sm"></i>
+        <div class="flex items-center justify-center bg-indigo-900 px-3 py-3">
+            <div class="flex items-center space-x-2">
+                <div class="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chart-pie text-white"></i>
                 </div>
-                <a href="<?= url('public/index.php') ?>" class="text-xl font-bold ml-3 text-white">BudgetBoard</a>
-            </div>  
+                <a href="<?= url('public/index.php') ?>" class="text-xl font-bold text-white">
+                    BudgetBoard
+                </a>
+            </div>
         </div>
         <div class="flex flex-col flex-1 px-4 py-4 overflow-y-auto">
             <div class="space-y-1">

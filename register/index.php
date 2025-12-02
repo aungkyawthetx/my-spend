@@ -97,14 +97,13 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-indigo-600">BudgetBoard</h1>
-        <p class="text-gray-600 mt-2">A simple web-based expense-tracking app to help you manage your personal finances.</p>
+        <h1 class="text-3xl font-bold text-indigo-600">B U D G E T - B O A R D</h1>
     </div>
     
     <form method="POST" action="">
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="full-name">
-                User Name
+                Username
             </label>
             <input class="appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 <?= isset($errors['name']) ? 'border-red-500' : '' ?>" 
                 id="full-name" 

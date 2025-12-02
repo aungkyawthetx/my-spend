@@ -2,7 +2,16 @@
   include __DIR__ . '/../src/helpers/url.php';
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
   require_once __DIR__ . '/../src/bootstrap.php';
+
+  // Page title
   $title = "Expenses";
+
+  // Initialize alert flags from session "flash" values
+  $showSuccessAlert = !empty($_SESSION['show_success_alert']);
+  unset($_SESSION['show_success_alert']);
+
+  $showErrorAlert = !empty($_SESSION['show_error_alert']);
+  unset($_SESSION['show_error_alert']);
 
   $stmt = $pdo->prepare("SELECT * FROM categories");
   $stmt->execute();
@@ -16,6 +25,7 @@
   $options = explode("','", $matches[1]);
 
   $errors = [];
+
   if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
     $expense_date = $_POST['expense_date'] ?? null;
     $amount = $_POST['amount'] ?? 0;
@@ -23,7 +33,7 @@
     $category_id = isset($_POST['category_id']) ? (int) $_POST['category_id'] : null;
     $payment_method = trim($_POST['payment_method'] ?? '');
     $status = isset($_POST['paid']) ? 1 : 0;
-    $note = trim($_POST['note'] ?? '');
+    $note = trim($_POST['note']);
 
     if(empty($expense_date)) {
       $errors['expense_date'] = "Expense date is required";
@@ -67,11 +77,14 @@
         $status,
         $note
       ]);
+      $_SESSION['show_success_alert'] = true;
       header("Location: expenses.php");
       exit();
     }
     else {
+      $_SESSION['show_error_alert'] = true;
       header("Location: expenses.php");
+      exit();
     }
   }
 
@@ -97,3 +110,17 @@
   $content = ob_get_clean();
   include __DIR__ . '/../views/components/layout.php';
 ?>
+
+<script>
+  <?php if($showSuccessAlert): ?>
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Expense has been saved!",
+      showConfirmButton: false,
+      timer: 1200,
+      width: "500px",
+      // padding: "0.5rem"
+    });
+  <?php endif; ?>
+</script>

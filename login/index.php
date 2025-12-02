@@ -77,8 +77,7 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-indigo-600">BudgetBoard</h1>
-        <p class="text-gray-600 mt-2">A simple web-based expense-tracking app to help you manage your personal finances.</p>
+        <h1 class="text-3xl font-bold text-indigo-600">B U D G E T - B O A R D</h1>
     </div>
     
     <form method="POST" action="">
@@ -129,7 +128,7 @@
     
     <div class="mt-6 text-center">
         <p class="text-gray-600 text-sm">
-            New to ExpenseTracker? 
+            New to BudgetBoard? 
             <a href="<?= url('register/index.php') ?>" class="text-indigo-600 hover:text-indigo-500 font-medium">Register here</a>
         </p>
     </div>

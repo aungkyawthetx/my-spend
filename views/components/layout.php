@@ -21,6 +21,7 @@ if (!isset($title)) {
   <!-- data picker package -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="flex h-screen overflow-hidden">

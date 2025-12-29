@@ -7,7 +7,7 @@
     ob_start();
     $errors = [];
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnLogin'])) {
+    if($_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
         $remember = isset($_POST['remember-me']) ? true : false;

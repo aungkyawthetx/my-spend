@@ -1,2 +1,3 @@
 <?php
-require_once __DIR__ . '/src/helpers/isGuest.php';
+header('Location: /login/index.php');
+exit;

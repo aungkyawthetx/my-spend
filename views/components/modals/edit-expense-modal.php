@@ -1,4 +1,4 @@
-<div id="expenseModal" class="fixed z-50 inset-0 overflow-y-auto hidden">
+<div id="editExpenseModal" class="fixed z-50 inset-0 overflow-y-auto hidden">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
             <div class="absolute inset-0 bg-gray-500 opacity-75 backdrop-blur"></div>
@@ -11,24 +11,25 @@
                         <i class="fas fa-receipt text-indigo-600"></i>
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="expense-modal-title">Add New Expense</h3>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="expense-modal-title">Edit expense</h3>
                         <div class="mt-2">
                             <form id="expenseForm" method="POST" action="<?= url('public/expenses.php') ?>">
+                                <input type="hidden" name="edit_expense_id" id="edit_expense_id">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
-                                        <label for="expense_date" class="block text-sm font-medium text-gray-700">Date</label>
-                                        <input type="date" id="expense_date" name="expense_date" class="flatpickr mt-1 h-10 p-2 w-full sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 <?= isset($errors['expense_date']) ? 'border-red-500' : '' ?>">
+                                        <label for="edit_expense_date" class="block text-sm font-medium text-gray-700">Date</label>
+                                        <input type="date" id="edit_expense_date" name="expense_date" class="flatpickr mt-1 h-10 p-2 w-full sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 <?= isset($errors['expense_date']) ? 'border-red-500' : '' ?>">
                                         <?php if (isset($errors['expense_date'])): ?>
                                             <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['expense_date']) ?></p>
                                         <?php endif; ?>
                                     </div>
                                     <div>
-                                        <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                                        <label for="edit_amount" class="block text-sm font-medium text-gray-700">Amount</label>
                                         <div class="mt-1 relative rounded-md">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                 <span class="text-gray-500 sm:text-sm">$</span>
                                             </div>
-                                            <input type="number" id="amount" name="amount" class="h-10 block w-full pl-7 pr-12 sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 <?= isset($errors['amount']) ? 'border-red-500' : '' ?>" placeholder="0.00">
+                                            <input type="number" id="edit_amount" name="amount" class="h-10 block w-full pl-7 pr-12 sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 <?= isset($errors['amount']) ? 'border-red-500' : '' ?>" placeholder="0.00">
                                             <?php if (isset($errors['amount'])): ?>
                                                 <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['amount']) ?></p>
                                             <?php endif; ?>
@@ -36,16 +37,16 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                                    <input type="text" id="description" name="description" class="p-2 mt-1 w-full sm:text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md <?= isset($errors['description']) ? 'border-red-500' : '' ?>" placeholder="Brief description of the expense">
+                                    <label for="edit_description" class="block text-sm font-medium text-gray-700">Description</label>
+                                    <input type="text" id="edit_description" name="description" class="p-2 mt-1 w-full sm:text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md <?= isset($errors['description']) ? 'border-red-500' : '' ?>" placeholder="Brief description of the expense">
                                     <?php if (isset($errors['description'])): ?>
                                         <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['description']) ?></p>
                                     <?php endif; ?>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
-                                        <label for="categoty" class="block text-sm font-medium text-gray-700">Category</label>
-                                        <select id="categoty" name="category_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm rounded-md cursor-pointer <?= isset($errors['category']) ? 'border-red-500' : '' ?>">
+                                        <label for="edit_category" class="block text-sm font-medium text-gray-700">Category</label>
+                                        <select id="edit_category" name="category_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm rounded-md cursor-pointer <?= isset($errors['category']) ? 'border-red-500' : '' ?>">
                                             <option value="">Select Category</option>
                                             <?php foreach($category_items as $item): ?>
                                                 <option value="<?= $item['id']?>"> <?= $item['name'] ?> </option>
@@ -56,8 +57,8 @@
                                         <?php endif; ?>
                                     </div>
                                     <div>
-                                        <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
-                                        <select id="payment_method" name="payment_method" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm rounded-md cursor-pointer <?= isset($errors['payment_method']) ? 'border-red-500' : '' ?>">
+                                        <label for="edit_payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
+                                        <select id="edit_payment_method" name="payment_method" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm rounded-md cursor-pointer <?= isset($errors['payment_method']) ? 'border-red-500' : '' ?>">
                                             <option value=""> Payment method</option>
                                             <?php foreach ($options as $method): ?>
                                                 <option value="<?= $method ?>"><?= ucwords(str_replace('_', ' ', $method)) ?></option>
@@ -69,12 +70,12 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="note" class="block text-sm font-medium text-gray-700">Notes</label>
-                                    <textarea id="note" rows="3" name="note" class="mt-1 p-2 w-full sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your notes..."></textarea>
+                                    <label for="edit_note" class="block text-sm font-medium text-gray-700">Notes</label>
+                                    <textarea id="edit_note" rows="3" name="note" class="mt-1 p-2 w-full sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your notes..."></textarea>
                                 </div>
                                 <div>
                                     <label class="inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" id="status" name="paid" checked class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
+                                        <input type="checkbox" id="edit_status" name="paid" checked class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
                                         <span class="ml-2 text-sm text-gray-700">Mark as paid</span>
                                     </label>
                                 </div>
@@ -84,10 +85,17 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit" name="btnSaveExpense" form="expenseForm" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
-                    Save Expense
+                <button 
+                    type="submit" 
+                    name="btnSaveExpense" 
+                    form="expenseForm" 
+                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
+                    Update Expense
                 </button>
-                <button onclick="closeAddExpenseModal()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
+                <button 
+                    onclick="closeEditExpenseModal()" 
+                    type="button" 
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
                     Cancel
                 </button>
             </div>

@@ -3,8 +3,7 @@
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
   require_once __DIR__ . '/../src/bootstrap.php';
 
-  // Page title
-  $title = "Expenses";
+  $title = "Expenses - BudgetBoard";
 
   // Initialize alert flags from session "flash" values
   $showSuccessAlert = !empty($_SESSION['show_success_alert']);
@@ -26,7 +25,7 @@
 
   $errors = [];
 
-  if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
+  if($_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $expense_date = $_POST['expense_date'] ?? null;
     $amount = $_POST['amount'] ?? 0;
     $description = trim($_POST['description'] ?? '');
@@ -104,6 +103,7 @@
 </div>
 
 <?php include __DIR__ . '/../views/components/modals/add-expense-modal.php' ?>
+<?php include __DIR__ . '/../views/components/modals/edit-expense-modal.php' ?>
 <?php include __DIR__ . '/../views/components/modals/delete-expense-modal.php' ?>
 
 <?php

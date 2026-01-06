@@ -88,7 +88,18 @@
                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?= $expense['status'] == true ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' ?>"> <?= $expense['status'] == true ? "Paid" : "Pending" ?> </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button onclick="openEditExpenseModal()" class="text-indigo-600 hover:text-indigo-900 cursor-pointer mr-3"><i class="fas fa-edit"></i></button>
+                        <button onclick="openEditExpenseModal(this)" 
+                            data-id="<?= $expense['id'] ?>"
+                            data-date="<?= $expense['expense_date'] ?>"
+                            data-amount="<?= $expense['amount'] ?>"
+                            data-description="<?= $expense['description'] ?>"
+                            data-category="<?= $expense['category_name']?>"
+                            data-payment-method="<?= $expense['payment_method'] ?>"
+                            data-note="<?= $expense['note'] ?>"
+                            data-status="<?= $expense['status'] ?>"
+                            class="text-indigo-600 hover:text-indigo-900 cursor-pointer mr-3"> 
+                            <i class="fas fa-edit"></i>
+                        </button>
                         <button onclick="openDeleteExpenseModal()" class="text-red-600 hover:text-red-900 cursor-pointer"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>

@@ -11,23 +11,30 @@ flatpickr("#expenseDate", {
 
 // Modal functions
 function openAddExpenseModal() {
-    document.getElementById('addExpenseModal').classList.remove('hidden');
+    document.getElementById('expenseModal').classList.remove('hidden');
 }
 
 function closeAddExpenseModal() {
-    document.getElementById('addExpenseModal').classList.add('hidden');
+    document.getElementById('expenseModal').classList.add('hidden');
 }
 
-// function openEditExpenseModal() {
-//     document.getElementById('expenseDate').value = '2023-06-15';
-//     document.getElementById('expenseAmount').value = '125.75';
-//     document.getElementById('expenseDescription').value = 'Grocery Shopping';
-//     document.getElementById('expenseCategory').value = 'food';
-//     document.getElementById('expensePayment').value = 'credit-card';
-//     document.getElementById('expenseNotes').value = 'Whole Foods Market';
-//     document.getElementById('expense-modal-title').textContent = 'Edit Expense';
-//     openAddExpenseModal();
-// }
+function openEditExpenseModal(btn) {
+    console.log(btn.dataset);
+    document.getElementById('edit_expense_id').value = btn.dataset.id;
+    document.getElementById('edit_expense_date').value = btn.dataset.date;
+    document.getElementById('edit_amount').value = btn.dataset.amount;
+    document.getElementById('edit_description').value = btn.dataset.description;
+    document.getElementById('edit_category').value = btn.dataset.category;
+    document.getElementById('edit_payment_method').value = btn.dataset.paymentMethod;
+    document.getElementById('edit_note').value = btn.dataset.note;
+    document.getElementById('edit_status').checked = btn.dataset.status === '1';
+    
+    document.getElementById('editExpenseModal').classList.remove('hidden');
+}
+
+function closeEditExpenseModal() {
+    document.getElementById('editExpenseModal').classList.add('hidden');
+}
 
 function openDeleteExpenseModal() {
     document.getElementById('deleteExpenseModal').classList.remove('hidden');

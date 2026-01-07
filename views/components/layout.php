@@ -1,6 +1,6 @@
 <?php
 if (!isset($title)) {
-    $title = "BudgetBoard";
+  $title = "BudgetBoard";
 }
 ?>
 <!DOCTYPE html>

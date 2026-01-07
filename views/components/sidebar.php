@@ -16,15 +16,15 @@
                     <i class="fas fa-house mr-3"></i>
                     Dashboard
                 </a>
-                <a href="<?= url('public/expenses.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/expenses.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/expense.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/expense.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fa-solid fa-dollar-sign mr-3"></i>
                     Expenses
                 </a>
-                <a href="<?= url('public/categories.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/categories.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/category.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/category.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fas fa-tags mr-3"></i>
                     Categories
                 </a>
-                <a href="<?= url('public/reports.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/reports.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
+                <a href="<?= url('public/report.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/report.php') ? 'text-white bg-indigo-900' : 'text-indigo-200 hover:text-white hover:bg-indigo-700' ?> rounded-lg">
                     <i class="fas fa-chart-pie mr-3"></i>
                     Reports
                 </a>

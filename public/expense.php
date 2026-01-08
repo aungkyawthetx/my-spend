@@ -82,14 +82,7 @@
   }
 
   // fetch expenses
-  $sql = "SELECT expenses.*, 
-    categories.name AS category_name, 
-    categories.color AS category_color, 
-    categories.id AS category_id 
-    FROM expenses 
-    LEFT JOIN categories 
-    ON expenses.category_id = categories.id 
-    WHERE expenses.user_id = :user_id";
+  $sql = "SELECT expenses.*, categories.name AS category_name, categories.color AS category_color, categories.id AS category_id FROM expenses LEFT JOIN categories ON expenses.category_id = categories.id WHERE expenses.user_id = :user_id ORDER BY expenses.expense_date DESC";
   $params = [];
   $date_range = $_GET['date_range'] ?? '';
   $category_id = $_GET['category_id'] ?? '';
@@ -122,14 +115,13 @@
   $stmt->execute(['user_id' => $_SESSION['user_id']] + $params);
   $expenses = $stmt->fetchAll();
 
+?>
 
-
-
+<?php
   ob_start();
   include __DIR__ . '/../views/expenses/header.php';
   include __DIR__ . '/../views/expenses/filters.php';
 ?>
-
 <div class="bg-white rounded-lg shadow overflow-hidden">
   <?php
     include __DIR__ . '/../views/expenses/table.php';

@@ -49,7 +49,7 @@
                             <p class="text-xs text-indigo-200">Get access to all features</p>
                         </div>
                     </div>
-                    <button class="mt-2 w-full bg-white text-indigo-800 py-1 px-3 rounded text-sm font-medium hover:bg-gray-100">
+                    <button class="mt-2 w-full bg-white text-indigo-800 py-1 px-3 rounded text-sm font-medium hover:bg-gray-100 cursor-pointer">
                         Upgrade Now
                     </button>
                 </div>

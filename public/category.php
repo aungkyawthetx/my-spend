@@ -3,7 +3,7 @@
   include __DIR__ . '/../src/helpers/url.php';
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
   require_once __DIR__ . '/../src/bootstrap.php';
-  $title = "Categories - BudgetBoard";
+  $title = "Categories - MySpend";
 
   $sql = "SELECT * FROM categories";
   $params = [];

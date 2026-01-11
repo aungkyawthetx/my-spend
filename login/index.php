@@ -3,7 +3,7 @@
     include __DIR__ . '/../src/bootstrap.php';
     require_once __DIR__ . '/../src/helpers/isGuest.php';
 
-    $title = "Login";
+    $title = "Sign In - MySpend";
     ob_start();
     $errors = [];
 
@@ -77,7 +77,7 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">Expense Tracker</h1>
+        <h1 class="text-3xl font-bold text-blue-600">MySpend App</h1>
     </div>
     
     <form method="POST" action="">
@@ -128,8 +128,8 @@
     
     <div class="mt-6 text-center">
         <p class="text-gray-600 text-sm">
-            New to BudgetBoard? 
-            <a href="<?= url('register/index.php') ?>" class="text-blue-600 hover:text-blue-500 font-medium">Register here</a>
+            New to MySpend? 
+            <a href="<?= url('register/index.php') ?>" class="text-blue-600 hover:text-blue-500 font-medium">Sign up</a>
         </p>
     </div>
 </div>

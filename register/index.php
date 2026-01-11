@@ -3,7 +3,7 @@
     include __DIR__ . '/../src/bootstrap.php';
     require_once __DIR__ . '/../src/helpers/isGuest.php';
 
-    $title = "Register";
+    $title = "Sign Up - MySpend";
     ob_start();
     $errors = [];
     $success = false;
@@ -97,7 +97,7 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">Expense Tracker</h1>
+        <h1 class="text-3xl font-bold text-blue-600">MySpend App</h1>
     </div>
     
     <form method="POST" action="">
@@ -172,14 +172,14 @@
         </div>
         
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer" type="submit" name="btnRegister">
-            Register
+            Sign Up
         </button>
     </form>
     
     <div class="mt-6 text-center">
         <p class="text-gray-600 text-sm">
             Already have an account? 
-            <a href="<?= url('login/index.php') ?>" class="text-blue-600 hover:text-blue-500 font-medium">Login here</a>
+            <a href="<?= url('login/index.php') ?>" class="text-blue-600 hover:text-blue-500 font-medium">Sign in</a>
         </p>
     </div>
 </div>

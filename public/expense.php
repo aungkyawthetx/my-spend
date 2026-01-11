@@ -4,7 +4,7 @@
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
   require_once __DIR__ . '/../src/bootstrap.php';
 
-  $title = "Expenses - BudgetBoard";
+  $title = "Expenses - MySpend";
 
   $category_stmt = $pdo->prepare("SELECT * FROM categories");
   $category_stmt->execute();

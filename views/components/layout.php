@@ -9,14 +9,13 @@ if (!isset($title)) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($title) ?></title>
-  <link rel="icon" type="image/png" href="../../public/assets/extc.png">
+  <link rel="icon" type="image/png" href="../../public/assets/logo.png">
   <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
   <link rel="stylesheet" href="../../public/fontawesome-free-7.1.0-web/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="../../public/css/font.css">
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <!-- data picker package -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

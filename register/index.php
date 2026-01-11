@@ -109,7 +109,7 @@
                 id="full-name" 
                 type="text" 
                 name="username" 
-                placeholder="Enter your username"
+                placeholder="your.name123"
                 value="<?= htmlspecialchars($username ?? '') ?>">
                 <?php if (isset($errors['username'])): ?>
                     <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['username']) ?></p>
@@ -124,7 +124,7 @@
             id="email" 
             name="email" 
             type="email" 
-            placeholder="Enter your email"
+            placeholder="yourname@example.com"
             value="<?= htmlspecialchars($email ?? '') ?>">
             <?php if (isset($errors['email'])): ?>
                 <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['email']) ?></p>
@@ -139,7 +139,7 @@
                 id="password" 
                 type="password" 
                 name="password" 
-                placeholder="Enter your password">
+                placeholder="password">
                 <?php if (isset($errors['password'])): ?>
                     <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['password']) ?></p>
                 <?php endif; ?>

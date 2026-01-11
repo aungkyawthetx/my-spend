@@ -122,7 +122,7 @@
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer" 
             type="submit"
             name="btnLogin">
-            Login
+            Sign In
         </button>
     </form>
     

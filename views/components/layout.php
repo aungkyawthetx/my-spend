@@ -11,16 +11,19 @@ if (!isset($title)) {
   <title><?= htmlspecialchars($title) ?></title>
   <link rel="icon" type="image/png" href="../../public/assets/logo.png">
   <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
-  <link rel="stylesheet" href="../../public/fontawesome-free-7.1.0-web/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="../../public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css?v=<?= time() ?>">
+  <!-- date picker -->
+  <script src="../../public/assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <link rel="stylesheet" href="../../public/assets/vendor/flatpickr/flatpickr.min.css">
+  <!-- chart.js -->
+  <script src="../../public/assets/vendor/chartjs/chart.umd.js"></script>
+  <!-- sweetalert2 -->
+  <script src="../../public/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+  <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-  <!-- data picker package -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen overflow-hidden">
@@ -37,6 +40,17 @@ if (!isset($title)) {
     </div>
   </div>
 
+  <script>
+    flatpickr("#date-range", {
+      mode: "range",
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#expenseDate", {
+      dateFormat: "Y-m-d",
+      defaultDate: "today"
+    });
+  </script>
   <!-- Common JS -->
   <script src="/public/assets/js/index.js"></script>
   <script src="/public/assets/js/reports.js"></script>

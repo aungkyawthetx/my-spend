@@ -1,14 +1,3 @@
-// Initialize date pickers
-flatpickr("#date-range", {
-    mode: "range",
-    dateFormat: "Y-m-d",
-});
-
-flatpickr("#expenseDate", {
-    dateFormat: "Y-m-d",
-    defaultDate: "today"
-});
-
 // Modal functions
 function openAddExpenseModal() {
     document.getElementById('expenseModal').classList.remove('hidden');

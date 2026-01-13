@@ -10,9 +10,9 @@ if (!isset($title)) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($title) ?></title>
   <link rel="icon" type="image/png" href="../../public/assets/logo.png">
-  <link rel="preload" href="/public/assets/vendor/fonts/worksans/WorkSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/src/output.css?">
-  <link rel="stylesheet" href="/src/input.css?">
+  <link rel="preload" href="/public/assets/vendor/fonts/worksans/worksans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/src/output.css">
+  <link rel="stylesheet" href="/src/input.css">
   <!-- fontawesome -->
   <link rel="stylesheet" href="../../public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css?">
   <!-- date picker -->

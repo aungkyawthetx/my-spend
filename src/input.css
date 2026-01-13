@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Work Sans';
-  src: url('/public/assets/vendor/fonts/worksans/WorkSans-Regular.ttf') format('truetype');
+  src: url('../public/assets/vendor/fonts/worksans/worksans.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

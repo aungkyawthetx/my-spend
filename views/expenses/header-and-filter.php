@@ -1,3 +1,14 @@
+<div class="mb-6 flex justify-between items-center">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Expenses</h1>
+        <p class="text-gray-600">Track and manage your expenses</p>
+    </div>
+    <button onclick="openAddExpenseModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 flex items-center cursor-pointer">
+        <i class="fas fa-plus mr-1"></i>
+        New Expense
+    </button>
+</div>
+<!-- filter -->
 <div class="bg-white rounded-lg shadow p-4 mb-6">
     <form action="expense.php" method="GET">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -22,10 +33,10 @@
                 </div>
             </div>
             <div class="flex items-end space-x-3 justify-end">
-                <a href="expense.php" class="border border-gray-300 text-gray-500 hover:text-white hover:bg-gray-300 font-medium py-2 px-4 rounded-lg transition duration-150 cursor-pointer text-center">
+                <a href="expense.php" class="border border-gray-300 text-gray-500 hover:text-white hover:bg-gray-300 font-medium py-2 px-4 rounded-full transition duration-150 cursor-pointer text-center">
                     <i class="fa-solid fa-rotate-right mr-1"></i> Reset
                 </a>
-                <button type="submit" class="border border-sky-600 bg-sky-600 hover:bg-sky-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 cursor-pointer">
+                <button type="submit" class="border border-sky-600 bg-sky-600 hover:bg-sky-700 text-white font-medium py-2 px-4 rounded-full transition duration-150 cursor-pointer">
                     <i class="fas fa-filter mr-1"></i> Filter
                 </button>
             </div>

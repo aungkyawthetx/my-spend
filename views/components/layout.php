@@ -11,10 +11,10 @@ if (!isset($title)) {
   <title><?= htmlspecialchars($title) ?></title>
   <link rel="icon" type="image/png" href="../../public/assets/logo.png">
   <link rel="preload" href="/public/assets/vendor/fonts/worksans/WorkSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
-  <link rel="stylesheet" href="/src/input.css?v=<?= time() ?>">
+  <link rel="stylesheet" href="/src/output.css?">
+  <link rel="stylesheet" href="/src/input.css?">
   <!-- fontawesome -->
-  <link rel="stylesheet" href="../../public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css?v=<?= time() ?>">
+  <link rel="stylesheet" href="../../public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css?">
   <!-- date picker -->
   <script src="../../public/assets/vendor/flatpickr/flatpickr.min.js"></script>
   <link rel="stylesheet" href="../../public/assets/vendor/flatpickr/flatpickr.min.css">
@@ -38,8 +38,6 @@ if (!isset($title)) {
     </div>
   </div>
 
-  
-
   <script>
     flatpickr("#date-range", {
       mode: "range",
@@ -51,9 +49,6 @@ if (!isset($title)) {
       defaultDate: "today"
     });
   </script>
-  <!-- Common JS -->
-  <script src="/public/assets/js/index.js"></script>
-  <script src="/public/assets/js/expenses.js"></script>
-  <script src="/public/assets/js/categories.js"></script>
+  <script src="/public/assets/js/app.main.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
   require_once __DIR__ . '/../src/bootstrap.php';
 
-  $title = "Expenses - BudgetBoard";
+  $title = "Expenses - MySpend";
 
   $category_stmt = $pdo->prepare("SELECT * FROM categories");
   $category_stmt->execute();
@@ -82,7 +82,7 @@
   }
 
   // fetch expenses
-  $sql = "SELECT expenses.*, categories.name AS category_name, categories.color AS category_color, categories.id AS category_id FROM expenses LEFT JOIN categories ON expenses.category_id = categories.id WHERE expenses.user_id = :user_id ORDER BY expenses.expense_date DESC";
+  $sql = "SELECT expenses.*, categories.name AS category_name, categories.color AS category_color, categories.id AS category_id FROM expenses LEFT JOIN categories ON expenses.category_id = categories.id WHERE expenses.user_id = :user_id";
   $params = [];
   $date_range = $_GET['date_range'] ?? '';
   $category_id = $_GET['category_id'] ?? '';
@@ -90,26 +90,33 @@
   $max_amount = $_GET['max_amount'] ?? '';
 
   if(!empty($date_range)) {
-    [$startDate, $endDate] = explode(' to ', $date_range);
-    $sql .= " AND expense_date BETWEEN :start_date AND :end_date";
-    $params['start_date'] = $startDate;
-    $params['end_date']   = $endDate;
+    if(str_contains($date_range, ' to ')) {
+      [$startDate, $endDate] = explode(' to ', $date_range);
+      $sql .= " AND expenses.expense_date BETWEEN :start_date AND :end_date";
+      $params['start_date'] = $startDate;
+      $params['end_date']   = $endDate;
+    } else {
+      $sql .= " AND expenses.expense_date = :expense_date";
+      $params['expense_date'] = $date_range;
+    }
   }
 
   if (!empty($category_id)) {
-    $sql .= " AND category_id = :category_id";
+    $sql .= " AND expenses.category_id = :category_id";
     $params['category_id'] = $category_id;
   }
 
   if ($min_amount !== null && $min_amount !== '') {
-    $sql .= " AND amount >= :min_amount";
+    $sql .= " AND expenses.amount >= :min_amount";
     $params['min_amount'] = $min_amount;
   }
 
   if ($max_amount !== null && $max_amount !== '') {
-    $sql .= " AND amount <= :max_amount";
+    $sql .= " AND expenses.amount <= :max_amount";
     $params['max_amount'] = $max_amount;
   }
+
+  $sql .= " ORDER BY expenses.expense_date DESC";
 
   $stmt = $pdo->prepare($sql);
   $stmt->execute(['user_id' => $_SESSION['user_id']] + $params);

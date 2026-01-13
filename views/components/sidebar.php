@@ -2,29 +2,27 @@
     <div class="flex flex-col w-64 bg-blue-800">
         <div class="flex items-center justify-center bg-blue-900 px-3 py-3">
             <div class="flex items-center space-x-2">
-                <div class="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-chart-pie text-white"></i>
-                </div>
+                <img src="../../public/assets/logo.png" alt="Logo" class="w-10 h-10 rounded-lg flex items-center justify-center">
                 <a href="<?= url('public/index.php') ?>" class="text-xl font-bold text-white">
-                    BudgetBoard
+                    MySpend App
                 </a>
             </div>
         </div>
         <div class="flex flex-col flex-1 px-4 py-4 overflow-y-auto">
             <div class="space-y-1">
-                <a href="<?= url('public/index.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/index.php') ? 'text-white bg-blue-900' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
+                <a href="<?= url('public/index.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/index.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
                     <i class="fas fa-house mr-3"></i>
                     Dashboard
                 </a>
-                <a href="<?= url('public/expense.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/expense.php') ? 'text-white bg-blue-900' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
+                <a href="<?= url('public/expense.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/expense.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
                     <i class="fa-solid fa-dollar-sign mr-3"></i>
                     Expenses
                 </a>
-                <a href="<?= url('public/category.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/category.php') ? 'text-white bg-blue-900' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
+                <a href="<?= url('public/category.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/category.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
                     <i class="fas fa-tags mr-3"></i>
                     Categories
                 </a>
-                <a href="<?= url('public/report.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/report.php') ? 'text-white bg-blue-900' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
+                <a href="<?= url('public/report.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/report.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
                     <i class="fas fa-chart-pie mr-3"></i>
                     Reports
                 </a>
@@ -38,7 +36,7 @@
                 </a>
             </div>
             
-            <div class="mt-auto mb-4">
+            <!-- <div class="mt-auto mb-4">
                 <div class="bg-blue-700 rounded-lg p-4">
                     <div class="flex items-center">
                         <div class="bg-blue-600 p-2 rounded-full">
@@ -53,7 +51,7 @@
                         Upgrade Now
                     </button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

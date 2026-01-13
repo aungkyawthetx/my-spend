@@ -1,7 +1,7 @@
 <?php
   include __DIR__ . '/../src/helpers/url.php';
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
-  $title = "Home - BudgetBoard";
+  $title = "Home - MySpend";
 
   ob_start();
 

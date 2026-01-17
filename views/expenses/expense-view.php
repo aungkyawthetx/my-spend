@@ -23,7 +23,7 @@
             <thead class="bg-gray-50">
                 <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Spent</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description & Note</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
@@ -37,8 +37,7 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> <?= date("M j, Y", strtotime($expense['expense_date'] ?? '')) ?> </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900"> <?= $expense['description'] ?? '-' ?> </div>
-                                <div class="text-sm text-gray-500"> <?= $expense['note'] ?? '-' ?> </div>
+                                <div class="text-sm font-medium text-gray-900"> <?= $expense['note'] ?? '-' ?> </div>
                             </td>
 
                             <?php
@@ -79,7 +78,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <?= str_replace('_', ' ', ucwords($expense['payment_method'] ?? ''  )) ?>
+                                <?= $expense['payment_method'] ?? ''?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> <?= number_format($expense['amount'] ?? '0', 0) ?> Ks</td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -90,9 +89,8 @@
                                     data-id="<?= $expense['id'] ?>"
                                     data-date="<?= $expense['expense_date'] ?>"
                                     data-amount="<?= $expense['amount'] ?>"
-                                    data-description="<?= $expense['description'] ?>"
                                     data-category="<?= $expense['category_id']?>"
-                                    data-payment-method="<?= $expense['payment_method'] ?>"
+                                    data-payment-method-id="<?= $expense['payment_method_id'] ?>"
                                     data-note="<?= $expense['note'] ?>"
                                     data-status="<?= $expense['status'] ?>"
                                     class="text-indigo-600 hover:text-indigo-900 cursor-pointer mr-3"> 

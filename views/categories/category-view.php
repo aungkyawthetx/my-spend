@@ -36,8 +36,7 @@
                 <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category Name</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monthly Budget</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expense Count</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Expenses</th>
                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
@@ -71,7 +70,6 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> <?= $category['description'] ?? 'N/A' ?> </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> <?= number_format($category['monthly_budget'], 2) ?? 'N/A' ?> Ks</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> <?= $expenseCounts[$category['id']] ?? 0 ?> </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button onclick="openEditCategoryModal(this)" 
@@ -79,7 +77,6 @@
                                     title="Edit Category"
                                     data-id="<?= $category['id'] ?>"
                                     data-name="<?= htmlspecialchars($category['name']) ?>"
-                                    data-budget="<?= $category['monthly_budget'] ?>">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </td>

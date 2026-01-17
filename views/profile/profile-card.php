@@ -44,7 +44,7 @@
             </div>
             <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
               <p class="text-sm font-semibold text-gray-800">
-                <?= htmlspecialchars($user['username'] ?? 'Guest') ?>
+                <?= htmlspecialchars($user['name'] ?? 'Guest') ?>
               </p>
             </div>
           </div>
@@ -59,25 +59,6 @@
               <p class="text-sm font-semibold text-gray-800">
                 <?= htmlspecialchars($user['email'] ?? 'No email provided') ?>
               </p>
-            </div>
-          </div>
-
-          <!-- Bio -->
-          <div class="space-y-2">
-            <div class="flex items-center text-gray-500 text-sm font-medium">
-              <i class="fas fa-info-circle mr-2 text-indigo-500"></i>
-              Bio
-            </div>
-            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-20">
-              <?php if (!empty($user['bio'])): ?>
-                <p class="text-sm text-gray-800">
-                  <?= htmlspecialchars($user['bio']) ?>
-                </p>
-              <?php else: ?>
-                <p class="text-gray-400 italic text-sm">
-                  No bio provided. Click "Edit Profile" to add a bio.
-                </p>
-              <?php endif; ?>
             </div>
           </div>
 

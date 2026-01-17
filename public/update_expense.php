@@ -10,9 +10,8 @@
     }
     $date = $_POST['expense_date'];
     $amount = $_POST['amount'];
-    $description = $_POST['description'];
     $category_id = $_POST['category_id'];
-    $payment_method = $_POST['payment_method'];
+    $payment_method_id = $_POST['payment_method'];
     $note = $_POST['note'];
     $status = isset($_POST['paid']) ? 1 : 0;
 
@@ -20,9 +19,8 @@
       UPDATE expenses 
         SET expense_date = :expense_date,
           amount = :amount,
-          description = :description,
           category_id = :category_id,
-          payment_method = :payment_method,
+          payment_method_id = :payment_method_id,
           note = :note,
           status = :status
         WHERE id = :id
@@ -30,9 +28,8 @@
     $stmt->execute([
       ':expense_date' => $date,
       ':amount' => $amount,
-      ':description' => $description,
       ':category_id' => $category_id,
-      ':payment_method' => $payment_method,
+      ':payment_method_id' => $payment_method_id,
       ':note' => $note,
       ':status' => $status,
       ':id' => $id

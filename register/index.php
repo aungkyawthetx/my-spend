@@ -8,26 +8,16 @@
     $errors = [];
     $success = false;
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnRegister'])){
-        $username = trim($_POST['username'] ?? '');
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSignUp'])){
+        $name = trim($_POST['name'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
         $agreeTerms = isset($_POST['terms']) ? true : false;
 
         // validate inputs
-        if (empty($username)) {
-            $errors['username'] = '*username is required and cannot be empty.';
-        } 
-        elseif (preg_match("/\s/", $username)) {
-            $errors['username'] = "No spaces allowed. You can add '_' instead.";
-        }
-        elseif($username) {
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-            $stmt->execute([$username]);
-            if ($stmt->rowCount() > 0) {
-                $errors['username'] = "This username is already taken.";
-            }
+        if (empty($name)) {
+            $errors['name'] = '*name is required and cannot be empty.';
         }
 
         if (empty($email)) {
@@ -55,7 +45,7 @@
             $errors['password'] = 'Passwords do not match';
         }
 
-        if($username && $email && $password && $confirmPassword && !$agreeTerms) {
+        if($name && $email && $password && $confirmPassword && !$agreeTerms) {
             $errors['terms'] = 'You must agree to the terms and conditions';
         }
 
@@ -63,19 +53,19 @@
         if (empty($errors)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             // insert
-            $stmt = $pdo->prepare("INSERT INTO users(username, email, password, join_date) VALUES (?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO users(name, email, password, role) VALUES (?, ?, ?, ?)");
             $result = $stmt->execute([
-                $username,
+                $name,
                 $email,
                 $hashedPassword,
-                date('Y-m-d')
+                'user'
             ]);
 
             if ($result) {
                 $success = true;
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['user_email'] = $email;
-                $_SESSION['user_name'] = $username;
+                $_SESSION['user_name'] = $name;
 
                 header("Location: ../public/index.php");
                 exit();
@@ -99,22 +89,22 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">MySpend App</h1>
+        <h1 class="text-3xl font-bold text-blue-600">MySpend </h1>
     </div>
     
-    <form method="POST" action="">
+    <form method="POST" action="index.php">
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="full-name">
-                Username
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                Name
             </label>
             <input class="appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 <?= isset($errors['name']) ? 'border-red-500' : '' ?>" 
-                id="full-name" 
+                id="name" 
                 type="text" 
-                name="username" 
-                placeholder="your.name123"
-                value="<?= htmlspecialchars($username ?? '') ?>">
-                <?php if (isset($errors['username'])): ?>
-                    <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['username']) ?></p>
+                name="name" 
+                placeholder="John Doe"
+                value="<?= htmlspecialchars($name ?? '') ?>">
+                <?php if (isset($errors['name'])): ?>
+                    <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['name']) ?></p>
                 <?php endif; ?>
         </div>
             
@@ -126,7 +116,7 @@
             id="email" 
             name="email" 
             type="email" 
-            placeholder="yourname@example.com"
+            placeholder="johndoe123@example.com"
             value="<?= htmlspecialchars($email ?? '') ?>">
             <?php if (isset($errors['email'])): ?>
                 <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['email']) ?></p>
@@ -173,7 +163,10 @@
             <?php endif; ?>
         </div>
         
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer" type="submit" name="btnRegister">
+        <button 
+            type="submit" 
+            name="btnSignUp"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer">
             Sign Up
         </button>
     </form>

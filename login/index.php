@@ -7,13 +7,13 @@
     ob_start();
     $errors = [];
 
-    if($_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = trim($_POST['username'] ?? '');
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSignIn'])) {
+        $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $remember = isset($_POST['remember-me']) ? true : false;
 
-        if(empty($username)) {
-            $errors['username'] = "*username is required and cannot be empty";
+        if(empty($email)) {
+            $errors['email'] = "*email is required and cannot be empty";
         }
 
         if(empty($password)) {
@@ -21,8 +21,8 @@
         }
 
         if(empty($errors)) {
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-            $stmt->execute([$username]);
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email]);
             $user = $stmt->fetch();
         }
 
@@ -31,7 +31,7 @@
             session_regenerate_id(true);
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_name'] = $user['username'];
+            $_SESSION['user_name'] = $user['name'];
 
             if($remember) {
                 $token = bin2hex(random_bytes(32));
@@ -44,7 +44,7 @@
             header("Location: ../public/index.php");
             exit();
         } else {
-            $errors['login'] = "Invalid username or password";
+            $errors['login'] = "Invalid email or password";
         }
     }
 
@@ -60,7 +60,7 @@
                 session_regenerate_id(true);
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_email'] = $user['email'];
-                $_SESSION['user_name'] = $user['username'];
+                $_SESSION['user_name'] = $user['name'];
 
                 header("Location: ../index.php");
                 exit();
@@ -68,7 +68,7 @@
         }
     }
 ?>
-<?php if (!empty($username) && !empty($password) && isset($errors['login'])): ?>
+<?php if (!empty($email) && !empty($password) && isset($errors['login'])): ?>
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
         <strong class="font-bold">Error!</strong>
         <span class="block sm:inline"><?= htmlspecialchars($errors['login']) ?></span>
@@ -77,22 +77,22 @@
 
 <div class="bg-white rounded-lg shadow-xl p-8">
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">MySpend App</h1>
+        <h1 class="text-3xl font-bold text-blue-600">MySpend</h1>
     </div>
     
     <form method="POST" action="">
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                Username
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                Email
             </label>
             <input class="bg-gray-50 py-2 px-3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 block w-full <?= isset($errors['username']) ? 'border-red-500' : '' ?>" 
-                id="username" 
-                type="text" 
-                placeholder="Enter your username"
-                name="username"
-                value="<?= htmlspecialchars($username ?? '') ?>">
-                <?php if (isset($errors['username'])): ?>
-                    <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['username']) ?></p>
+                id="email" 
+                type="email" 
+                placeholder="yourname@example.com"
+                name="email"
+                value="<?= htmlspecialchars($email ?? '') ?>">
+                <?php if (isset($errors['email'])): ?>
+                    <p class="text-red-500 text-xs italic mt-1"><?= htmlspecialchars($errors['email']) ?></p>
                 <?php endif; ?>
         </div>
         <div class="mb-6">
@@ -119,9 +119,10 @@
                 Forgot password?
             </a>
         </div>
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer" 
+        <button 
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer" 
             type="submit"
-            name="btnLogin">
+            name="btnSignIn">
             Sign In
         </button>
     </form>

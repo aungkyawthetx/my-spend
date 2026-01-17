@@ -86,16 +86,16 @@ function closeAddExpenseModal() {
 }
 
 function openEditExpenseModal(btn) {
-    document.getElementById('edit_expense_id').value = btn.dataset.id;
-    document.getElementById('edit_expense_date').value = btn.dataset.date;
-    document.getElementById('edit_amount').value = btn.dataset.amount;
-    document.getElementById('edit_description').value = btn.dataset.description;
-    document.getElementById('edit_category').value = btn.dataset.category;
-    document.getElementById('edit_payment_method').value = btn.dataset.paymentMethod;
-    document.getElementById('edit_note').value = btn.dataset.note;
-    document.getElementById('edit_status').checked = btn.dataset.status === '1';
-    
-    document.getElementById('editExpenseModal').classList.remove('hidden');
+  console.log(btn.dataset);
+  document.getElementById('edit_expense_id').value = btn.dataset.id;
+  document.getElementById('edit_expense_date').value = btn.dataset.date;
+  document.getElementById('edit_amount').value = btn.dataset.amount;
+  document.getElementById('edit_category').value = btn.dataset.category;
+  document.getElementById('edit_payment_method').value = btn.dataset.paymentMethodId;
+  document.getElementById('edit_note').value = btn.dataset.note;
+  document.getElementById('edit_status').checked = btn.dataset.status === '1';
+  
+  document.getElementById('editExpenseModal').classList.remove('hidden');
 }
 
 function closeEditExpenseModal() {

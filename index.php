@@ -28,6 +28,17 @@ if (isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body class="bg-white text-gray-800 antialiased">
+    <nav class="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
+        <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2">
+                <img src="/public/assets/test.png" alt="TraceX Logo" class="h-9 rounded-lg">
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="<?= url('login/index.php') ?>" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">Sign In</a>
+                <a href="<?= url('register/index.php') ?>" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all">Get Started</a>
+            </div>
+        </div>
+    </nav>
 
     <!-- hero section -->
     <section class="max-w-7xl mx-auto px-5 pt-16 pb-20 md:pt-24 md:pb-28">
@@ -40,15 +51,10 @@ if (isset($_SESSION['user_id'])) {
                 <p class="mt-6 text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0">
                     TraceX helps you track your expenses, manage budgets, and save smarter all in one app.
                 </p>
-                <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                    <a href="<?= url('register/index.php') ?>" class="inline-flex items-center justify-center px-7 py-4 text-base font-medium rounded-xl border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-200 shadow-sm">Get Started for Free</a>
-                    <!-- <a href="#" class="inline-flex items-center justify-center px-7 py-4 text-base font-medium rounded-xl border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-200 shadow-sm">See Demo</a> -->
-                </div>
             </div>
-            <!-- right visual: mockup + graph hint (pure tailwind box mock) -->
+            <!-- right visual mockup -->
             <div class="flex-1 w-full relative">
                 <div class="bg-white rounded-3xl shadow-2xl border border-gray-200 p-4 md:p-6">
-                    <!-- top bar with dots -->
                     <div class="flex items-center gap-2 mb-5">
                         <div class="w-3 h-3 rounded-full bg-rose-400"></div>
                         <div class="w-3 h-3 rounded-full bg-amber-400"></div>
@@ -133,28 +139,29 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </section>
 
-    <!-- how it works (3 steps) -->
+    <!-- how it works --->
     <section class="max-w-6xl mx-auto px-5 py-16 md:py-20 bg-indigo-50/40 rounded-3xl md:rounded-4xl">
         <div class="text-center mb-14">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Start in minutes</h2>
             <p class="text-gray-600 mt-3 text-lg">No complicated setup, just you and your goals.</p>
         </div>
         <div class="flex flex-col md:flex-row justify-center items-start md:items-center gap-10 md:gap-6 lg:gap-12 max-w-4xl mx-auto">
-            <!-- step 1 -->
             <div class="flex-1 text-center">
                 <div class="step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center mx-auto shadow-lg">1</div>
                 <h3 class="text-xl font-semibold mt-5 text-gray-900">Sign Up</h3>
                 <p class="text-gray-600 mt-2">Create your account in seconds.</p>
             </div>
+
             <div class="hidden md:block w-12 h-0.5 bg-indigo-200 rounded-full"></div>
-            <!-- step 2 -->
+
             <div class="flex-1 text-center">
                 <div class="step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center mx-auto shadow-lg">2</div>
                 <h3 class="text-xl font-semibold mt-5 text-gray-900">Save Expenses</h3>
                 <p class="text-gray-600 mt-2">Start saving your expenses, you're in control.</p>
             </div>
+
             <div class="hidden md:block w-12 h-0.5 bg-indigo-200 rounded-full"></div>
-            <!-- step 3 -->
+
             <div class="flex-1 text-center">
                 <div class="step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center mx-auto shadow-lg">3</div>
                 <h3 class="text-xl font-semibold mt-5 text-gray-900">Track & Optimize</h3>
@@ -187,9 +194,8 @@ if (isset($_SESSION['user_id'])) {
         <div class="max-w-7xl mx-auto px-5 py-12 md:py-16">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <!-- logo -->
-                <div class="flex items-center gap-2">
+                <div class="flex items-center">
                     <span class="text-2xl font-bold text-indigo-600">TraceX</span>
-                    <span class="text-sm text-gray-500 font-light"> &copy; <?= date('Y') ?></span>
                 </div>
                 <!-- footer links -->
                 <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-medium text-gray-600">

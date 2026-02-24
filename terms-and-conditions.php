@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="icon" type="image/png" href="/public/assets/logo.png">
+    <link rel="icon" type="image/png" href="/public/assets/favicon.png">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
     <div class="max-w-3xl mx-auto px-4 py-10">

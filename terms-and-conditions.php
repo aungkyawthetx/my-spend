@@ -1,15 +1,15 @@
 <?php
-    require __DIR__ . '/src/helpers/url.php';
+    require_once __DIR__ . '/src/helpers/url.php';
+    $title = "Terms & Conditions - TraceX";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms & Conditions - TraceX</title>
-    <link rel="stylesheet" href="/src/output.css">
-<link rel="stylesheet" href="/src/input.css">
+    <title><?= $title ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="icon" type="image/png" href="/public/assets/logo.png">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
     <div class="max-w-3xl mx-auto px-4 py-10">
@@ -19,7 +19,7 @@
         <p class="mb-4"><strong>Last updated:</strong> <?= date('Y') ?></p>
 
         <p class="mb-4">
-            Welcome to <strong>TraceX which stands for Trace Expense - The expense tracking web app,</strong>
+            Welcome to <strong>TraceX which stands for Trace eXpense - The expense tracking web app,</strong>
             developed and operated by <strong>Aung Kyaw Thet</strong>.
             By accessing or using this App, you agree to be bound by these Terms and Conditions.
             If you do not agree with any part of these terms, please discontinue use of the App.
@@ -146,9 +146,7 @@
             Email: <em>aungkyawthethimself@gmail.com</em>
         </p>
 
-        <p class="mt-10 text-center text-gray-500 text-xs">
-            © <?= date('Y') ?> <span class="italic">Aung Kyaw Thet</span>. All rights reserved.
-        </p>
+        <?php include __DIR__ . '/views/components/copyright.php'; ?>
     </div>
 </body>
 </html>

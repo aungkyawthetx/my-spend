@@ -15,6 +15,7 @@ if (isset($_SESSION['user_id'])) {
     <title>TraceX · Smart expense tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/public/assets/favicon.png">
     <!-- subtle modern font -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap');
@@ -145,7 +146,6 @@ if (isset($_SESSION['user_id'])) {
                 <h3 class="text-xl font-semibold mt-5 text-gray-900">Sign Up</h3>
                 <p class="text-gray-600 mt-2">Create your account in seconds.</p>
             </div>
-            <!-- connector (hidden on small) -->
             <div class="hidden md:block w-12 h-0.5 bg-indigo-200 rounded-full"></div>
             <!-- step 2 -->
             <div class="flex-1 text-center">
@@ -194,7 +194,7 @@ if (isset($_SESSION['user_id'])) {
                 <!-- footer links -->
                 <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-medium text-gray-600">
                     <a href="<?= url('terms-and-conditions.php') ?>" class="hover:text-indigo-600 transition">Terms & Conditions</a>
-                    <a href="https://aungkyawth3ts-portfolio.vercel.app/" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
+                    <a href="https://aungkyawth3ts-portfolio.vercel.app/#contact" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
                 </div>
                 <!-- social icons -->
                 <div class="flex gap-5 text-gray-500 text-xl">

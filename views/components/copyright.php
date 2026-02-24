@@ -1,3 +1,3 @@
-<p class="mt-10 text-center text-gray-500 text-xs">
-    &copy;<?= date('Y') ?> <span class="italic">Aung Kyaw Thet</span>. All rights reserved.
-</p>
+<div class="text-center text-xs text-gray-400 my-5"> 
+    &copy; TraceX. Made with <i class="fa-regular fa-heart text-rose-400"></i> for smart spenders
+</div>

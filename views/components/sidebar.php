@@ -1,12 +1,9 @@
 <div class="hidden md:flex md:shrink-0">
     <div class="flex flex-col w-64 bg-blue-800">
-        <div class="flex items-center justify-center bg-blue-900 px-3 py-3">
-            <div class="flex items-center space-x-2">
-                <img src="/public/assets/logo.png" alt="Logo" class="w-10 h-10 rounded-full flex items-center justify-center">
-                <a href="<?= url('public/index.php') ?>" class="text-xl font-bold text-white">
-                    TraceX
-                </a>
-            </div>
+        <div class="flex items-center justify-center bg-blue-900 p-3">
+            <a href="<?= url('public/index.php') ?>" class="flex items-center space-x-2">
+                <img src="/public/assets/logo.png" alt="Logo" class="rounded-md flex items-center justify-center">
+            </a>
         </div>
         <div class="flex flex-col flex-1 px-4 py-4 overflow-y-auto">
             <div class="space-y-1">

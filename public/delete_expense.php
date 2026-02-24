@@ -19,12 +19,12 @@
 
     if ($stmt->rowCount() === 0) {
       setFlash('error', 'Expense not found or access denied.');
-      header("Location: expense.php");
+      header("Location: expenses.php");
       exit;
     }
 
     setFlash('success', 'Expense has been deleted!');
-    header("Location: expense.php");
+    header("Location: expenses.php");
     exit;
   }
 

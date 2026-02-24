@@ -10,7 +10,7 @@
 </div>
 <!-- filter -->
 <div class="bg-white rounded-lg shadow p-4 mb-6">
-    <form action="expense.php" method="GET">
+    <form action="expenses.php" method="GET">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label for="date-range" class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
@@ -36,7 +36,7 @@
                 <button type="submit" class="border border-sky-600 bg-sky-600 hover:bg-sky-700 text-white font-medium py-2 px-4 rounded-full transition duration-150 cursor-pointer">
                     <i class="fas fa-filter mr-1"></i> Filter
                 </button>
-                <a href="expense.php" class="border border-gray-300 text-gray-500 hover:text-white hover:bg-gray-300 font-medium py-2 px-4 rounded-full transition duration-150 cursor-pointer text-center">
+                <a href="expenses.php" class="border border-gray-300 text-gray-500 hover:text-white hover:bg-gray-300 font-medium py-2 px-4 rounded-full transition duration-150 cursor-pointer text-center">
                     <i class="fa-solid fa-rotate-right mr-1"></i> Reset
                 </a>
             </div>

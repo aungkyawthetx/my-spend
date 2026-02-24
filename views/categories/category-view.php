@@ -3,15 +3,12 @@
         <h1 class="text-2xl font-bold text-gray-800">Categories</h1>
         <p class="text-gray-600">View your expense count with categories</p>
     </div>
-    <!-- <button onclick="openAddCategoryModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 flex items-center cursor-pointer">
-        <i class="fas fa-plus mr-1"></i> New Category
-    </button> -->
 </div>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between p-4 border-b border-gray-200">
         <div class="mb-4 md:mb-0">
-            <form action="category.php" method="GET" class="flex items-center space-x-2">
+            <form action="categories.php" method="GET" class="flex items-center space-x-2">
                 <div class="relative max-w-xs">
                     <label for="search" class="sr-only">Search</label>
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -20,7 +17,7 @@
                     <input type="text" value="<?php if(isset($_GET['search'])) echo htmlspecialchars($_GET['search']); ?>" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-600 sm:text-sm placeholder:italic" placeholder="Search categories...">
                 </div>
                 <button type="submit" class="bg-sky-600 hover:bg-sky-700 border-2 border-sky-600 text-white px-4 py-2 rounded-full cursor-pointer">Search</button>
-                <a href="category.php" class="border-2 border-gray-300 hover:bg-gray-300 text-gray-500 hover:text-white px-5 py-2 rounded-full cursor-pointer">Reset</a>
+                <a href="categories.php" class="border-2 border-gray-300 hover:bg-gray-300 text-gray-500 hover:text-white px-5 py-2 rounded-full cursor-pointer">Reset</a>
             </form>
         </div>
         <!-- <div class="flex">

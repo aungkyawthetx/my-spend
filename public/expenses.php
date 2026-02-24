@@ -97,12 +97,12 @@
         $status
       ]);
       setFlash('success', 'Expense has been added!');
-      header("Location: expense.php");
+      header("Location: expenses.php");
       exit;
     } 
     else {
       setFlash('error', 'Something went wrong!');
-      header("Location: expense.php");
+      header("Location: expenses.php");
       exit;
     }
   }

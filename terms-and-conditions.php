@@ -1,15 +1,20 @@
+<?php
+    require __DIR__ . '/src/helpers/url.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms & Conditions - TraceX</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/src/output.css">
+<link rel="stylesheet" href="/src/input.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
     <div class="max-w-3xl mx-auto px-4 py-10">
         <h1 class="text-3xl font-bold mb-6 text-center">Terms & Conditions</h1>
-        <a href="register/index.php" class="font-semibold hover:underline float-end">Go back</a>
+        <a href="<?= url('index.php') ?>" class="font-semibold hover:underline float-end">Go back</a>
 
         <p class="mb-4"><strong>Last updated:</strong> <?= date('Y') ?></p>
 

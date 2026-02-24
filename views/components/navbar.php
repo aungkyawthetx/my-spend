@@ -1,6 +1,6 @@
 <header class="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
     <div class="flex items-center">
-        <button class="text-gray-500 focus:outline-none md:hidden">
+        <button id="mobile-sidebar-toggle" type="button" class="text-gray-500 focus:outline-none md:hidden cursor-pointer" aria-label="Open sidebar" aria-expanded="false">
             <i class="fas fa-bars"></i>
         </button>
     </div>
@@ -84,6 +84,61 @@
 </div>
 
 <script>
+    const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebarPanel = document.getElementById('mobile-sidebar-panel');
+    const mobileSidebarBackdrop = document.getElementById('mobile-sidebar-backdrop');
+    const mobileSidebarClose = document.getElementById('mobile-sidebar-close');
+    const mobileSidebarLinks = document.querySelectorAll('.mobile-sidebar-link');
+
+    function openMobileSidebar() {
+        if (!mobileSidebar || !mobileSidebarPanel || !mobileSidebarBackdrop) return;
+        mobileSidebar.classList.remove('pointer-events-none');
+        mobileSidebarBackdrop.classList.remove('opacity-0');
+        mobileSidebarBackdrop.classList.add('opacity-100');
+        mobileSidebarPanel.classList.remove('-translate-x-full');
+        mobileSidebarPanel.classList.add('translate-x-0');
+        if (mobileSidebarToggle) {
+            mobileSidebarToggle.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    function closeMobileSidebar() {
+        if (!mobileSidebar || !mobileSidebarPanel || !mobileSidebarBackdrop) return;
+        mobileSidebarBackdrop.classList.remove('opacity-100');
+        mobileSidebarBackdrop.classList.add('opacity-0');
+        mobileSidebarPanel.classList.remove('translate-x-0');
+        mobileSidebarPanel.classList.add('-translate-x-full');
+        window.setTimeout(() => {
+            mobileSidebar.classList.add('pointer-events-none');
+        }, 300);
+        if (mobileSidebarToggle) {
+            mobileSidebarToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+
+    if (mobileSidebarToggle) {
+        mobileSidebarToggle.addEventListener('click', function() {
+            if (mobileSidebarToggle.getAttribute('aria-expanded') === 'true') {
+                closeMobileSidebar();
+            } else {
+                openMobileSidebar();
+            }
+        });
+    }
+
+    if (mobileSidebarBackdrop) {
+        mobileSidebarBackdrop.addEventListener('click', closeMobileSidebar);
+    }
+
+    if (mobileSidebarClose) {
+        mobileSidebarClose.addEventListener('click', closeMobileSidebar);
+    }
+
+    mobileSidebarLinks.forEach((link) => {
+        link.addEventListener('click', closeMobileSidebar);
+    });
+
     document.getElementById('user-menu-button').addEventListener('click', function() {
         const menu = document.getElementById('user-menu');
         menu.classList.toggle('hidden');

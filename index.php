@@ -2,10 +2,6 @@
 include __DIR__ . '/src/helpers/url.php';
 session_start();
 
-if (isset($_SESSION['user_id'])) {
-    header('Location: /public/index.php');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,9 +29,45 @@ if (isset($_SESSION['user_id'])) {
             <a href="/" class="flex items-center gap-2">
                 <img src="/public/assets/test.png" alt="TraceX Logo" class="h-9 rounded-lg">
             </a>
-            <div class="flex items-center gap-3">
-                <a href="<?= url('login/index.php') ?>" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">Sign In</a>
-                <a href="<?= url('register/index.php') ?>" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all">Get Started</a>
+
+            <div class="hidden md:flex items-center gap-3">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="<?= url('public/index.php') ?>" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">
+                        Dashboard
+                    </a>
+                    <a href="<?= url('src/helpers/logout.php') ?>" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all">
+                        Logout
+                    </a>
+                <?php else: ?>
+                    <a href="<?= url('login/index.php') ?>" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">
+                        Sign In
+                    </a>
+                    <a href="<?= url('register/index.php') ?>" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all">
+                        Get Started
+                    </a>
+                <?php endif; ?>
+            </div>
+
+            <button
+                id="mobile-menu-btn"
+                type="button"
+                class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+                aria-label="Toggle menu">
+                <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-out border-t border-gray-100 bg-white">
+            <div class="px-5 py-4 flex flex-col gap-3">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="<?= url('public/index.php') ?>" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">Dashboard</a>
+                    <a href="<?= url('src/helpers/logout.php') ?>" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">Logout</a>
+                <?php else: ?>
+                    <a href="<?= url('login/index.php') ?>" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">Sign In</a>
+                    <a href="<?= url('register/index.php') ?>" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">Get Started</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
@@ -210,5 +242,46 @@ if (isset($_SESSION['user_id'])) {
             <div class="text-center text-xs text-gray-400 mt-10"> &copy; TraceX. Made with <i class="fa-regular fa-heart text-rose-400"></i> for smart spenders</div>
         </div>
     </footer>
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('max-h-0', 'opacity-0');
+            mobileMenu.classList.remove('max-h-48', 'opacity-100');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenuIcon.classList.remove('fa-xmark');
+            mobileMenuIcon.classList.add('fa-bars');
+        }
+
+        function openMobileMenu() {
+            mobileMenu.classList.remove('max-h-0', 'opacity-0');
+            mobileMenu.classList.add('max-h-48', 'opacity-100');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            mobileMenuIcon.classList.remove('fa-bars');
+            mobileMenuIcon.classList.add('fa-xmark');
+        }
+
+        mobileMenuBtn.addEventListener('click', function () {
+            if (mobileMenuBtn.getAttribute('aria-expanded') === 'true') {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 768) {
+                closeMobileMenu();
+            }
+        });
+    </script>
 </body>
 </html>

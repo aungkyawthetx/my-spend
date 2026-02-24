@@ -2,94 +2,105 @@
   include __DIR__ . '/../src/helpers/url.php';
   require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
   require_once __DIR__ . '/../src/bootstrap.php';
-  $title = "Home - TraceX";
+  $title = "Dashboard - TraceX";
 
-  // last month total expenses
-  $sql = "
-    SELECT COALESCE(SUM(amount), 0) AS total
-    FROM expenses
-    WHERE expense_date >= DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m-01')
-      AND expense_date <  DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
-      AND user_id = :user_id
-  ";
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
-  $lastMonthTotal = (float) $stmt->fetchColumn();
+  $currentMonthStart = date('Y-m-01');
+  $nextMonthStart = date('Y-m-01', strtotime('+1 month'));
+  $lastMonthStart = date('Y-m-01', strtotime('-1 month'));
+  $sixMonthStart = date('Y-m-01', strtotime('-5 months'));
 
-  // current month total expenses
+  // current/last month total expenses (single query)
   $stmt = $pdo->prepare("
     SELECT COALESCE(SUM(amount), 0) AS total_expenses
     FROM expenses
-    WHERE MONTH(expense_date) = MONTH(CURRENT_DATE())
-    AND YEAR(expense_date) = YEAR(CURRENT_DATE())
-    AND user_id = :user_id
+    WHERE expense_date >= :current_start
+      AND expense_date < :next_start
+      AND user_id = :user_id
   ");
-  $stmt->execute(['user_id' => $_SESSION['user_id']]);
+  $stmt->execute([
+    ':current_start' => $currentMonthStart,
+    ':next_start' => $nextMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
   $totalExpenses = (float) $stmt->fetchColumn();
+
+  $stmt = $pdo->prepare("
+    SELECT COALESCE(SUM(amount), 0) AS total_expenses
+    FROM expenses
+    WHERE expense_date >= :last_start
+      AND expense_date < :current_start
+      AND user_id = :user_id
+  ");
+  $stmt->execute([
+    ':last_start' => $lastMonthStart,
+    ':current_start' => $currentMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
+  $lastMonthTotal = (float) $stmt->fetchColumn();
   $isUp = $totalExpenses >= $lastMonthTotal;
   $percent = $lastMonthTotal > 0 ? (($totalExpenses - $lastMonthTotal) / $lastMonthTotal) * 100 : ($totalExpenses > 0 ? 100 : 0);
 
-  // last month total budgets
+  // current/last month total budgets
   $stmt = $pdo->prepare("
-    SELECT COALESCE(SUM(amount), 0) AS total
+    SELECT
+      COALESCE(SUM(CASE WHEN month_year >= :current_start AND month_year < :next_start THEN amount ELSE 0 END), 0) AS current_total,
+      COALESCE(SUM(CASE WHEN month_year >= :last_start AND month_year < :current_start THEN amount ELSE 0 END), 0) AS last_total
     FROM budgets
     WHERE user_id = :user_id
-      AND month_year >= DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m-01')
-      AND month_year < DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
+      AND month_year >= :last_start
+      AND month_year < :next_start
   ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
-  $lastMonthBudgetTotal = (float) $stmt->fetchColumn();
-
-  // current month total budgets
-  $stmt = $pdo->prepare("
-    SELECT COALESCE(SUM(amount), 0) AS total
-    FROM budgets
-    WHERE user_id = :user_id
-      AND month_year >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
-      AND month_year < DATE_FORMAT(CURRENT_DATE + INTERVAL 1 MONTH, '%Y-%m-01')
-  ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
-  $monthlyBudgetTotal = (float) $stmt->fetchColumn();
+  $stmt->execute([
+    ':last_start' => $lastMonthStart,
+    ':current_start' => $currentMonthStart,
+    ':next_start' => $nextMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
+  $budgetTotals = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['current_total' => 0, 'last_total' => 0];
+  $monthlyBudgetTotal = (float) ($budgetTotals['current_total'] ?? 0);
+  $lastMonthBudgetTotal = (float) ($budgetTotals['last_total'] ?? 0);
   $budgetIsUp = $monthlyBudgetTotal >= $lastMonthBudgetTotal;
   $budgetPercent = $lastMonthBudgetTotal > 0
     ? (($monthlyBudgetTotal - $lastMonthBudgetTotal) / $lastMonthBudgetTotal) * 100
     : ($monthlyBudgetTotal > 0 ? 100 : 0);
 
-  // last month total savings deposits
+  // current/last month total savings deposits
   $stmt = $pdo->prepare("
-    SELECT COALESCE(SUM(amount), 0) AS total
+    SELECT
+      COALESCE(SUM(CASE WHEN created_at >= :current_start AND created_at < :next_start THEN amount ELSE 0 END), 0) AS current_total,
+      COALESCE(SUM(CASE WHEN created_at >= :last_start AND created_at < :current_start THEN amount ELSE 0 END), 0) AS last_total
     FROM saving_transactions
     WHERE user_id = :user_id
       AND type = 'deposit'
-      AND created_at >= DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m-01')
-      AND created_at < DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
+      AND created_at >= :last_start
+      AND created_at < :next_start
   ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
-  $lastMonthSavingsDeposits = (float) $stmt->fetchColumn();
-
-  // current month total savings deposits
-  $stmt = $pdo->prepare("
-    SELECT COALESCE(SUM(amount), 0) AS total
-    FROM saving_transactions
-    WHERE user_id = :user_id
-      AND type = 'deposit'
-      AND created_at >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
-      AND created_at < DATE_FORMAT(CURRENT_DATE + INTERVAL 1 MONTH, '%Y-%m-01')
-  ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
-  $monthlySavingsDeposits = (float) $stmt->fetchColumn();
+  $stmt->execute([
+    ':last_start' => $lastMonthStart,
+    ':current_start' => $currentMonthStart,
+    ':next_start' => $nextMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
+  $savingsTotals = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['current_total' => 0, 'last_total' => 0];
+  $monthlySavingsDeposits = (float) ($savingsTotals['current_total'] ?? 0);
+  $lastMonthSavingsDeposits = (float) ($savingsTotals['last_total'] ?? 0);
   $savingsIsUp = $monthlySavingsDeposits >= $lastMonthSavingsDeposits;
   $savingsPercent = $lastMonthSavingsDeposits > 0
     ? (($monthlySavingsDeposits - $lastMonthSavingsDeposits) / $lastMonthSavingsDeposits) * 100
     : ($monthlySavingsDeposits > 0 ? 100 : 0);
-  
+
+  // categories count (used by dashboard card)
   if (tableHasColumn($pdo, 'categories', 'user_id')) {
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM categories WHERE user_id IS NULL OR user_id = :user_id");
+    $stmt = $pdo->prepare("
+      SELECT COUNT(*)
+      FROM categories
+      WHERE user_id IS NULL OR user_id = :user_id
+    ");
     $stmt->execute([':user_id' => $_SESSION['user_id']]);
   } else {
     $stmt = $pdo->query("SELECT COUNT(*) FROM categories");
   }
-  $categoriesCount = $stmt->fetchColumn();
+  $categoriesCount = (int) $stmt->fetchColumn();
 
   // monthly expenses for last 6 months (including current month)
   $monthMap = [];
@@ -102,11 +113,16 @@
     SELECT DATE_FORMAT(expense_date, '%Y-%m') AS ym, COALESCE(SUM(amount), 0) AS total
     FROM expenses
     WHERE user_id = :user_id
-      AND expense_date >= DATE_FORMAT(DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH), '%Y-%m-01')
+      AND expense_date >= :six_month_start
+      AND expense_date < :next_start
     GROUP BY DATE_FORMAT(expense_date, '%Y-%m')
     ORDER BY ym ASC
   ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
+  $stmt->execute([
+    ':six_month_start' => $sixMonthStart,
+    ':next_start' => $nextMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
   $monthlyRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
   foreach ($monthlyRows as $row) {
     if (isset($monthMap[$row['ym']])) {
@@ -125,13 +141,17 @@
     FROM expenses e
     LEFT JOIN categories c ON c.id = e.category_id
     WHERE e.user_id = :user_id
-      AND MONTH(e.expense_date) = MONTH(CURRENT_DATE())
-      AND YEAR(e.expense_date) = YEAR(CURRENT_DATE())
+      AND e.expense_date >= :current_start
+      AND e.expense_date < :next_start
     GROUP BY e.category_id, c.name
     ORDER BY total DESC
     LIMIT 6
   ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
+  $stmt->execute([
+    ':current_start' => $currentMonthStart,
+    ':next_start' => $nextMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
   $breakdownRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $breakdownLabels = array_map(fn($row) => $row['category_name'], $breakdownRows);
   $breakdownValues = array_map(fn($row) => (float) $row['total'], $breakdownRows);
@@ -149,16 +169,20 @@
     LEFT JOIN expenses e
       ON e.user_id = b.user_id
      AND e.category_id = b.category_id
-     AND YEAR(e.expense_date) = YEAR(b.month_year)
-     AND MONTH(e.expense_date) = MONTH(b.month_year)
+     AND e.expense_date >= :current_start
+     AND e.expense_date < :next_start
     WHERE b.user_id = :user_id
-      AND b.month_year >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
-      AND b.month_year < DATE_FORMAT(CURRENT_DATE + INTERVAL 1 MONTH, '%Y-%m-01')
+      AND b.month_year >= :current_start
+      AND b.month_year < :next_start
     GROUP BY b.id, b.amount, b.month_year, c.name
     ORDER BY b.amount DESC, b.id DESC
     LIMIT 5
   ");
-  $stmt->execute([':user_id' => $_SESSION['user_id']]);
+  $stmt->execute([
+    ':current_start' => $currentMonthStart,
+    ':next_start' => $nextMonthStart,
+    ':user_id' => $_SESSION['user_id'],
+  ]);
   $budgetProgressItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   // recent transactions

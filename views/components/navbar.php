@@ -1,3 +1,20 @@
+<?php
+    $userName = trim((string) ($_SESSION['user_name'] ?? 'Guest'));
+    $nameParts = preg_split('/\s+/', $userName) ?: [];
+    $initials = '';
+    foreach ($nameParts as $part) {
+        if ($part === '') {
+            continue;
+        }
+        $initials .= strtoupper(substr($part, 0, 1));
+        if (strlen($initials) >= 2) {
+            break;
+        }
+    }
+    if ($initials === '') {
+        $initials = 'G';
+    }
+?>
 <header class="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
     <div class="flex items-center">
         <button id="mobile-sidebar-toggle" type="button" class="text-gray-500 focus:outline-none md:hidden cursor-pointer" aria-label="Open sidebar" aria-expanded="false">
@@ -10,8 +27,8 @@
         <div class="relative ml-3" id="user-dropdown">
           <div>
             <button type="button" id="user-menu-button" class="flex items-center focus:outline-none cursor-pointer">
-              <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['user_name'] ?? 'Guest') ?>&background=6366f1&color=fff" alt="User avatar">
-              <span class="ml-2 text-sm font-medium text-gray-700"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></span>
+              <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-500 text-white text-xs font-semibold"><?= htmlspecialchars($initials) ?></span>
+              <span class="ml-2 text-sm font-medium text-gray-700"><?= htmlspecialchars($userName) ?></span>
               <i class="fas fa-chevron-down ml-1 text-gray-500 text-xs"></i>
             </button>
           </div>
@@ -160,5 +177,5 @@
     }
     function closeLogoutModal() {
         document.getElementById('logoutModal').classList.add('hidden');
-    }x  
+    }
 </script>

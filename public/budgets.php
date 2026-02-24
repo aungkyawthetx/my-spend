@@ -253,8 +253,8 @@ $stmt = $pdo->prepare("
     LEFT JOIN expenses e
       ON e.user_id = b.user_id
      AND e.category_id = b.category_id
-     AND YEAR(e.expense_date) = YEAR(b.month_year)
-     AND MONTH(e.expense_date) = MONTH(b.month_year)
+     AND e.expense_date >= b.month_year
+     AND e.expense_date < DATE_ADD(b.month_year, INTERVAL 1 MONTH)
     WHERE b.user_id = :user_id
     GROUP BY b.id, b.user_id, b.category_id, b.amount, b.month_year, b.created_at, b.updated_at, c.name
     ORDER BY b.month_year DESC, b.id DESC

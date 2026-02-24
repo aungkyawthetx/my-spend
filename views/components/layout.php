@@ -12,16 +12,9 @@ if (!isset($title)) {
   <link rel="icon" type="image/png" href="/public/assets/favicon.png">
   <link rel="preload" href="/public/assets/vendor/fonts/worksans/worksans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/src/output.css">
-  <link rel="stylesheet" href="/src/input.css">
   <!-- fontawesome -->
   <link rel="stylesheet" href="/public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css">
-  <!-- date picker -->
-  <script src="/public/assets/vendor/flatpickr/flatpickr.min.js"></script>
   <link rel="stylesheet" href="/public/assets/vendor/flatpickr/flatpickr.min.css">
-  <!-- chart.js -->
-  <script src="/public/assets/vendor/chartjs/chart.umd.js"></script>
-  <!-- sweetalert2 -->
-  <script src="/public/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen overflow-hidden">
@@ -36,6 +29,9 @@ if (!isset($title)) {
     </div>
   </div>
 
+  <script src="/public/assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="/public/assets/vendor/chartjs/chart.umd.js"></script>
+  <script src="/public/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
   <script>
     if (document.getElementById('date-range')) {
       flatpickr("#date-range", {

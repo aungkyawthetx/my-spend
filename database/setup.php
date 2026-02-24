@@ -113,6 +113,7 @@ class DatabaseMigration
                 updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 KEY idx_user_date (user_id, expense_date),
+                KEY idx_user_category_date (user_id, category_id, expense_date),
                 KEY idx_category (category_id),
                 KEY idx_payment_method (payment_method_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -187,6 +188,7 @@ class DatabaseMigration
                 PRIMARY KEY (id),
                 KEY idx_transactions_saving (saving_id),
                 KEY idx_transactions_user (user_id),
+                KEY idx_transactions_user_type_date (user_id, type, created_at),
                 CONSTRAINT fk_transactions_saving
                     FOREIGN KEY (saving_id) REFERENCES savings(id) ON DELETE CASCADE,
                 CONSTRAINT fk_transactions_user

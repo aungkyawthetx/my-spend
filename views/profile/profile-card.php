@@ -1,5 +1,21 @@
 <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
   <?php 
+    $profileName = trim((string) ($user['name'] ?? ($_SESSION['user_name'] ?? 'Guest')));
+    $profileParts = preg_split('/\s+/', $profileName) ?: [];
+    $profileInitials = '';
+    foreach ($profileParts as $part) {
+      if ($part === '') {
+        continue;
+      }
+      $profileInitials .= strtoupper(substr($part, 0, 1));
+      if (strlen($profileInitials) >= 2) {
+        break;
+      }
+    }
+    if ($profileInitials === '') {
+      $profileInitials = 'G';
+    }
+
     if ($editMode):
       include __DIR__ . '/edit.php';
     else: 
@@ -7,11 +23,9 @@
     <div class="flex flex-col lg:flex-row items-start gap-8">
       <div class="shrink-0 text-center lg:text-left">
         <div class="relative inline-block">
-          <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['user_name'] ?? 'Guest') ?>&background=6366f1&color=fff&size=256&bold=true" 
-            alt="Profile picture of <?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?>"
-            class="w-40 h-40 rounded-full shadow-xl object-cover border-4 border-white ring-2 ring-indigo-100"
-            loading="lazy"
-          >
+          <div class="w-40 h-40 rounded-full shadow-xl border-4 border-white ring-2 ring-indigo-100 bg-indigo-500 text-white text-5xl font-semibold flex items-center justify-center">
+            <?= htmlspecialchars($profileInitials) ?>
+          </div>
         </div>
         
         <!-- Edit Button - Desktop -->

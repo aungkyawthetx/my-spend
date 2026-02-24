@@ -3,7 +3,7 @@
     <div class="bg-white rounded-lg shadow p-6 lg:col-span-2">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-gray-800">Recent Transactions</h2>
-            <a href="expense.php" class="text-sm text-indigo-600 hover:text-indigo-500">View All</a>
+            <a href="/public/expenses.php" class="text-sm text-indigo-600 hover:text-indigo-500">View All</a>
         </div>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">

@@ -1,9 +1,13 @@
-<div class="mb-6 flex justify-between items-center">
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div>
         <h1 class="text-2xl font-bold text-gray-800">Expenses</h1>
         <p class="text-gray-600">Track and manage your expenses</p>
+        <button onclick="openAddExpenseModal()" class="mt-3 inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition duration-150 hover:bg-blue-700 cursor-pointer sm:hidden">
+            <i class="fas fa-plus mr-1"></i>
+            New Expense
+        </button>
     </div>
-    <button onclick="openAddExpenseModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 flex items-center cursor-pointer">
+    <button onclick="openAddExpenseModal()" class="hidden bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 sm:inline-flex items-center cursor-pointer">
         <i class="fas fa-plus mr-1"></i>
         New Expense
     </button>

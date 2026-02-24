@@ -136,6 +136,31 @@
   $breakdownLabels = array_map(fn($row) => $row['category_name'], $breakdownRows);
   $breakdownValues = array_map(fn($row) => (float) $row['total'], $breakdownRows);
 
+  // current month budget progress by category
+  $stmt = $pdo->prepare("
+    SELECT
+      b.id,
+      b.amount,
+      b.month_year,
+      COALESCE(c.name, 'Uncategorized') AS category_name,
+      COALESCE(SUM(e.amount), 0) AS spent_amount
+    FROM budgets b
+    LEFT JOIN categories c ON c.id = b.category_id
+    LEFT JOIN expenses e
+      ON e.user_id = b.user_id
+     AND e.category_id = b.category_id
+     AND YEAR(e.expense_date) = YEAR(b.month_year)
+     AND MONTH(e.expense_date) = MONTH(b.month_year)
+    WHERE b.user_id = :user_id
+      AND b.month_year >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
+      AND b.month_year < DATE_FORMAT(CURRENT_DATE + INTERVAL 1 MONTH, '%Y-%m-01')
+    GROUP BY b.id, b.amount, b.month_year, c.name
+    ORDER BY b.amount DESC, b.id DESC
+    LIMIT 5
+  ");
+  $stmt->execute([':user_id' => $_SESSION['user_id']]);
+  $budgetProgressItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
   // recent transactions
   $stmt = $pdo->prepare("
     SELECT

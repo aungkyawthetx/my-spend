@@ -1,7 +1,7 @@
 <div class="hidden md:flex md:shrink-0">
   <div class="flex flex-col w-64 bg-blue-800">
     <div class="bg-blue-900 p-1">
-      <a href="<?= url('public/index.php') ?>" class="flex items-center space-x-2">
+      <a href="<?= url('/') ?>" class="flex items-center space-x-2">
         <img src="/public/assets/favicon.png" alt="TraceX favicon" class="h-14 w-14 rounded-md object-contain">
         <p class="text-white font-bold text-2xl">TraceX</p>
       </a>
@@ -37,7 +37,7 @@
   <div id="mobile-sidebar-backdrop" class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 ease-out"></div>
   <aside id="mobile-sidebar-panel" class="absolute left-0 top-0 h-full w-64 bg-blue-800 transform -translate-x-full transition-transform duration-300 ease-out shadow-xl">
     <div class="flex items-center justify-between gap-2 bg-blue-900 p-3">
-      <a href="<?= url('public/index.php') ?>" class="mobile-sidebar-link min-w-0 flex items-center">
+      <a href="<?= url('/') ?>" class="mobile-sidebar-link min-w-0 flex items-center">
         <img src="/public/assets/favicon.png" alt="TraceX favicon" class="h-8 w-8 rounded-md object-contain">
         <p class="text-white ms-2 font-bold text-2xl">TraceX</p>
       </a>

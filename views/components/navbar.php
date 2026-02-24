@@ -160,5 +160,5 @@
     }
     function closeLogoutModal() {
         document.getElementById('logoutModal').classList.add('hidden');
-    }
+    }x  
 </script>

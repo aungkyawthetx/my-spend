@@ -45,59 +45,37 @@
     <div class="bg-white rounded-lg shadow p-6">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">Budget Progress</h2>
         <div class="space-y-4">
-            <div>
-                <div class="flex justify-between mb-1">
-                    <span class="text-sm font-medium text-gray-700">Food & Dining</span>
-                    <span class="text-sm font-medium text-gray-700">150,000/200,000 MMK</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 70%"></div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="flex justify-between mb-1">
-                    <span class="text-sm font-medium text-gray-700">Transportation</span>
-                    <span class="text-sm font-medium text-gray-700"> 80,000/100,000 MMK</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 80%"></div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="flex justify-between mb-1">
-                    <span class="text-sm font-medium text-gray-700">Utilities</span>
-                    <span class="text-sm font-medium text-gray-700">185,000/250,000 MMK</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 74%"></div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="flex justify-between mb-1">
-                    <span class="text-sm font-medium text-gray-700">Entertainment</span>
-                    <span class="text-sm font-medium text-gray-700">95,000/150,000 MMK</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div class="bg-purple-500 h-2.5 rounded-full" style="width: 63%"></div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="flex justify-between mb-1">
-                    <span class="text-sm font-medium text-gray-700">Shopping</span>
-                    <span class="text-sm font-medium text-gray-700">320,000/400,000 MMK</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div class="bg-red-500 h-2.5 rounded-full" style="width: 80%"></div>
-                </div>
-            </div>
+            <?php if (!empty($budgetProgressItems)): ?>
+                <?php foreach ($budgetProgressItems as $budgetItem): ?>
+                    <?php
+                        $amount = (float) ($budgetItem['amount'] ?? 0);
+                        $spent = (float) ($budgetItem['spent_amount'] ?? 0);
+                        $progress = $amount > 0 ? ($spent / $amount) * 100 : 0;
+                        $progressClamped = max(0, min(100, $progress));
+                        $barClass = 'bg-green-500';
+                        if ($progress >= 80 && $progress <= 100) {
+                            $barClass = 'bg-yellow-500';
+                        } elseif ($progress > 100) {
+                            $barClass = 'bg-red-500';
+                        }
+                    ?>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700"><?= htmlspecialchars($budgetItem['category_name'] ?? '-') ?></span>
+                            <span class="text-sm font-medium text-gray-700"><?= number_format($spent, 0) ?>/<?= number_format($amount, 0) ?> MMK</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="<?= $barClass ?> h-2.5 rounded-full" style="width: <?= number_format($progressClamped, 2, '.', '') ?>%"></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-sm text-gray-500">No budgets found for this month.</p>
+            <?php endif; ?>
         </div>
         
         <div class="mt-6">
-            <a href="budget.php" class="block text-center w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150">
+            <a href="<?= url('public/budgets.php') ?>" class="block text-center w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150">
                 Add New Budget
             </a>
         </div>

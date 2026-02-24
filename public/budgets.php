@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
                 ':month_year' => $monthYear,
             ]);
             setFlash('success', 'Budget has been added!');
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         } catch (PDOException $e) {
             if (($e->getCode() ?? '') === '23000') {
@@ -107,13 +107,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
             } else {
                 setFlash('error', 'Something went wrong while creating budget.');
             }
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         }
     }
 
     setFlash('error', array_values($errors)[0]);
-    header("Location: budget.php");
+    header("Location: budgets.php");
     exit;
 }
 
@@ -195,12 +195,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
 
             if ($stmt->rowCount() === 0) {
                 setFlash('error', 'Budget not found or access denied.');
-                header("Location: budget.php");
+                header("Location: budgets.php");
                 exit;
             }
 
             setFlash('success', 'Budget has been updated!');
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         } catch (PDOException $e) {
             if (($e->getCode() ?? '') === '23000') {
@@ -208,13 +208,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
             } else {
                 setFlash('error', 'Something went wrong while updating budget.');
             }
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         }
     }
 
     setFlash('error', array_values($errors)[0]);
-    header("Location: budget.php");
+    header("Location: budgets.php");
     exit;
 }
 
@@ -234,12 +234,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteBudget'])) {
 
     if ($stmt->rowCount() === 0) {
         setFlash('error', 'Budget not found or access denied.');
-        header("Location: budget.php");
+        header("Location: budgets.php");
         exit;
     }
 
     setFlash('success', 'Budget has been deleted!');
-    header("Location: budget.php");
+    header("Location: budgets.php");
     exit;
 }
 

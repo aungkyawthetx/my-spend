@@ -50,6 +50,37 @@
   $stmt->execute([':user_id' => $user_id]);
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+  // profile statistics
+  $statsStmt = $pdo->prepare("
+    SELECT
+      (SELECT COUNT(*) FROM expenses WHERE user_id = :user_id) AS expenses_added,
+      (SELECT COUNT(*) FROM savings WHERE user_id = :user_id) AS savings_goals
+  ");
+  $statsStmt->execute([':user_id' => $user_id]);
+  $stats = $statsStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
+  if (tableHasColumn($pdo, 'categories', 'user_id')) {
+    $categoriesStmt = $pdo->prepare("
+      SELECT COUNT(*)
+      FROM categories
+      WHERE user_id IS NULL OR user_id = :user_id
+    ");
+    $categoriesStmt->execute([':user_id' => $user_id]);
+  } else {
+    $categoriesStmt = $pdo->query("SELECT COUNT(*) FROM categories");
+  }
+
+  $expensesAdded = (int) ($stats['expenses_added'] ?? 0);
+  $savingsGoals = (int) ($stats['savings_goals'] ?? 0);
+  $categoriesTotal = (int) $categoriesStmt->fetchColumn();
+  $daysActive = 0;
+  if (!empty($user['created_at'])) {
+    $createdAtTs = strtotime((string) $user['created_at']);
+    if ($createdAtTs !== false) {
+      $daysActive = max(1, (int) floor((time() - $createdAtTs) / 86400) + 1);
+    }
+  }
+
   $editMode = isset($_GET['edit']);
 
   ob_start();

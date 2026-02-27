@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
                 ':month_year' => $monthYear,
             ]);
             setFlash('success', 'Budget has been added!');
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         } catch (PDOException $e) {
             if (($e->getCode() ?? '') === '23000') {
@@ -107,13 +107,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
             } else {
                 setFlash('error', 'Something went wrong while creating budget.');
             }
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         }
     }
 
     setFlash('error', array_values($errors)[0]);
-    header("Location: budget.php");
+    header("Location: budgets.php");
     exit;
 }
 
@@ -195,12 +195,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
 
             if ($stmt->rowCount() === 0) {
                 setFlash('error', 'Budget not found or access denied.');
-                header("Location: budget.php");
+                header("Location: budgets.php");
                 exit;
             }
 
             setFlash('success', 'Budget has been updated!');
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         } catch (PDOException $e) {
             if (($e->getCode() ?? '') === '23000') {
@@ -208,13 +208,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
             } else {
                 setFlash('error', 'Something went wrong while updating budget.');
             }
-            header("Location: budget.php");
+            header("Location: budgets.php");
             exit;
         }
     }
 
     setFlash('error', array_values($errors)[0]);
-    header("Location: budget.php");
+    header("Location: budgets.php");
     exit;
 }
 
@@ -234,12 +234,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteBudget'])) {
 
     if ($stmt->rowCount() === 0) {
         setFlash('error', 'Budget not found or access denied.');
-        header("Location: budget.php");
+        header("Location: budgets.php");
         exit;
     }
 
     setFlash('success', 'Budget has been deleted!');
-    header("Location: budget.php");
+    header("Location: budgets.php");
     exit;
 }
 
@@ -253,8 +253,8 @@ $stmt = $pdo->prepare("
     LEFT JOIN expenses e
       ON e.user_id = b.user_id
      AND e.category_id = b.category_id
-     AND YEAR(e.expense_date) = YEAR(b.month_year)
-     AND MONTH(e.expense_date) = MONTH(b.month_year)
+     AND e.expense_date >= b.month_year
+     AND e.expense_date < DATE_ADD(b.month_year, INTERVAL 1 MONTH)
     WHERE b.user_id = :user_id
     GROUP BY b.id, b.user_id, b.category_id, b.amount, b.month_year, b.created_at, b.updated_at, c.name
     ORDER BY b.month_year DESC, b.id DESC

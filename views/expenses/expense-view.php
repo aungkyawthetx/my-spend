@@ -1,23 +1,4 @@
 <div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between p-4 border-b border-gray-200">
-        <div class="mb-4 md:mb-0">
-            <div class="relative max-w-xs">
-                <label for="expense-search" class="sr-only">Search</label>
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
-                </div>
-                <input type="text" id="expense-search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Search expenses...">
-            </div>
-        </div>
-        <div class="flex items-center space-x-2">
-            <!-- <button class="px-3 py-1 border border-gray-300 cursor-pointer rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                <i class="fas fa-download mr-1"></i> Export
-            </button> -->
-            <button class="px-3 py-1 border border-gray-300 cursor-pointer rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" onclick="window.print()">
-                <i class="fas fa-print mr-1"></i> Print
-            </button>
-        </div>
-    </div>
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">

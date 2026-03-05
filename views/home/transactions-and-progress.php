@@ -19,7 +19,10 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     <?php if (!empty($recentTransactions)): ?>
                         <?php foreach ($recentTransactions as $txn): ?>
-                            <?php $isPaid = (int)($txn['status'] ?? 0) === 1; ?>
+                            <?php
+                                $status = strtolower(trim((string) ($txn['status'] ?? '')));
+                                $isPaid = in_array($status, ['1', 'true', 'paid', 'yes', 'on'], true);
+                            ?>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= date('M j, Y', strtotime($txn['expense_date'])) ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= htmlspecialchars($txn['note'] ?: '-') ?></td>

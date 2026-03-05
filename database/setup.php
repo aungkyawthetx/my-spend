@@ -167,7 +167,7 @@ class DatabaseMigration
                 KEY idx_savings_user (user_id),
                 CONSTRAINT fk_savings_user
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ";
 
         $this->pdo->exec($sql);
@@ -194,7 +194,7 @@ class DatabaseMigration
                 CONSTRAINT fk_transactions_user
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 CONSTRAINT saving_transactions_chk_1 CHECK (amount > 0)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         ";
 
         $this->pdo->exec($sql);

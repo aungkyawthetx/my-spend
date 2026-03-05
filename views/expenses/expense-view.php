@@ -63,7 +63,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> <?= number_format($expense['amount'] ?? '0', 0) ?> Ks</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?= $expense['status'] == true ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' ?>"> <?= $expense['status'] == true ? "Paid" : "Pending" ?> </span>
+                                <?php
+                                    $expenseStatus = strtolower(trim((string) ($expense['status'] ?? '')));
+                                    $isPaid = in_array($expenseStatus, ['1', 'true', 'paid', 'yes', 'on'], true);
+                                ?>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?= $isPaid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' ?>"> <?= $isPaid ? "Paid" : "Pending" ?> </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button onclick="openEditExpenseModal(this)" 

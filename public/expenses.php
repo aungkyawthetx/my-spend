@@ -32,7 +32,7 @@
     $amount = $_POST['amount'] ?? 0;
     $category_id = isset($_POST['category_id']) ? (int) $_POST['category_id'] : null;
     $payment_method = isset($_POST['payment_method']) ? (int) $_POST['payment_method'] : null;
-    $status = isset($_POST['paid']) ? 1 : 0;
+    $status = isset($_POST['paid']) ? 'paid' : 'unpaid';
     $note = trim($_POST['note'] ?? '');
 
     if(empty($expense_date)) {

@@ -13,7 +13,7 @@
     $category_id = isset($_POST['category_id']) ? (int) $_POST['category_id'] : 0;
     $payment_method_id = isset($_POST['payment_method']) ? (int) $_POST['payment_method'] : 0;
     $note = trim($_POST['note'] ?? '');
-    $status = isset($_POST['paid']) ? 1 : 0;
+    $status = isset($_POST['paid']) ? 'paid' : 'unpaid';
     $errors = [];
 
     if ($id <= 0) {

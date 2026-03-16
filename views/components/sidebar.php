@@ -28,6 +28,10 @@
           <i class="fas fa-wallet mr-3"></i>
           Budgets
         </a>
+        <a href="<?= url('public/insights.php') ?>" class="flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/insights.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
+          <i class="fas fa-chart-line mr-3"></i>
+          Insights
+        </a>
       </div>
     </div>
   </div>
@@ -66,6 +70,10 @@
         <a href="<?= url('public/budgets.php') ?>" class="mobile-sidebar-link flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/budgets.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
           <i class="fas fa-wallet mr-3"></i>
           Budgets
+        </a>
+        <a href="<?= url('public/insights.php') ?>" class="mobile-sidebar-link flex items-center px-2 py-3 text-sm font-medium <?= isActive('public/insights.php') ? 'text-white bg-blue-700' : 'text-indigo-200 hover:text-white hover:bg-blue-700' ?> rounded-lg">
+          <i class="fas fa-chart-line mr-3"></i>
+          Insights
         </a>
       </div>
     </div>

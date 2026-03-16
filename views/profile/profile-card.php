@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+<div class="bg-white rounded-2xl border border-gray-200 shadow-sm">
   <?php 
     $profileName = trim((string) ($user['name'] ?? ($_SESSION['user_name'] ?? 'Guest')));
     $profileParts = preg_split('/\s+/', $profileName) ?: [];
@@ -20,76 +20,48 @@
       include __DIR__ . '/edit.php';
     else: 
   ?>
-    <div class="flex flex-col lg:flex-row items-start gap-8">
-      <div class="shrink-0 text-center lg:text-left">
-        <div class="relative inline-block">
-          <div class="w-40 h-40 rounded-full shadow-xl border-4 border-white ring-2 ring-indigo-100 bg-indigo-500 text-white text-5xl font-semibold flex items-center justify-center">
+    <div class="px-6 py-5 border-b border-gray-100">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-4">
+          <div class="h-14 w-14 rounded-full bg-indigo-600 text-white text-xl font-semibold flex items-center justify-center shadow-sm">
             <?= htmlspecialchars($profileInitials) ?>
           </div>
+          <div>
+            <p class="text-lg font-semibold text-gray-900">
+              <?= htmlspecialchars($user['name'] ?? 'Guest') ?>
+            </p>
+            <p class="text-sm text-gray-500">Account overview</p>
+          </div>
         </div>
-        
-        <!-- Edit Button - Desktop -->
-        <div class="mt-6 lg:block hidden">
-          <a href="<?= url('public/profile.php?edit') ?>" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all duration-200 font-medium flex items-center justify-center shadow-md hover:shadow-lg">
-            Edit Profile
-          </a>
+        <a href="<?= url('public/profile.php?edit') ?>" class="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+          <i class="fas fa-edit"></i>
+          Edit profile
+        </a>
+      </div>
+    </div>
+
+    <div class="px-6 py-6 space-y-5">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-4">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Full name</p>
+          <p class="mt-2 text-sm font-semibold text-gray-900">
+            <?= htmlspecialchars($user['name'] ?? 'Guest') ?>
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-4">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Email address</p>
+          <p class="mt-2 text-sm font-semibold text-gray-900">
+            <?= htmlspecialchars($user['email'] ?? 'No email provided') ?>
+          </p>
         </div>
       </div>
 
-      <!-- Profile Details -->
-      <div class="flex-1 w-full">
-        <div class="flex justify-between items-start mb-6">
-          <div>
-            <h2 class="text-2xl font-bold text-gray-800">Account Information</h2>
-            <p class="text-gray-600 text-sm mt-1">View and manage your account details</p>
-          </div>
-          
-          <a href="<?= url('profile.php?edit') ?>" class="lg:hidden px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium flex items-center justify-center shadow-sm">
-            <i class="fas fa-edit mr-2"></i> Edit
-          </a>
-        </div>
-        
-        <!-- Profile Information -->
-        <div class="space-y-6">
-          <div class="space-y-2">
-            <div class="flex items-center text-gray-500 text-sm font-medium">
-              <i class="fas fa-user-circle mr-2 text-indigo-500"></i>
-              Name
-            </div>
-            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <p class="text-sm font-semibold text-gray-800">
-                <?= htmlspecialchars($user['name'] ?? 'Guest') ?>
-              </p>
-            </div>
-          </div>
-
-          <!-- Email -->
-          <div class="space-y-2">
-            <div class="flex items-center text-gray-500 text-sm font-medium">
-              <i class="fas fa-envelope mr-2 text-indigo-500"></i>
-              Email Address
-            </div>
-            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <p class="text-sm font-semibold text-gray-800">
-                <?= htmlspecialchars($user['email'] ?? 'No email provided') ?>
-              </p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-gray-200">
-            <div class="space-y-2">
-              <div class="flex items-center text-gray-500 text-sm">
-                <i class="far fa-calendar-alt mr-2 text-gray-400"></i>
-                Joined
-              </div>
-              <div class="p-3 bg-gray-50 rounded-lg">
-                <p class="text-gray-700 font-medium">
-                  <?= date('F Y', strtotime($user['created_at'] ?? 'now')) ?>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="rounded-xl border border-gray-200 bg-white px-4 py-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Joined</p>
+        <p class="mt-2 text-sm font-semibold text-gray-900">
+          <?= date('F Y', strtotime($user['created_at'] ?? 'now')) ?>
+        </p>
       </div>
     </div>
   <?php endif; ?>

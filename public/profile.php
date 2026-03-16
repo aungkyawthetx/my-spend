@@ -5,7 +5,6 @@
   $title = "Account";
 
   $updateErrors = [];
-  // get login user
   $user_id = $_SESSION['user_id'] ?? null;
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateProfile'])) {
@@ -27,7 +26,7 @@
         ':id' => $user_id
       ]);
       if ($emailCheckStmt->fetchColumn()) {
-        $updateErrors['email'] = 'Email is already in use.';
+        $updateErrors['email'] = 'Email is already exists.';
       }
     }
 
@@ -91,7 +90,7 @@
   <div class="space-y-6">
     <?php 
       include __DIR__ . '/../views/profile/profile-card.php';
-      include __DIR__ . '/../views/profile/account-settings.php';
+      // include __DIR__ . '/../views/profile/account-settings.php';
       include __DIR__ . '/../views/profile/statistics.php';
     ?>
   </div>

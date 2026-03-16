@@ -1,14 +1,46 @@
 <?php
 include __DIR__ . '/src/helpers/url.php';
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TraceX · Smart expense tracker</title>
+    <meta name="description" content="TraceX helps you track expenses, manage budgets, and gain clear spending insights, all in one simple app.">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="BjZtxF8_enY2XvKUNfcXDYfD2t6LLnWF2hTLNit3uQU" />
+    <link rel="canonical" href="<?= htmlspecialchars($baseUrl) ?>">
+    <meta property="og:title" content="TraceX - Smart expense tracker">
+    <meta property="og:description" content="Track spending, manage budgets, and get clear insights with TraceX.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= htmlspecialchars($baseUrl) ?>">
+    <meta property="og:image" content="<?= htmlspecialchars(url('public/assets/test.png')) ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TraceX - Smart expense tracker">
+    <meta name="twitter:description" content="Track spending, manage budgets, and get clear insights with TraceX.">
+    <meta name="twitter:image" content="<?= htmlspecialchars(url('public/assets/test.png')) ?>">
+    <script type="application/ld+json">
+        <?= json_encode([
+            [
+                '@context' => 'https://schema.org',
+                '@type' => 'Organization',
+                'name' => 'TraceX',
+                'url' => $baseUrl,
+                'logo' => url('public/assets/test.png'),
+                'sameAs' => [
+                    'https://github.com/aungkyawthetx'
+                ]
+            ],
+            [
+                '@context' => 'https://schema.org',
+                '@type' => 'WebSite',
+                'name' => 'TraceX',
+                'url' => $baseUrl
+            ]
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
+    </script>
+    <title>TraceX - Smart expense tracker</title>
     <link rel="stylesheet" href="/src/output.css">
     <link rel="stylesheet" href="/public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="icon" type="image/png" href="/public/assets/favicon.png">
@@ -216,12 +248,12 @@ session_start();
                 <div class="flex items-center">
                     <span class="text-2xl font-bold text-indigo-600">TraceX</span>
                 </div>
-                <!-- footer links -->
+                <!-- links -->
                 <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-medium text-gray-600">
                     <a href="<?= url('terms-and-conditions.php') ?>" class="hover:text-indigo-600 transition">Terms & Conditions</a>
-                    <a href="https://aungkyawth3ts-portfolio.vercel.app/#contact" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
+                    <a href="https://aungkyawthet-portfolio.vercel.app/#contact" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
                 </div>
-                <!-- social icons -->
+                <!-- icons -->
                 <div class="flex gap-5 text-gray-500 text-xl">
                     <a href="https://github.com/aungkyawthetx" target="_blank" class="hover:text-indigo-600 transition"><i class="fab fa-github"></i></a>
                 </div>

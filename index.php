@@ -9,19 +9,9 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TraceX · Smart expense tracker</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/src/output.css">
+    <link rel="stylesheet" href="/public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="icon" type="image/png" href="/public/assets/favicon.png">
-    <!-- subtle modern font -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap');
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .feature-card { transition: all 0.2s ease; }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: 0 25px 30px -12px rgba(0,0,0,0.15); }
-        .step-circle { transition: background 0.2s; }
-        .btn-primary { transition: background 0.2s, transform 0.1s; }
-        .btn-primary:active { transform: scale(0.98); }
-    </style>
 </head>
 <body class="bg-white text-gray-800 antialiased">
     <nav class="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
@@ -75,7 +65,6 @@ session_start();
     <!-- hero section -->
     <section class="max-w-7xl mx-auto px-5 pt-16 pb-20 md:pt-24 md:pb-28">
         <div class="flex flex-col lg:flex-row items-center gap-14">
-            <!-- left text -->
             <div class="flex-1 text-center lg:text-left">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight">
                     Take Control of <br class="hidden sm:block">Every Expense with <span class="text-indigo-600">TraceX</span>
@@ -93,7 +82,6 @@ session_start();
                         <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
                         <span class="ml-2 text-xs text-gray-400 font-medium">TraceX dashboard · preview</span>
                     </div>
-                    <!-- laptop + phone side by side (abstract) -->
                     <div class="flex flex-col md:flex-row gap-4 items-center">
                         <!-- laptop mock -->
                         <div class="bg-gray-100 rounded-xl p-3 w-full max-w-[280px] shadow-inner border border-gray-200">
@@ -108,7 +96,6 @@ session_start();
                                     <div class="flex items-center gap-2"><span class="text-xs w-12">Transport</span> <div class="h-2 flex-1 rounded-full bg-indigo-200"><div class="h-2 w-2/5 rounded-full bg-indigo-500"></div></div></div>
                                     <div class="flex items-center gap-2"><span class="text-xs w-12">Shopping</span> <div class="h-2 flex-1 rounded-full bg-indigo-200"><div class="h-2 w-4/5 rounded-full bg-indigo-500"></div></div></div>
                                 </div>
-                                <!-- tiny pie hint -->
                                 <div class="flex justify-end mt-2"><div class="w-6 h-6 rounded-full border-2 border-indigo-400 border-r-transparent"></div></div>
                             </div>
                             <div class="mt-2 text-center text-[10px] text-gray-400">laptop view</div>
@@ -125,7 +112,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <!-- spending trend line -->
+                    <!-- spending trend -->
                     <div class="mt-6 border-t border-gray-100 pt-4 flex items-center justify-between text-xs text-gray-500">
                         <span><i class="fa-regular fa-clock mr-1"></i> spending trend</span>
                         <span class="text-emerald-600 font-medium">↓ 8% vs last month</span>
@@ -141,7 +128,7 @@ session_start();
     <section class="max-w-7xl mx-auto px-5 py-20 md:py-24">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Designed to give you clarity</h2>
-            <p class="text-gray-600 mt-4 text-xl">Everything you need to master your money in one place.</p>
+            <p class="text-gray-600 mt-2 text-xl">Everything you need to master your money in one place.</p>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- card 1 -->
@@ -175,7 +162,7 @@ session_start();
     <section class="max-w-6xl mx-auto px-5 py-16 md:py-20 bg-indigo-50/40 rounded-3xl md:rounded-4xl">
         <div class="text-center mb-14">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Start in minutes</h2>
-            <p class="text-gray-600 mt-3 text-lg">No complicated setup, just you and your goals.</p>
+            <p class="text-gray-600 mt-2 text-lg">No complicated setup, just you and your goals.</p>
         </div>
         <div class="flex flex-col md:flex-row justify-center items-start md:items-center gap-10 md:gap-6 lg:gap-12 max-w-4xl mx-auto">
             <div class="flex-1 text-center">

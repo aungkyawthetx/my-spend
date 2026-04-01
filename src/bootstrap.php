@@ -1,6 +1,8 @@
 <?php
     require_once __DIR__ . '/../config/db.php';
 
+    date_default_timezone_set('Asia/Yangon');
+
     try {
         $pdo = new PDO(
             "mysql:host={$DB_HOST};port=3306;dbname={$DB_NAME};charset=utf8mb4", 

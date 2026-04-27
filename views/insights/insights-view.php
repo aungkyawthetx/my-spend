@@ -9,19 +9,33 @@
   </div>
 <?php else: ?>
   <!-- Spending Overview -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <div class="bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Total Spent</h3>
-      <p class="text-3xl font-bold text-blue-600"><?= number_format($totalSpent, 2) ?> MMK</p>
+      <h3 class="text-sm font-medium text-gray-500 mb-1">Total Spent</h3>
+      <div class="flex items-baseline space-x-2">
+        <p class="text-2xl font-bold text-gray-900"><?= number_format($totalSpent, 2) ?> MMK</p>
+      </div>
+      <?php if (isset($trend)): ?>
+        <p class="mt-1 text-sm <?= $trend > 0 ? 'text-red-600' : 'text-green-600' ?>">
+          <i class="fas <?= $trend > 0 ? 'fa-arrow-up' : 'fa-arrow-down' ?> mr-1"></i>
+          <?= number_format(abs($trend), 1) ?>% vs last month
+        </p>
+      <?php endif; ?>
     </div>
     <div class="bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Categories</h3>
-      <p class="text-3xl font-bold text-green-600"><?= count($categorySpending) ?></p>
+      <h3 class="text-sm font-medium text-gray-500 mb-1">Daily Average</h3>
+      <p class="text-2xl font-bold text-gray-900"><?= number_format($dailyAverage, 2) ?> MMK</p>
+      <p class="mt-1 text-sm text-gray-500">Based on <?= $daysPassed ?> days</p>
     </div>
     <div class="bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Top Category</h3>
-      <p class="text-lg font-semibold text-purple-600"><?= $categorySpending[0]['name'] ?? 'N/A' ?></p>
-      <p class="text-sm text-gray-500"><?= number_format($categorySpending[0]['total_spent'] ?? 0, 2) ?> MMK</p>
+      <h3 class="text-sm font-medium text-gray-500 mb-1">Categories</h3>
+      <p class="text-2xl font-bold text-gray-900"><?= count($categorySpending) ?></p>
+      <p class="mt-1 text-sm text-gray-500">Active this month</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-sm font-medium text-gray-500 mb-1">Top Category</h3>
+      <p class="text-2xl font-bold text-gray-900 truncate"><?= $categorySpending[0]['name'] ?? 'N/A' ?></p>
+      <p class="mt-1 text-sm text-gray-500"><?= number_format($categorySpending[0]['total_spent'] ?? 0, 2) ?> MMK</p>
     </div>
   </div>
 
@@ -48,28 +62,56 @@
               <?php endif; ?>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 bg-gray-50 p-4 rounded-lg">
             <div>
-              <p class="text-sm text-gray-500">Spent</p>
+              <p class="text-xs text-gray-500 uppercase tracking-wider">Spent</p>
               <p class="text-lg font-semibold text-gray-900"><?= number_format($insight['spent'], 2) ?> MMK</p>
             </div>
-            <?php if ($insight['budget']): ?>
-              <div>
-                <p class="text-sm text-gray-500">Budget</p>
-                <p class="text-lg font-semibold text-gray-900"><?= number_format($insight['budget'], 2) ?> MMK</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Remaining</p>
-                <p class="text-lg font-semibold <?= $insight['spent'] > $insight['budget'] ? 'text-red-600' : 'text-green-600' ?>">
-                  <?= number_format($insight['budget'] - $insight['spent'], 2) ?> MMK
-                </p>
-              </div>
-            <?php else: ?>
-              <div class="md:col-span-2">
-                <p class="text-sm text-gray-500">No budget set</p>
-              </div>
-            <?php endif; ?>
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wider">Transactions</p>
+              <p class="text-lg font-semibold text-gray-900"><?= $insight['expense_count'] ?></p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wider">Average</p>
+              <p class="text-lg font-semibold text-gray-900"><?= number_format($insight['avg_expense'], 2) ?> MMK</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wider">Largest</p>
+              <p class="text-lg font-semibold text-gray-900"><?= number_format($insight['max_expense'], 2) ?> MMK</p>
+            </div>
           </div>
+          
+          <?php if ($insight['budget']): ?>
+            <div class="mb-4 flex items-center justify-between bg-blue-50 p-3 rounded-lg">
+               <div>
+                  <span class="text-sm text-gray-500">Budget:</span>
+                  <span class="font-medium text-gray-900"><?= number_format($insight['budget'], 2) ?> MMK</span>
+               </div>
+               <div>
+                  <span class="text-sm text-gray-500">Remaining:</span>
+                  <span class="font-medium <?= $insight['spent'] > $insight['budget'] ? 'text-red-600' : 'text-green-600' ?>">
+                     <?= number_format($insight['budget'] - $insight['spent'], 2) ?> MMK
+                  </span>
+               </div>
+            </div>
+          <?php endif; ?>
+
+          <?php if (!empty($insight['recent_expenses'])): ?>
+            <div class="mb-4">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Recent Transactions</h4>
+              <div class="space-y-2">
+                <?php foreach ($insight['recent_expenses'] as $exp): ?>
+                  <div class="flex justify-between items-center text-sm bg-white border border-gray-100 p-2 rounded">
+                    <div class="flex items-center space-x-3">
+                      <span class="text-gray-500 text-xs"><?= date('M d', strtotime($exp['expense_date'])) ?></span>
+                      <span class="text-gray-900 truncate max-w-[150px] md:max-w-xs"><?= htmlspecialchars($exp['note'] ?: 'No note') ?></span>
+                    </div>
+                    <span class="font-medium text-gray-900"><?= number_format($exp['amount'], 2) ?> MMK</span>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          <?php endif; ?>
           <?php if (!empty($insight['suggestions'])): ?>
             <div class="bg-blue-50 rounded-lg p-4">
               <h4 class="text-sm font-medium text-blue-900 mb-2">Savings Tips:</h4>
@@ -84,6 +126,45 @@
       <?php endforeach; ?>
     </div>
   </div>
+
+  <!-- Top Expenses -->
+  <?php if (!empty($topExpenses)): ?>
+  <div class="bg-white rounded-lg shadow p-6 mt-8">
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">Top Largest Expenses</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <?php foreach ($topExpenses as $expense): ?>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <?= date('M d, Y', strtotime($expense['expense_date'])) ?>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full" style="background-color: <?= htmlspecialchars($expense['category_color']) ?>20; color: <?= htmlspecialchars($expense['category_color']) ?>">
+                  <?= htmlspecialchars($expense['category_name']) ?>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <?= htmlspecialchars($expense['note'] ?: '-') ?>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+                <?= number_format($expense['amount'], 2) ?> MMK
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <?php endif; ?>
 <?php endif; ?>
 
 <script>

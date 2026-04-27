@@ -11,7 +11,7 @@
 
   // Get spending per category this month
   $spendingStmt = $pdo->prepare("
-    SELECT c.name, c.color, SUM(e.amount) as total_spent, COUNT(e.id) as expense_count
+    SELECT c.name, c.color, SUM(e.amount) as total_spent, COUNT(e.id) as expense_count, MAX(e.amount) as max_expense
     FROM expenses e
     JOIN categories c ON e.category_id = c.id
     WHERE e.user_id = :user_id AND e.expense_date >= :start_date AND e.expense_date < :end_date
@@ -24,6 +24,30 @@
     ':end_date' => $nextMonth
   ]);
   $categorySpending = $spendingStmt->fetchAll(PDO::FETCH_ASSOC);
+
+  // Get all expenses for this month to show recent transactions per category
+  $expensesStmt = $pdo->prepare("
+    SELECT e.id, e.amount, e.note, e.expense_date, c.name as category_name
+    FROM expenses e
+    JOIN categories c ON e.category_id = c.id
+    WHERE e.user_id = :user_id AND e.expense_date >= :start_date AND e.expense_date < :end_date
+    ORDER BY e.expense_date DESC, e.id DESC
+  ");
+  $expensesStmt->execute([
+    ':user_id' => $_SESSION['user_id'],
+    ':start_date' => $currentMonth,
+    ':end_date' => $nextMonth
+  ]);
+  $allExpenses = $expensesStmt->fetchAll(PDO::FETCH_ASSOC);
+  
+  $expensesByCategory = [];
+  foreach ($allExpenses as $expense) {
+      $catName = $expense['category_name'];
+      if (!isset($expensesByCategory[$catName])) {
+          $expensesByCategory[$catName] = [];
+      }
+      $expensesByCategory[$catName][] = $expense;
+  }
 
   // Get budgets for this month
   $budgetStmt = $pdo->prepare("
@@ -50,6 +74,51 @@
     $totalSpent += $spend['total_spent'];
   }
 
+  // Calculate Daily Average
+  $daysInMonth = date('t');
+  $currentDay = date('j');
+  $isCurrentMonth = date('Y-m') === date('Y-m', strtotime($currentMonth));
+  $daysPassed = $isCurrentMonth ? $currentDay : $daysInMonth;
+  $dailyAverage = $daysPassed > 0 ? $totalSpent / $daysPassed : 0;
+
+  // Get previous month spending for trend comparison
+  $prevMonthStart = date('Y-m-01', strtotime('-1 month'));
+  $prevMonthEnd = date('Y-m-01');
+  $prevSpendingStmt = $pdo->prepare("
+    SELECT SUM(amount) as total_spent
+    FROM expenses
+    WHERE user_id = :user_id AND expense_date >= :start_date AND expense_date < :end_date
+  ");
+  $prevSpendingStmt->execute([
+    ':user_id' => $_SESSION['user_id'],
+    ':start_date' => $prevMonthStart,
+    ':end_date' => $prevMonthEnd
+  ]);
+  $prevTotalSpent = $prevSpendingStmt->fetchColumn() ?: 0;
+  
+  $trend = 0;
+  if ($prevTotalSpent > 0) {
+      $trend = (($totalSpent - $prevTotalSpent) / $prevTotalSpent) * 100;
+  } else if ($totalSpent > 0) {
+      $trend = 100; // 100% increase if prev was 0 and now we have spending
+  }
+
+  // Get Top 5 Largest Expenses
+  $topExpensesStmt = $pdo->prepare("
+    SELECT e.id, e.amount, e.note, e.expense_date, c.name as category_name, c.color as category_color
+    FROM expenses e
+    JOIN categories c ON e.category_id = c.id
+    WHERE e.user_id = :user_id AND e.expense_date >= :start_date AND e.expense_date < :end_date
+    ORDER BY e.amount DESC
+    LIMIT 5
+  ");
+  $topExpensesStmt->execute([
+    ':user_id' => $_SESSION['user_id'],
+    ':start_date' => $currentMonth,
+    ':end_date' => $nextMonth
+  ]);
+  $topExpenses = $topExpensesStmt->fetchAll(PDO::FETCH_ASSOC);
+
   // Generate insights
   $insights = [];
   foreach ($categorySpending as $spend) {
@@ -59,10 +128,15 @@
 
     $insight = [
       'category' => $category,
+      'color' => $spend['color'],
       'spent' => $spent,
+      'expense_count' => $spend['expense_count'],
+      'max_expense' => $spend['max_expense'] ?? 0,
+      'avg_expense' => $spend['expense_count'] > 0 ? $spent / $spend['expense_count'] : 0,
       'percentage' => round($percentage, 1),
       'budget' => $budgetMap[$category] ?? null,
       'over_budget' => isset($budgetMap[$category]) && $spent > $budgetMap[$category],
+      'recent_expenses' => array_slice($expensesByCategory[$category] ?? [], 0, 3),
       'suggestions' => []
     ];
 

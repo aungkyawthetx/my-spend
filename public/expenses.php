@@ -108,6 +108,53 @@
   }
 
   // fetch expenses
+  $whereSql = "FROM expenses 
+    LEFT JOIN categories ON expenses.category_id = categories.id 
+    LEFT JOIN payment_methods ON expenses.payment_method_id = payment_methods.id 
+    WHERE expenses.user_id = :user_id";
+
+  $params = [':user_id' => $_SESSION['user_id']];
+  $date_range = $_GET['date_range'] ?? '';
+  $category_id = $_GET['category_id'] ?? '';
+  $min_amount = $_GET['min_amount'] ?? '';
+  $max_amount = $_GET['max_amount'] ?? '';
+  $perPage = 10;
+  $currentPage = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
+
+  if(!empty($date_range)) {
+    if(str_contains($date_range, ' to ')) {
+      [$startDate, $endDate] = explode(' to ', $date_range);
+      $whereSql .= " AND expenses.expense_date BETWEEN :start_date AND :end_date";
+      $params[':start_date'] = $startDate;
+      $params[':end_date']   = $endDate;
+    } else {
+      $whereSql .= " AND expenses.expense_date = :expense_date";
+      $params[':expense_date'] = $date_range;
+    }
+  }
+
+  if (!empty($category_id)) {
+    $whereSql .= " AND expenses.category_id = :category_id";
+    $params[':category_id'] = $category_id;
+  }
+
+  if ($min_amount !== null && $min_amount !== '') {
+    $whereSql .= " AND expenses.amount >= :min_amount";
+    $params[':min_amount'] = $min_amount;
+  }
+
+  if ($max_amount !== null && $max_amount !== '') {
+    $whereSql .= " AND expenses.amount <= :max_amount";
+    $params[':max_amount'] = $max_amount;
+  }
+
+  $countStmt = $pdo->prepare("SELECT COUNT(*) " . $whereSql);
+  $countStmt->execute($params);
+  $totalExpenses = (int) $countStmt->fetchColumn();
+  $totalPages = max(1, (int) ceil($totalExpenses / $perPage));
+  $currentPage = min($currentPage, $totalPages);
+  $offset = ($currentPage - 1) * $perPage;
+
   $sql = "SELECT 
     expenses.*, 
     categories.name AS category_name, 
@@ -115,48 +162,26 @@
     categories.id AS category_id,
     payment_methods.name AS payment_method,
     payment_methods.id AS payment_method_id
-    FROM expenses 
-    LEFT JOIN categories ON expenses.category_id = categories.id 
-    LEFT JOIN payment_methods ON expenses.payment_method_id = payment_methods.id 
-    WHERE expenses.user_id = :user_id";
+    " . $whereSql . "
+    ORDER BY expenses.expense_date DESC, expenses.id DESC
+    LIMIT :limit OFFSET :offset";
 
-  $params = [];
-  $date_range = $_GET['date_range'] ?? '';
-  $category_id = $_GET['category_id'] ?? '';
-  $min_amount = $_GET['min_amount'] ?? '';
-  $max_amount = $_GET['max_amount'] ?? '';
-
-  if(!empty($date_range)) {
-    if(str_contains($date_range, ' to ')) {
-      [$startDate, $endDate] = explode(' to ', $date_range);
-      $sql .= " AND expenses.expense_date BETWEEN :start_date AND :end_date";
-      $params['start_date'] = $startDate;
-      $params['end_date']   = $endDate;
-    } else {
-      $sql .= " AND expenses.expense_date = :expense_date";
-      $params['expense_date'] = $date_range;
-    }
-  }
-
-  if (!empty($category_id)) {
-    $sql .= " AND expenses.category_id = :category_id";
-    $params['category_id'] = $category_id;
-  }
-
-  if ($min_amount !== null && $min_amount !== '') {
-    $sql .= " AND expenses.amount >= :min_amount";
-    $params['min_amount'] = $min_amount;
-  }
-
-  if ($max_amount !== null && $max_amount !== '') {
-    $sql .= " AND expenses.amount <= :max_amount";
-    $params['max_amount'] = $max_amount;
-  }
-
-  $sql .= " ORDER BY expenses.expense_date DESC";
   $stmt = $pdo->prepare($sql);
-  $stmt->execute(['user_id' => $_SESSION['user_id']] + $params);
+  foreach ($params as $key => $value) {
+    $stmt->bindValue($key, $value);
+  }
+  $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+  $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+  $stmt->execute();
   $expenses = $stmt->fetchAll();
+
+  $paginationStart = $totalExpenses === 0 ? 0 : $offset + 1;
+  $paginationEnd = min($offset + $perPage, $totalExpenses);
+  $paginationQuery = $_GET;
+  unset($paginationQuery['page']);
+  $paginationUrl = function (int $page) use ($paginationQuery): string {
+    return 'expenses.php?' . http_build_query($paginationQuery + ['page' => $page]);
+  };
 
   ob_start();
   include __DIR__ . '/../views/expenses/header-and-filter.php';

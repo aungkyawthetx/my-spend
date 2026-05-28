@@ -19,6 +19,7 @@ class DatabaseMigration
         }
 
         $this->createTables();
+        $this->normalizeCharsets();
 
         if ($seed) {
             $this->seedDefaults();
@@ -38,6 +39,29 @@ class DatabaseMigration
         $this->createSavingTransactionsTable();
     }
 
+    private function normalizeCharsets(): void
+    {
+        $tables = [
+            'users',
+            'categories',
+            'payment_methods',
+            'expenses',
+            'budgets',
+            'savings',
+            'saving_transactions',
+        ];
+
+        foreach ($tables as $table) {
+            $this->pdo->exec("
+                ALTER TABLE {$table}
+                CONVERT TO CHARACTER SET utf8mb4
+                COLLATE utf8mb4_unicode_ci
+            ");
+        }
+
+        echo "Normalized table charsets to utf8mb4\n";
+    }
+
     private function createUsersTable(): void
     {
         $sql = "
@@ -53,7 +77,7 @@ class DatabaseMigration
                 updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 UNIQUE KEY email (email)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ";
 
         $this->pdo->exec($sql);
@@ -72,7 +96,7 @@ class DatabaseMigration
                 created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ";
 
         $this->pdo->exec($sql);
@@ -90,7 +114,7 @@ class DatabaseMigration
                 updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 KEY user_id (user_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ";
 
         $this->pdo->exec($sql);
@@ -116,7 +140,7 @@ class DatabaseMigration
                 KEY idx_user_category_date (user_id, category_id, expense_date),
                 KEY idx_category (category_id),
                 KEY idx_payment_method (payment_method_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ";
 
         $this->pdo->exec($sql);
@@ -142,7 +166,7 @@ class DatabaseMigration
                 CONSTRAINT fk_budgets_category
                     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
                 CONSTRAINT budgets_chk_amount CHECK (amount > 0)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ";
 
         $this->pdo->exec($sql);

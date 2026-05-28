@@ -162,61 +162,245 @@ session_start();
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Designed to give you clarity</h2>
             <p class="text-gray-600 mt-2 text-xl">Everything you need to master your money in one place.</p>
         </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- card 1 -->
-            <div class="feature-card bg-white p-8 rounded-3xl border border-gray-100 shadow-md hover:shadow-xl">
-                <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-700 text-2xl mb-5"><i class="fa-regular fa-compass"></i></div>
-                <h3 class="text-xl font-bold text-gray-900">Track Spending Effortlessly</h3>
-                <p class="text-gray-600 mt-2 text-base/relaxed">See where your money goes, in real time. Categorize transactions automatically.</p>
+            <div class="group feature-card relative overflow-hidden rounded-3xl border border-indigo-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div class="absolute right-0 top-0 h-24 w-24 rounded-bl-[3rem] bg-indigo-50 transition duration-300 group-hover:bg-indigo-100"></div>
+                <div class="relative">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-xl text-white shadow-lg shadow-indigo-200">
+                            <i class="fa-regular fa-compass"></i>
+                        </div>
+                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">Live view</span>
+                    </div>
+                    <h3 class="text-xl font-bold leading-snug text-gray-900">Track Spending Effortlessly</h3>
+                    <p class="mt-3 text-sm leading-7 text-gray-600">See where your money goes as you add expenses, with categories that keep each transaction easy to understand.</p>
+                    <div class="mt-6 rounded-2xl bg-gray-50 p-4">
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <span>Today</span>
+                            <span class="font-semibold text-indigo-700">12 entries</span>
+                        </div>
+                        <div class="mt-3 h-2 rounded-full bg-indigo-100">
+                            <div class="h-2 w-3/4 rounded-full bg-indigo-500"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- card 2 -->
-            <div class="feature-card bg-white p-8 rounded-3xl border border-gray-100 shadow-md hover:shadow-xl">
-                <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-700 text-2xl mb-5"><i class="fa-regular fa-bell"></i></div>
-                <h3 class="text-xl font-bold text-gray-900">Smart Budgets</h3>
-                <p class="text-gray-600 mt-2 text-base/relaxed">Set limits and get alerts before overspending. Stay on track without stress.</p>
+            <div class="group feature-card relative overflow-hidden rounded-3xl border border-emerald-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div class="absolute right-0 top-0 h-24 w-24 rounded-bl-[3rem] bg-emerald-50 transition duration-300 group-hover:bg-emerald-100"></div>
+                <div class="relative">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-xl text-white shadow-lg shadow-emerald-200">
+                            <i class="fa-regular fa-bell"></i>
+                        </div>
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">On track</span>
+                    </div>
+                    <h3 class="text-xl font-bold leading-snug text-gray-900">Smart Budgets</h3>
+                    <p class="mt-3 text-sm leading-7 text-gray-600">Set monthly limits by category and notice overspending early, while there is still time to adjust.</p>
+                    <div class="mt-6 grid grid-cols-3 gap-2 text-center">
+                        <div class="rounded-2xl bg-emerald-50 px-2 py-3">
+                            <p class="text-sm font-bold text-emerald-700">72%</p>
+                            <p class="mt-1 text-[10px] font-medium text-gray-500">Used</p>
+                        </div>
+                        <div class="rounded-2xl bg-gray-50 px-2 py-3">
+                            <p class="text-sm font-bold text-gray-800">8</p>
+                            <p class="mt-1 text-[10px] font-medium text-gray-500">Days</p>
+                        </div>
+                        <div class="rounded-2xl bg-gray-50 px-2 py-3">
+                            <p class="text-sm font-bold text-gray-800">3</p>
+                            <p class="mt-1 text-[10px] font-medium text-gray-500">Budgets</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- card 3 -->
-            <div class="feature-card bg-white p-8 rounded-3xl border border-gray-100 shadow-md hover:shadow-xl">
-                <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-700 text-2xl mb-5"><i class="fa-regular fa-chart-bar"></i></div>
-                <h3 class="text-xl font-bold text-gray-900">Visual Insights</h3>
-                <p class="text-gray-600 mt-2 text-base/relaxed">Charts and reports to help you plan better. Spot trends at a glance.</p>
+            <div class="group feature-card relative overflow-hidden rounded-3xl border border-amber-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div class="absolute right-0 top-0 h-24 w-24 rounded-bl-[3rem] bg-amber-50 transition duration-300 group-hover:bg-amber-100"></div>
+                <div class="relative">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500 text-xl text-white shadow-lg shadow-amber-200">
+                            <i class="fa-regular fa-chart-bar"></i>
+                        </div>
+                        <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">Patterns</span>
+                    </div>
+                    <h3 class="text-xl font-bold leading-snug text-gray-900">Visual Insights</h3>
+                    <p class="mt-3 text-sm leading-7 text-gray-600">Use charts and summaries to spot spending trends, category changes, and months that need attention.</p>
+                    <div class="mt-6 flex h-24 items-end gap-2 rounded-2xl bg-gray-50 p-4">
+                        <div class="h-8 flex-1 rounded-t-lg bg-amber-200"></div>
+                        <div class="h-14 flex-1 rounded-t-lg bg-amber-300"></div>
+                        <div class="h-10 flex-1 rounded-t-lg bg-amber-200"></div>
+                        <div class="h-20 flex-1 rounded-t-lg bg-amber-500"></div>
+                        <div class="h-12 flex-1 rounded-t-lg bg-amber-300"></div>
+                    </div>
+                </div>
             </div>
             <!-- card 4 -->
-            <div class="feature-card bg-white p-8 rounded-3xl border border-gray-100 shadow-md hover:shadow-xl">
-                <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-700 text-2xl mb-5"><i class="fa-solid fa-lock"></i></div>
-                <h3 class="text-xl font-bold text-gray-900">Secure & Private</h3>
-                <p class="text-gray-600 mt-2 text-base/relaxed">Your data stays safe. We never share your info.</p>
+            <div class="group feature-card relative overflow-hidden rounded-3xl border border-rose-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div class="absolute right-0 top-0 h-24 w-24 rounded-bl-[3rem] bg-rose-50 transition duration-300 group-hover:bg-rose-100"></div>
+                <div class="relative">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500 text-xl text-white shadow-lg shadow-rose-200">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <span class="rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700">Private</span>
+                    </div>
+                    <h3 class="text-xl font-bold leading-snug text-gray-900">Secure & Private</h3>
+                    <p class="mt-3 text-sm leading-7 text-gray-600">Your financial records stay focused on you, with account-based access and no public sharing.</p>
+                    <div class="mt-6 rounded-2xl border border-rose-100 bg-rose-50 p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-white text-rose-500">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-gray-900">Protected records</p>
+                                <p class="text-xs text-gray-500">Login required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- money habits section -->
+    <section class="max-w-7xl mx-auto px-5 py-20 md:py-24">
+        <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-start">
+            <div class="lg:sticky lg:top-28">
+                <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
+                    <i class="fa-solid fa-seedling"></i>
+                    Smart money habits
+                </span>
+                <h2 class="mt-5 text-3xl md:text-4xl font-bold leading-tight text-gray-900">
+                    Saving feels easier when your expenses finally make sense.
+                </h2>
+                <p class="mt-4 text-lg leading-8 text-gray-600">
+                    TraceX turns everyday spending into simple patterns you can act on. Learn what to keep, what to trim, and how to build a money routine that lasts.
+                </p>
+                <div class="mt-8 grid grid-cols-3 gap-3 rounded-3xl border border-gray-100 bg-white p-3 shadow-sm">
+                    <div class="rounded-2xl bg-indigo-50 px-4 py-5 text-center">
+                        <p class="text-2xl font-bold text-indigo-700">50</p>
+                        <p class="mt-1 text-xs font-medium text-gray-500">Needs</p>
+                    </div>
+                    <div class="rounded-2xl bg-amber-50 px-4 py-5 text-center">
+                        <p class="text-2xl font-bold text-amber-700">30</p>
+                        <p class="mt-1 text-xs font-medium text-gray-500">Wants</p>
+                    </div>
+                    <div class="rounded-2xl bg-emerald-50 px-4 py-5 text-center">
+                        <p class="text-2xl font-bold text-emerald-700">20</p>
+                        <p class="mt-1 text-xs font-medium text-gray-500">Savings</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid gap-6">
+                <article class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg md:grid md:grid-cols-[0.9fr_1.1fr]">
+                    <div class="relative min-h-64 md:min-h-full">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80" alt="Budget planning notebook and calculator" class="absolute inset-0 h-full w-full object-cover">
+                        <div class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm">Budget rule</div>
+                    </div>
+                    <div class="p-7 md:p-8">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">50/30/20 Rule</span>
+                            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600">Beginner friendly</span>
+                        </div>
+                        <h3 class="mt-5 text-2xl font-bold text-gray-900">Give every kyat a clear role.</h3>
+                        <p class="mt-3 text-gray-600 leading-7">
+                            Split your income into essentials, lifestyle spending, and future savings. When your expenses are tagged, the rule becomes visible instead of theoretical.
+                        </p>
+                        <div class="mt-6 space-y-3 text-sm text-gray-600">
+                            <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-emerald-500"></i> Spot lifestyle spending before it quietly grows</div>
+                            <div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-emerald-500"></i> Keep rent, food, transport, and bills in context</div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <article class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-md">
+                        <div class="relative h-52">
+                            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80" alt="Coins stacked with financial notes" class="h-full w-full object-cover">
+                            <span class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">Saving system</span>
+                        </div>
+                        <div class="p-7">
+                            <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Pay Yourself First</span>
+                            <h3 class="mt-5 text-xl font-bold text-gray-900">Move saving before spending.</h3>
+                            <p class="mt-3 text-gray-600 leading-7">Treat savings like a monthly bill to your future self, then track what remains for daily decisions.</p>
+                        </div>
+                    </article>
+
+                    <article class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-md">
+                        <div class="relative h-52">
+                            <img src="https://images.unsplash.com/photo-1554224154-22dec7ec8818?auto=format&fit=crop&w=800&q=80" alt="Person reviewing expense receipts" class="h-full w-full object-cover">
+                            <span class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-amber-700 shadow-sm">Expense clarity</span>
+                        </div>
+                        <div class="p-7">
+                            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">Know Your Tags</span>
+                            <h3 class="mt-5 text-xl font-bold text-gray-900">Small labels reveal big habits.</h3>
+                            <p class="mt-3 text-gray-600 leading-7">Tags turn scattered receipts into patterns, making it easier to adjust before the month gets tight.</p>
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- how it works --->
-    <section class="max-w-6xl mx-auto px-5 py-16 md:py-20 bg-indigo-50/40 rounded-3xl md:rounded-4xl">
+    <section class="max-w-5xl mx-auto px-5 py-16 md:py-20 rounded-3xl md:rounded-4xl">
         <div class="text-center mb-14">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Start in minutes</h2>
             <p class="text-gray-600 mt-2 text-lg">No complicated setup, just you and your goals.</p>
         </div>
-        <div class="flex flex-col md:flex-row justify-center items-start md:items-center gap-10 md:gap-6 lg:gap-12 max-w-4xl mx-auto">
-            <div class="flex-1 text-center">
-                <div class="step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center mx-auto shadow-lg">1</div>
-                <h3 class="text-xl font-semibold mt-5 text-gray-900">Sign Up</h3>
-                <p class="text-gray-600 mt-2">Create your account in seconds.</p>
-            </div>
+        <div class="relative max-w-3xl mx-auto">
+            <div class="absolute left-8 top-8 bottom-8 w-0.5 rounded-full bg-indigo-200 md:left-1/2 md:-translate-x-1/2"></div>
 
-            <div class="hidden md:block w-12 h-0.5 bg-indigo-200 rounded-full"></div>
+            <div class="relative grid gap-8">
+                <div class="relative md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="md:text-right md:pr-8">
+                        <div class="ml-20 rounded-3xl border border-white bg-white p-6 shadow-sm md:ml-0">
+                            <span class="text-sm font-semibold text-indigo-600">Step 01</span>
+                            <h3 class="text-xl font-semibold mt-2 text-gray-900">Sign Up</h3>
+                            <p class="text-gray-600 mt-2">Create your account in seconds.</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 top-5 step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center shadow-lg shadow-indigo-200 md:left-1/2 md:-translate-x-1/2">1</div>
+                    <div class="hidden md:block"></div>
+                </div>
 
-            <div class="flex-1 text-center">
-                <div class="step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center mx-auto shadow-lg">2</div>
-                <h3 class="text-xl font-semibold mt-5 text-gray-900">Save Expenses</h3>
-                <p class="text-gray-600 mt-2">Start saving your expenses, you're in control.</p>
-            </div>
+                <div class="relative md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="hidden md:block"></div>
+                    <div class="md:pl-8">
+                        <div class="ml-20 rounded-3xl border border-white bg-white p-6 shadow-sm md:ml-0">
+                            <span class="text-sm font-semibold text-indigo-600">Step 02</span>
+                            <h3 class="text-xl font-semibold mt-2 text-gray-900">Save Expenses</h3>
+                            <p class="text-gray-600 mt-2">Start saving your expenses, you're in control.</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 top-5 step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center shadow-lg shadow-indigo-200 md:left-1/2 md:-translate-x-1/2">2</div>
+                </div>
 
-            <div class="hidden md:block w-12 h-0.5 bg-indigo-200 rounded-full"></div>
+                <div class="relative md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="md:text-right md:pr-8">
+                        <div class="ml-20 rounded-3xl border border-white bg-white p-6 shadow-sm md:ml-0">
+                            <span class="text-sm font-semibold text-indigo-600">Step 03</span>
+                            <h3 class="text-xl font-semibold mt-2 text-gray-900">Track & Optimize</h3>
+                            <p class="text-gray-600 mt-2">Analyze, plan, and save smarter with real insights.</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 top-5 step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center shadow-lg shadow-indigo-200 md:left-1/2 md:-translate-x-1/2">3</div>
+                    <div class="hidden md:block"></div>
+                </div>
 
-            <div class="flex-1 text-center">
-                <div class="step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center mx-auto shadow-lg">3</div>
-                <h3 class="text-xl font-semibold mt-5 text-gray-900">Track & Optimize</h3>
-                <p class="text-gray-600 mt-2">Analyze, plan, and save smarter with real insights.</p>
+                <div class="relative md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="hidden md:block"></div>
+                    <div class="md:pl-8">
+                        <div class="ml-20 rounded-3xl border border-white bg-white p-6 shadow-sm md:ml-0">
+                            <span class="text-sm font-semibold text-indigo-600">Step 04</span>
+                            <h3 class="text-xl font-semibold mt-2 text-gray-900">View Insights</h3>
+                            <p class="text-gray-600 mt-2">Review spending patterns, top expenses, and category insights to make better money decisions.</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 top-5 step-circle w-16 h-16 bg-indigo-600 text-white rounded-3xl text-2xl font-bold flex items-center justify-center shadow-lg shadow-indigo-200 md:left-1/2 md:-translate-x-1/2">4</div>
+                </div>
             </div>
         </div>
     </section>
@@ -241,24 +425,41 @@ session_start();
     </section> -->
 
     <!-- footer -->
-    <footer class="bg-gray-50 border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-5 py-12 md:py-16">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <!-- logo -->
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold text-indigo-600">TraceX</span>
+    <footer class="mt-20 border-t border-gray-200 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-5 py-14 md:py-20">
+            <div class="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.6fr] md:items-start">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <!-- <img src="/public/assets/test.png" alt="TraceX Logo" class="h-11 rounded-xl"> -->
+                        <span class="text-3xl font-bold text-indigo-600">TraceX</span>
+                    </div>
+                    <p class="mt-5 max-w-xl text-base leading-8 text-gray-600">
+                        Track expenses, understand your spending habits, and make clearer money decisions with a simple personal finance dashboard.
+                    </p>
                 </div>
-                <!-- links -->
-                <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-medium text-gray-600">
-                    <a href="<?= url('terms-and-conditions.php') ?>" class="hover:text-indigo-600 transition">Terms & Conditions</a>
-                    <a href="https://aungkyawthet-portfolio.vercel.app/#contact" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
+
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-900">Useful links</h3>
+                    <div class="mt-5 flex flex-col gap-3 text-base font-medium text-gray-600">
+                        <a href="<?= url('terms-and-conditions.php') ?>" class="hover:text-indigo-600 transition">Terms & Conditions</a>
+                        <a href="https://aungkyawthet-portfolio.vercel.app/#contact" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
+                    </div>
                 </div>
-                <!-- icons -->
-                <div class="flex gap-5 text-gray-500 text-xl">
-                    <a href="https://github.com/aungkyawthetx" target="_blank" class="hover:text-indigo-600 transition"><i class="fab fa-github"></i></a>
+
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-900">Follow</h3>
+                    <div class="mt-5 flex gap-4 text-2xl text-gray-600">
+                        <a href="https://github.com/aungkyawthetx" target="_blank" class="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm transition hover:-translate-y-0.5 hover:text-indigo-600 hover:shadow-md" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="text-center text-xs text-gray-400 mt-10"> &copy; TraceX. Made with <i class="fa-regular fa-heart text-rose-400"></i> for smart spenders</div>
+
+            <div class="mt-12 flex flex-col gap-3 border-t border-gray-300 pt-6 text-base text-gray-500 md:flex-row md:items-center md:justify-between">
+                <p>&copy; TraceX. Made with <i class="fa-regular fa-heart text-rose-500"></i> for smart spenders.</p>
+                <p class="font-medium text-gray-600">Smart expense tracking for everyday decisions.</p>
+            </div>
         </div>
     </footer>
     <script>

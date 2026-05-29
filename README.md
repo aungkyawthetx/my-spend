@@ -1,72 +1,108 @@
 # TraceX
 
-**TraceX** is a lightweight **web-based personal finance tracker** built with **native PHP**.  
-It helps users manage **expenses, categories, budgets, payment methods, and savings goals** in one simple and efficient application.
+TraceX is a lightweight web-based personal finance tracker built with native PHP, MySQL, Tailwind CSS, and JavaScript.
 
-This project is designed for **learning, portfolio showcase, and personal financial tracking**.
+It helps users track daily expenses, organize spending by category, manage budgets, follow savings goals, and review spending insights from a simple dashboard.
 
----
+## What's New
 
-## ✨ Core Features
+- Public landing page with SEO metadata, Open Graph tags, sitemap, robots.txt, and a terms page.
+- Dashboard summaries for current month expenses, budget totals, savings deposits, category counts, recent transactions, and budget progress.
+- Chart-based dashboard views using Chart.js for monthly spending and category breakdowns.
+- Expense filtering by date range, category, minimum amount, and maximum amount.
+- Budget CRUD with category/month duplicate protection and spent-vs-budget progress.
+- Savings goals with deposits, withdrawals, status tracking, and withdrawal validation.
+- Insights page with current-month category analysis, daily average, trend comparison, top expenses, and simple spending suggestions.
+- Profile page with editable user details and account statistics.
+- Database setup script with fresh rebuild, optional seeding, charset normalization, and connection-kill support for locked local databases.
+- Local vendor assets for Font Awesome, Flatpickr, Chart.js, SweetAlert2, and Work Sans.
 
-### 🧾 Expense Management
-- Record daily expenses with **amount, category, payment method, and notes**
-- Organize spending using **categories**
-- Track **paid / unpaid** expense status
-- View **complete expense history** with filtering by date or category
+## Core Features
 
-### 📊 Budget Tracking
-- Create **monthly or category-based budgets**
-- Compare **actual spending vs. planned budget**
-- Quickly detect **overspending**
+### Authentication
 
-### 💰 Savings Goals
-- Create **personal savings targets**
-- Store **target amount, start date, and deadline**
-- Record **deposit and withdrawal transactions**
-- Automatically calculate **current saved amount**
-- Mark savings as **active, completed, or cancelled**
+- User registration and login.
+- Password hashing with PHP's password API.
+- Remember-me login token support.
+- Guest and logged-in route guards.
 
----
+### Expense Management
 
-## 🏗 Database Coverage
+- Add, edit, and delete expense records.
+- Store amount, date, category, payment method, notes, and paid/unpaid status.
+- Filter expense history by date range, category, and amount range.
+- Paginated expense list.
 
-The system currently manages:
+### Categories
 
-- **Users** (authentication & roles)
-- **Categories** (expense grouping)
-- **Expenses** (transactions)
-- **Budgets** (monthly/category limits)
-- **Payment Methods** (cash, bank, etc.)
-- **Savings** (financial goals)
-- **Saving Transactions** (deposit / withdraw history)
+- Seeded default spending categories.
+- Category list with search support.
+- Category icons, colors, and expense counts.
 
----
+### Budgets
 
-## 🛠 Tech Stack
+- Create monthly budgets per category.
+- Edit and delete budgets.
+- Prevent duplicate budgets for the same user, category, and month.
+- Compare budget amount against actual spending.
+
+### Savings
+
+- Create and manage savings goals.
+- Track target amount, start date, target date, and status.
+- Add deposit and withdrawal transactions.
+- Prevent withdrawals greater than the current saved amount.
+- Show recent savings transactions.
+
+### Reports and Insights
+
+- Dashboard charts for monthly expenses and category breakdowns.
+- Reports page with summary cards, charts, secondary reports, and recent expenses.
+- Insights page with category spending, budget comparisons, daily average, month-over-month trend, top expenses, and suggestions.
+
+### Profile
+
+- View account details.
+- Update name and email.
+- See account statistics such as expenses added, savings goals, categories, and days active.
+
+## Tech Stack
 
 | Layer | Technology |
-|-------|------------|
-| Backend | Native PHP |
+| --- | --- |
+| Backend | Native PHP, PDO |
 | Frontend | HTML, Tailwind CSS, JavaScript |
 | Database | MySQL |
-| Server | Apache / XAMPP |
+| Charts | Chart.js |
+| UI Helpers | Flatpickr, SweetAlert2, Font Awesome |
+| Local Server | PHP built-in server, Apache, XAMPP, or WAMP |
 
----
+## Project Structure
 
-## 📋 Prerequisites
+```text
+tracex/
+|-- config/                 # Database configuration
+|-- database/               # Setup script and SQL dump
+|-- login/                  # Sign-in page
+|-- register/               # Sign-up page
+|-- public/                 # Authenticated app pages and public assets
+|-- src/                    # Bootstrap, helpers, Tailwind input/output
+|-- views/                  # Reusable view components and page sections
+|-- index.php               # Public landing page
+|-- terms-and-conditions.php
+|-- robots.txt
+|-- sitemap.xml
+`-- package.json
+```
 
-Make sure you have installed:
+## Prerequisites
 
-- **PHP 7.4 or higher**
-- **MySQL 5.7 or higher**
-- **Apache / Nginx** or **XAMPP / WAMP**
-- **Composer** *(optional)*
+- PHP 8.0 or higher recommended.
+- MySQL 5.7 or higher.
+- Node.js and npm for Tailwind builds.
+- Apache/XAMPP/WAMP or the PHP built-in development server.
 
----
-## Installation Guide
-
-Follow these steps to run the project locally.
+## Installation
 
 ### 1. Clone the project
 
@@ -75,39 +111,62 @@ git clone https://github.com/aungkyawthetx/tracex.git
 cd tracex
 ```
 
-### 2. Configure database connection
+### 2. Install frontend dependencies
 
-Open `config/db.php` and update your local DB credentials:
+```bash
+npm install
+```
+
+### 3. Create the database
+
+Create a MySQL database before running the setup script:
+
+```sql
+CREATE DATABASE tracex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 4. Configure database connection
+
+Open `config/db.php` and update the values for your local environment:
 
 ```php
 $DB_HOST = "localhost";
-$DB_NAME = "yourdbname";
+$DB_NAME = "tracex";
 $DB_USER = "root";
-$DB_PASS = "your_password";
+$DB_PASS = "";
 ```
 
-### 3. Create tables and seed defaults
-
-Run:
+### 5. Create tables and seed defaults
 
 ```bash
 php database/setup.php
 ```
 
-Useful options:
+Useful setup options:
 
 ```bash
 php database/setup.php --fresh
 php database/setup.php --fresh --kill-connections
 php database/setup.php --no-seed
+php database/setup.php --fresh --no-seed
 ```
 
-### 4. Run the application
-
-Start PHP development server:
+### 6. Build Tailwind CSS
 
 ```bash
-npm run dev (php-S localhost:8000)
+npm run build
+```
+
+For active UI development, run:
+
+```bash
+npm run watch
+```
+
+### 7. Run the application
+
+```bash
+npm run serve
 ```
 
 Then open:
@@ -116,18 +175,37 @@ Then open:
 http://localhost:8000
 ```
 
-### 5. (Optional) Watch Tailwind CSS changes
+The landing page is available at `/`. After signing in, the app redirects to:
 
-Use this in another terminal while developing UI:
-
-```bash
-npm run watch
+```text
+http://localhost:8000/public/index.php
 ```
 
----
+## Database Tables
 
-## Quick Troubleshooting
+The setup script manages these tables:
 
-- If DB connection fails, re-check `config/db.php` values.
-- If styles do not update, run `npm run watch`.
+- `users`
+- `categories`
+- `payment_methods`
+- `expenses`
+- `budgets`
+- `savings`
+- `saving_transactions`
+
+## npm Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run serve` | Start PHP dev server at `localhost:8000`. |
+| `npm run build` | Build minified Tailwind CSS. |
+| `npm run watch` | Watch Tailwind input and rebuild on changes. |
+| `npm test` | Placeholder test script. |
+
+## Troubleshooting
+
+- If the database connection fails, confirm `config/db.php` and make sure the database exists.
 - If tables are missing or outdated, run `php database/setup.php --fresh`.
+- If fresh setup hangs because of local MySQL locks, run `php database/setup.php --fresh --kill-connections`.
+- If styles are missing or stale, run `npm run build` or `npm run watch`.
+- If `npm run serve` is already using port `8000`, stop the existing server or run PHP manually on another port.

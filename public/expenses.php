@@ -1,151 +1,131 @@
 <?php
-  require __DIR__ . '/../src/helpers/url.php';
-  require __DIR__ . '/../src/helpers/flash.php';
-  require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
-  require_once __DIR__ . '/../src/bootstrap.php';
+require __DIR__ . '/../src/helpers/url.php';
+require __DIR__ . '/../src/helpers/flash.php';
+require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 
-  $title = "Expenses - TraceX";
+$title = 'Expenses - TraceX';
+$userId = (int) $_SESSION['user_id'];
 
-  $hasCategoryUserId = tableHasColumn($pdo, 'categories', 'user_id');
-  $hasPaymentMethodUserId = tableHasColumn($pdo, 'payment_methods', 'user_id');
+$hasCategoryUserId = tableHasColumn($pdo, 'categories', 'user_id');
+$hasPaymentMethodUserId = tableHasColumn($pdo, 'payment_methods', 'user_id');
 
-  if ($hasCategoryUserId) {
-    $category_stmt = $pdo->prepare("SELECT * FROM categories WHERE user_id IS NULL OR user_id = :user_id ORDER BY name ASC");
-    $category_stmt->execute([':user_id' => $_SESSION['user_id']]);
+$getOptions = function (string $table, string $columns, bool $hasUserId) use ($pdo, $userId): array {
+  if (!$hasUserId) {
+    return $pdo->query("SELECT {$columns} FROM {$table} ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  $stmt = $pdo->prepare("SELECT {$columns} FROM {$table} WHERE user_id IS NULL OR user_id = :user_id ORDER BY name ASC");
+  $stmt->execute([':user_id' => $userId]);
+
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+};
+
+$isValidOption = function (string $table, int $id, bool $hasUserId) use ($pdo, $userId): bool {
+  $sql = "SELECT id FROM {$table} WHERE id = :id";
+  $params = [':id' => $id];
+
+  if ($hasUserId) {
+    $sql .= ' AND (user_id IS NULL OR user_id = :user_id)';
+    $params[':user_id'] = $userId;
+  }
+
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
+
+  return (bool) $stmt->fetchColumn();
+};
+
+$category_items = $getOptions('categories', '*', $hasCategoryUserId);
+$payment_methods = $getOptions('payment_methods', $hasPaymentMethodUserId ? 'id, name, user_id' : 'id, name', $hasPaymentMethodUserId);
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
+  $expenseDate = trim($_POST['expense_date'] ?? '');
+  $amount = $_POST['amount'] ?? '';
+  $categoryId = (int) ($_POST['category_id'] ?? 0);
+  $paymentMethodId = (int) ($_POST['payment_method'] ?? 0);
+  $note = trim($_POST['note'] ?? '');
+
+  if ($expenseDate === '') {
+    $errors['expense_date'] = 'Expense date is required';
+  }
+
+  if ($amount === '') {
+    $errors['amount'] = 'Amount is required';
+  } elseif (!is_numeric($amount) || (float) $amount <= 0) {
+    $errors['amount'] = 'Amount must be greater than zero';
+  }
+
+  if ($categoryId === 0) {
+    $errors['category'] = 'Category is required';
+  } elseif (!$isValidOption('categories', $categoryId, $hasCategoryUserId)) {
+    $errors['category'] = 'Selected category is invalid';
+  }
+
+  if ($paymentMethodId === 0) {
+    $errors['payment_method'] = 'Payment method is required';
+  } elseif (!$isValidOption('payment_methods', $paymentMethodId, $hasPaymentMethodUserId)) {
+    $errors['payment_method'] = 'Selected payment method is invalid';
+  }
+
+  if (empty($errors)) {
+    $stmt = $pdo->prepare('INSERT INTO expenses (user_id, category_id, payment_method_id, amount, note, expense_date, status) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$userId, $categoryId, $paymentMethodId, (float) $amount, $note, $expenseDate, isset($_POST['paid']) ? 'paid' : 'unpaid']);
+    setFlash('success', 'Expense has been added!');
   } else {
-    $category_stmt = $pdo->query("SELECT * FROM categories ORDER BY name ASC");
-  }
-  $category_items = $category_stmt->fetchAll(PDO::FETCH_ASSOC);
-  // get payment methods
-  if ($hasPaymentMethodUserId) {
-    $payment_stmt = $pdo->prepare("SELECT id, name, user_id FROM payment_methods WHERE user_id IS NULL OR user_id = ?");
-    $payment_stmt->execute([$_SESSION['user_id']]);
-  } else {
-    $payment_stmt = $pdo->query("SELECT id, name FROM payment_methods");
-  }
-  $payment_methods = $payment_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-  $errors = [];
-
-  if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
-    $expense_date = $_POST['expense_date'] ?? null;
-    $amount = $_POST['amount'] ?? 0;
-    $category_id = isset($_POST['category_id']) ? (int) $_POST['category_id'] : null;
-    $payment_method = isset($_POST['payment_method']) ? (int) $_POST['payment_method'] : null;
-    $status = isset($_POST['paid']) ? 'paid' : 'unpaid';
-    $note = trim($_POST['note'] ?? '');
-
-    if(empty($expense_date)) {
-      $errors['expense_date'] = "Expense date is required";
-    }
-
-    if(empty($amount)) {
-      $errors['amount'] = "Amount is required";
-    } elseif(!is_numeric($amount) || (float)$amount <= 0) {
-      $errors['amount'] = "Amount must be greater than zero";
-    }
-
-    if(empty($category_id)) {
-        $errors['category'] = "Category is required";
-      } else {
-      if ($hasCategoryUserId) {
-        $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = :id AND (user_id IS NULL OR user_id = :user_id)");
-        $stmt->execute([
-          ':id' => $category_id,
-          ':user_id' => $_SESSION['user_id']
-        ]);
-      } else {
-        $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = :id");
-        $stmt->execute([':id' => $category_id]);
-      }
-      $category_result = $stmt->fetch();
-      if(!$category_result) {
-        $errors['category'] = "Selected category is invalid";
-      } 
-      else {
-        $category_id = $category_result['id'];
-      }
-    }
-
-    if(empty($payment_method)) {
-      $errors['payment_method'] = "Payment method is required";
-    } else {
-      if ($hasPaymentMethodUserId) {
-        $stmt = $pdo->prepare("SELECT id FROM payment_methods WHERE id = :id AND (user_id IS NULL OR user_id = :user_id)");
-        $stmt->execute([
-          ':id' => $payment_method,
-          ':user_id' => $_SESSION['user_id']
-        ]);
-      } else {
-        $stmt = $pdo->prepare("SELECT id FROM payment_methods WHERE id = :id");
-        $stmt->execute([':id' => $payment_method]);
-      }
-      if(!$stmt->fetchColumn()) {
-        $errors['payment_method'] = "Selected payment method is invalid";
-      }
-    }
-
-    if(empty($errors)) {
-      $stmt = $pdo->prepare("INSERT INTO expenses(user_id, category_id, payment_method_id, amount, note, expense_date, status) VALUES(?, ?, ?, ?, ?, ?, ?)");
-      $stmt->execute([
-        $_SESSION['user_id'],
-        $category_id,
-        $payment_method,
-        (float)$amount,
-        $note,
-        $expense_date,
-        $status
-      ]);
-      setFlash('success', 'Expense has been added!');
-      header("Location: expenses.php");
-      exit;
-    } 
-    else {
-      setFlash('error', 'Something went wrong!');
-      header("Location: expenses.php");
-      exit;
-    }
+    setFlash('error', 'Something went wrong!');
   }
 
-  // fetch expenses
+  header('Location: expenses.php');
+  exit;
+}
+
   $whereSql = "FROM expenses 
     LEFT JOIN categories ON expenses.category_id = categories.id 
     LEFT JOIN payment_methods ON expenses.payment_method_id = payment_methods.id 
     WHERE expenses.user_id = :user_id";
 
-  $params = [':user_id' => $_SESSION['user_id']];
-  $date_range = $_GET['date_range'] ?? '';
-  $category_id = $_GET['category_id'] ?? '';
-  $min_amount = $_GET['min_amount'] ?? '';
-  $max_amount = $_GET['max_amount'] ?? '';
+  $params = [':user_id' => $userId];
+  $dateRange = $_GET['date_range'] ?? '';
+  $categoryId = $_GET['category_id'] ?? '';
+  $minAmount = $_GET['min_amount'] ?? '';
+  $maxAmount = $_GET['max_amount'] ?? '';
   $perPage = 10;
   $currentPage = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
+  $hasAppliedFilters = $dateRange !== '' || $categoryId !== '' || $minAmount !== '' || $maxAmount !== '';
 
-  if(!empty($date_range)) {
-    if(str_contains($date_range, ' to ')) {
-      [$startDate, $endDate] = explode(' to ', $date_range);
+  // Keep the default view focused on the current month. Any filter searches the
+  // full expense history, unless the user supplies a date range.
+  if (!$hasAppliedFilters) {
+    $whereSql .= " AND expenses.expense_date >= :current_month_start AND expenses.expense_date < :next_month_start";
+    $params[':current_month_start'] = date('Y-m-01');
+    $params[':next_month_start'] = date('Y-m-01', strtotime('+1 month'));
+  } elseif ($dateRange !== '') {
+    if (str_contains($dateRange, ' to ')) {
+      [$startDate, $endDate] = explode(' to ', $dateRange);
       $whereSql .= " AND expenses.expense_date BETWEEN :start_date AND :end_date";
       $params[':start_date'] = $startDate;
       $params[':end_date']   = $endDate;
     } else {
       $whereSql .= " AND expenses.expense_date = :expense_date";
-      $params[':expense_date'] = $date_range;
+      $params[':expense_date'] = $dateRange;
     }
   }
 
-  if (!empty($category_id)) {
+  if ($categoryId !== '') {
     $whereSql .= " AND expenses.category_id = :category_id";
-    $params[':category_id'] = $category_id;
+    $params[':category_id'] = $categoryId;
   }
 
-  if ($min_amount !== null && $min_amount !== '') {
+  if ($minAmount !== '') {
     $whereSql .= " AND expenses.amount >= :min_amount";
-    $params[':min_amount'] = $min_amount;
+    $params[':min_amount'] = $minAmount;
   }
 
-  if ($max_amount !== null && $max_amount !== '') {
+  if ($maxAmount !== '') {
     $whereSql .= " AND expenses.amount <= :max_amount";
-    $params[':max_amount'] = $max_amount;
+    $params[':max_amount'] = $maxAmount;
   }
 
   $countStmt = $pdo->prepare("SELECT COUNT(*) " . $whereSql);

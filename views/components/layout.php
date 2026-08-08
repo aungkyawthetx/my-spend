@@ -14,7 +14,9 @@ if (!isset($metaDescription)) {
   <meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
   <title><?= htmlspecialchars($title) ?></title>
   <link rel="icon" type="image/png" href="/public/assets/favicon.png">
-  <link rel="preload" href="/public/assets/vendor/fonts/worksans/worksans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/output.css">
   <!-- fontawesome -->
   <link rel="stylesheet" href="/public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css">

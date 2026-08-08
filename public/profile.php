@@ -1,11 +1,11 @@
 <?php
-  include __DIR__ . '/../src/helpers/url.php';
-  require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
-  require_once __DIR__ . '/../src/bootstrap.php';
-  $title = "Account";
+require __DIR__ . '/../src/helpers/url.php';
+require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 
-  $updateErrors = [];
-  $user_id = $_SESSION['user_id'] ?? null;
+$title = 'Account';
+$updateErrors = [];
+$userId = (int) $_SESSION['user_id'];
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateProfile'])) {
     $name = trim($_POST['name'] ?? '');
@@ -23,7 +23,7 @@
       $emailCheckStmt = $pdo->prepare("SELECT id FROM users WHERE email = :email AND id != :id LIMIT 1");
       $emailCheckStmt->execute([
         ':email' => $email,
-        ':id' => $user_id
+        ':id' => $userId
       ]);
       if ($emailCheckStmt->fetchColumn()) {
         $updateErrors['email'] = 'Email is already exists.';
@@ -35,7 +35,7 @@
       $updateStmt->execute([
         ':name' => $name,
         ':email' => $email,
-        ':id' => $user_id
+        ':id' => $userId
       ]);
 
       $_SESSION['user_name'] = $name;
@@ -46,16 +46,15 @@
   }
 
   $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
-  $stmt->execute([':user_id' => $user_id]);
+  $stmt->execute([':user_id' => $userId]);
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  // profile statistics
   $statsStmt = $pdo->prepare("
     SELECT
       (SELECT COUNT(*) FROM expenses WHERE user_id = :user_id) AS expenses_added,
       (SELECT COUNT(*) FROM savings WHERE user_id = :user_id) AS savings_goals
   ");
-  $statsStmt->execute([':user_id' => $user_id]);
+  $statsStmt->execute([':user_id' => $userId]);
   $stats = $statsStmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
   if (tableHasColumn($pdo, 'categories', 'user_id')) {
@@ -64,7 +63,7 @@
       FROM categories
       WHERE user_id IS NULL OR user_id = :user_id
     ");
-    $categoriesStmt->execute([':user_id' => $user_id]);
+    $categoriesStmt->execute([':user_id' => $userId]);
   } else {
     $categoriesStmt = $pdo->query("SELECT COUNT(*) FROM categories");
   }
@@ -88,10 +87,9 @@
 <div class="flex-1">
   <?php include __DIR__ . '/../views/profile/heading.php'; ?>
   <div class="space-y-6">
-    <?php 
-      include __DIR__ . '/../views/profile/profile-card.php';
-      // include __DIR__ . '/../views/profile/account-settings.php';
-      include __DIR__ . '/../views/profile/statistics.php';
+    <?php
+    include __DIR__ . '/../views/profile/profile-card.php';
+    include __DIR__ . '/../views/profile/statistics.php';
     ?>
   </div>
 </div>

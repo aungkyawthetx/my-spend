@@ -4,7 +4,8 @@ require __DIR__ . '/../src/helpers/flash.php';
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
 
-$title = "Budgets - TraceX";
+$title = 'Budgets - TraceX';
+$userId = (int) $_SESSION['user_id'];
 $errors = [];
 
 function normalizeBudgetMonth(string $value): ?string
@@ -25,6 +26,21 @@ function normalizeBudgetMonth(string $value): ?string
 }
 
 $hasCategoryUserId = tableHasColumn($pdo, 'categories', 'user_id');
+$isValidCategory = function (int $categoryId) use ($pdo, $userId, $hasCategoryUserId): bool {
+    $sql = 'SELECT id FROM categories WHERE id = :id';
+    $params = [':id' => $categoryId];
+
+    if ($hasCategoryUserId) {
+        $sql .= ' AND (user_id IS NULL OR user_id = :user_id)';
+        $params[':user_id'] = $userId;
+    }
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+
+    return (bool) $stmt->fetchColumn();
+};
+
 if ($hasCategoryUserId) {
     $categoryStmt = $pdo->prepare("SELECT id, name FROM categories WHERE user_id IS NULL OR user_id = :user_id ORDER BY name ASC");
     $categoryStmt->execute([':user_id' => $_SESSION['user_id']]);
@@ -49,21 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
         $errors['month_year'] = 'Month is required.';
     }
 
-    if (!isset($errors['category_id'])) {
-        if ($hasCategoryUserId) {
-            $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = :id AND (user_id IS NULL OR user_id = :user_id) LIMIT 1");
-            $stmt->execute([
-                ':id' => $categoryId,
-                ':user_id' => $_SESSION['user_id'],
-            ]);
-        } else {
-            $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = :id LIMIT 1");
-            $stmt->execute([':id' => $categoryId]);
-        }
-
-        if (!$stmt->fetchColumn()) {
-            $errors['category_id'] = 'Selected category is invalid.';
-        }
+    if (!isset($errors['category_id']) && !$isValidCategory($categoryId)) {
+        $errors['category_id'] = 'Selected category is invalid.';
     }
 
     if (empty($errors)) {
@@ -137,21 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
         $errors['month_year'] = 'Month is required.';
     }
 
-    if (!isset($errors['category_id'])) {
-        if ($hasCategoryUserId) {
-            $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = :id AND (user_id IS NULL OR user_id = :user_id) LIMIT 1");
-            $stmt->execute([
-                ':id' => $categoryId,
-                ':user_id' => $_SESSION['user_id'],
-            ]);
-        } else {
-            $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = :id LIMIT 1");
-            $stmt->execute([':id' => $categoryId]);
-        }
-
-        if (!$stmt->fetchColumn()) {
-            $errors['category_id'] = 'Selected category is invalid.';
-        }
+    if (!isset($errors['category_id']) && !$isValidCategory($categoryId)) {
+        $errors['category_id'] = 'Selected category is invalid.';
     }
 
     if (empty($errors)) {

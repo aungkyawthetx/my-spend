@@ -1,10 +1,11 @@
 <?php
-  require __DIR__ . '/../src/helpers/url.php';
-  require __DIR__ . '/../src/helpers/flash.php';
-  require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
-  require_once __DIR__ . '/../src/bootstrap.php';
+require __DIR__ . '/../src/helpers/url.php';
+require __DIR__ . '/../src/helpers/flash.php';
+require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 
-  $title = "Insights - TraceX";
+$title = 'Insights - TraceX';
+$userId = (int) $_SESSION['user_id'];
 
   $currentMonth = date('Y-m-01');
   $nextMonth = date('Y-m-01', strtotime('+1 month'));
@@ -19,7 +20,7 @@
     ORDER BY total_spent DESC
   ");
   $spendingStmt->execute([
-    ':user_id' => $_SESSION['user_id'],
+    ':user_id' => $userId,
     ':start_date' => $currentMonth,
     ':end_date' => $nextMonth
   ]);
@@ -34,7 +35,7 @@
     ORDER BY e.expense_date DESC, e.id DESC
   ");
   $expensesStmt->execute([
-    ':user_id' => $_SESSION['user_id'],
+    ':user_id' => $userId,
     ':start_date' => $currentMonth,
     ':end_date' => $nextMonth
   ]);
@@ -57,7 +58,7 @@
     WHERE b.user_id = :user_id AND b.month_year = :month_year
   ");
   $budgetStmt->execute([
-    ':user_id' => $_SESSION['user_id'],
+    ':user_id' => $userId,
     ':month_year' => $currentMonth
   ]);
   $budgets = $budgetStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -68,11 +69,7 @@
     $budgetMap[$budget['name']] = $budget['budget_amount'];
   }
 
-  // Calculate total spending
-  $totalSpent = 0;
-  foreach ($categorySpending as $spend) {
-    $totalSpent += $spend['total_spent'];
-  }
+  $totalSpent = array_sum(array_column($categorySpending, 'total_spent'));
 
   // Calculate Daily Average
   $daysInMonth = date('t');
@@ -90,7 +87,7 @@
     WHERE user_id = :user_id AND expense_date >= :start_date AND expense_date < :end_date
   ");
   $prevSpendingStmt->execute([
-    ':user_id' => $_SESSION['user_id'],
+    ':user_id' => $userId,
     ':start_date' => $prevMonthStart,
     ':end_date' => $prevMonthEnd
   ]);
@@ -113,7 +110,7 @@
     LIMIT 5
   ");
   $topExpensesStmt->execute([
-    ':user_id' => $_SESSION['user_id'],
+    ':user_id' => $userId,
     ':start_date' => $currentMonth,
     ':end_date' => $nextMonth
   ]);

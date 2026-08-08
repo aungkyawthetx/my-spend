@@ -4,7 +4,8 @@ require __DIR__ . '/../src/helpers/flash.php';
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
 
-$title = "Savings - TraceX";
+$title = 'Savings - TraceX';
+$userId = (int) $_SESSION['user_id'];
 $errors = [];
 
 function getSavingCurrentAmount(PDO $pdo, int $savingId, int $userId): ?float
@@ -62,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSaving'])) {
             VALUES (:user_id, :name, :description, :target_amount, :start_date, :target_date, :status)
         ");
         $stmt->execute([
-            ':user_id' => $_SESSION['user_id'],
+            ':user_id' => $userId,
             ':name' => $name,
             ':description' => $description !== '' ? $description : null,
             ':target_amount' => (float) $targetAmount,
@@ -127,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
         ");
         $stmt->execute([
             ':id' => $id,
-            ':user_id' => $_SESSION['user_id'],
+            ':user_id' => $userId,
             ':name' => $name,
             ':description' => $description !== '' ? $description : null,
             ':target_amount' => (float) $targetAmount,
@@ -163,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
     $stmt = $pdo->prepare("DELETE FROM savings WHERE id = :id AND user_id = :user_id");
     $stmt->execute([
         ':id' => $id,
-        ':user_id' => $_SESSION['user_id'],
+        ':user_id' => $userId,
     ]);
 
     if ($stmt->rowCount() === 0) {
@@ -194,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSavingTransact
     }
 
     if (empty($errors)) {
-        $currentAmount = getSavingCurrentAmount($pdo, $savingId, (int) $_SESSION['user_id']);
+        $currentAmount = getSavingCurrentAmount($pdo, $savingId, $userId);
         if ($currentAmount === null) {
             $errors['saving_id'] = 'Saving goal not found or access denied.';
         } elseif ($type === 'withdraw' && (float) $amount > $currentAmount) {
@@ -214,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSavingTransact
     ");
     $stmt->execute([
         ':saving_id' => $savingId,
-        ':user_id' => $_SESSION['user_id'],
+        ':user_id' => $userId,
         ':type' => $type,
         ':amount' => (float) $amount,
         ':note' => $note !== '' ? $note : null,
@@ -235,7 +236,7 @@ $stmt = $pdo->prepare("
     GROUP BY s.id
     ORDER BY s.created_at DESC, s.id DESC
 ");
-$stmt->execute([':user_id' => $_SESSION['user_id']]);
+$stmt->execute([':user_id' => $userId]);
 $savings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $pdo->prepare("
@@ -246,7 +247,7 @@ $stmt = $pdo->prepare("
     ORDER BY st.created_at DESC, st.id DESC
     LIMIT 20
 ");
-$stmt->execute([':user_id' => $_SESSION['user_id']]);
+$stmt->execute([':user_id' => $userId]);
 $savingTransactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ob_start();

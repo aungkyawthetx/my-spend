@@ -91,8 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
   $categoryId = $_GET['category_id'] ?? '';
   $minAmount = $_GET['min_amount'] ?? '';
   $maxAmount = $_GET['max_amount'] ?? '';
-  $perPage = 10;
-  $currentPage = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
   $hasAppliedFilters = $dateRange !== '' || $categoryId !== '' || $minAmount !== '' || $maxAmount !== '';
 
   // Keep the default view focused on the current month. Any filter searches the
@@ -128,13 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
     $params[':max_amount'] = $maxAmount;
   }
 
-  $countStmt = $pdo->prepare("SELECT COUNT(*) " . $whereSql);
-  $countStmt->execute($params);
-  $totalExpenses = (int) $countStmt->fetchColumn();
-  $totalPages = max(1, (int) ceil($totalExpenses / $perPage));
-  $currentPage = min($currentPage, $totalPages);
-  $offset = ($currentPage - 1) * $perPage;
-
   $sql = "SELECT 
     expenses.*, 
     categories.name AS category_name, 
@@ -143,25 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
     payment_methods.name AS payment_method,
     payment_methods.id AS payment_method_id
     " . $whereSql . "
-    ORDER BY expenses.expense_date DESC, expenses.id DESC
-    LIMIT :limit OFFSET :offset";
+    ORDER BY expenses.expense_date DESC, expenses.id DESC";
 
   $stmt = $pdo->prepare($sql);
   foreach ($params as $key => $value) {
     $stmt->bindValue($key, $value);
   }
-  $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
-  $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
   $stmt->execute();
   $expenses = $stmt->fetchAll();
-
-  $paginationStart = $totalExpenses === 0 ? 0 : $offset + 1;
-  $paginationEnd = min($offset + $perPage, $totalExpenses);
-  $paginationQuery = $_GET;
-  unset($paginationQuery['page']);
-  $paginationUrl = function (int $page) use ($paginationQuery): string {
-    return 'expenses.php?' . http_build_query($paginationQuery + ['page' => $page]);
-  };
 
   ob_start();
   include __DIR__ . '/../views/expenses/header-and-filter.php';

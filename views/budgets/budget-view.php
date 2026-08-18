@@ -34,14 +34,10 @@
                             $amount = (float) ($budget['amount'] ?? 0);
                             $spent = (float) ($budget['spent_amount'] ?? 0);
                             $remaining = $amount - $spent;
-                            $progress = $amount > 0 ? ($spent / $amount) * 100 : 0;
-                            $progressClamped = max(0, min(100, $progress));
-                            $barClass = 'bg-green-500';
-                            if ($progress >= 80 && $progress <= 100) {
-                                $barClass = 'bg-yellow-500';
-                            } elseif ($progress > 100) {
-                                $barClass = 'bg-red-500';
-                            }
+                            $progressData = getBudgetProgress($amount, $spent);
+                            $progress = $progressData['progress'];
+                            $progressClamped = $progressData['progressClamped'];
+                            $barClass = $progressData['barClass'];
                             $monthValue = date('Y-m', strtotime($budget['month_year']));
                             $monthLabel = date('F Y', strtotime($budget['month_year']));
                         ?>

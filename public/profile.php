@@ -1,12 +1,8 @@
 <?php
-require __DIR__ . '/../src/helpers/url.php';
-require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
-require_once __DIR__ . '/../src/bootstrap.php';
-require_once __DIR__ . '/../src/helpers/csrf.php';
+require __DIR__ . '/../src/auth_page.php';
 
 $title = 'Account';
 $updateErrors = [];
-$userId = (int) $_SESSION['user_id'];
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateProfile'])) {
     verifyCsrf();
@@ -69,20 +65,9 @@ $userId = (int) $_SESSION['user_id'];
   $statsStmt->execute([':user_id' => $userId]);
   $stats = $statsStmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
-  if (tableHasColumn($pdo, 'categories', 'user_id')) {
-    $categoriesStmt = $pdo->prepare("
-      SELECT COUNT(*)
-      FROM categories
-      WHERE user_id IS NULL OR user_id = :user_id
-    ");
-    $categoriesStmt->execute([':user_id' => $userId]);
-  } else {
-    $categoriesStmt = $pdo->query("SELECT COUNT(*) FROM categories");
-  }
-
   $expensesAdded = (int) ($stats['expenses_added'] ?? 0);
   $savingsGoals = (int) ($stats['savings_goals'] ?? 0);
-  $categoriesTotal = (int) $categoriesStmt->fetchColumn();
+  $categoriesTotal = getVisibleCategoryCount($pdo, $userId);
   $daysActive = 0;
   if (!empty($user['created_at'])) {
     $createdAtTs = strtotime((string) $user['created_at']);

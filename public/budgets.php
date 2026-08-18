@@ -3,6 +3,7 @@ require __DIR__ . '/../src/helpers/url.php';
 require __DIR__ . '/../src/helpers/flash.php';
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
+require_once __DIR__ . '/../src/helpers/csrf.php';
 
 $title = 'Budgets - TraceX';
 $userId = (int) $_SESSION['user_id'];
@@ -50,6 +51,7 @@ if ($hasCategoryUserId) {
 $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
+    verifyCsrf();
     $categoryId = isset($_POST['category_id']) ? (int) $_POST['category_id'] : 0;
     $amount = $_POST['amount'] ?? '';
     $monthInput = $_POST['month_year'] ?? '';
@@ -121,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
+    verifyCsrf();
     $id = isset($_POST['edit_budget_id']) ? (int) $_POST['edit_budget_id'] : 0;
     $categoryId = isset($_POST['category_id']) ? (int) $_POST['category_id'] : 0;
     $amount = $_POST['amount'] ?? '';
@@ -209,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteBudget'])) {
+    verifyCsrf();
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
         setFlash('error', 'Invalid budget ID.');
@@ -264,7 +268,7 @@ if ($flash):
   Swal.fire({
     toast: true,
     position: "top-end",
-    icon: "<?= $flash['type'] ?>",
+    icon: <?= json_encode($flash['type']) ?>,
     title: <?= json_encode($flash['message']) ?>,
     showConfirmButton: false,
     timer: 1500,

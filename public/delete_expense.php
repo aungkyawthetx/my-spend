@@ -2,7 +2,7 @@
 require __DIR__ . '/../src/auth_page.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['btnDeleteExpense'])) {
-  exit;
+  setFlashAndRedirect('error', 'Invalid delete request.', 'expenses.php');
 }
 
 verifyCsrf();

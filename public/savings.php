@@ -102,14 +102,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
         setFlashAndRedirect('success', 'Saving has been updated!', 'savings.php');
     }
 
-    setFlashAndRedirect('error', array_values($errors)[0], 'saving.php');
+    setFlashAndRedirect('error', array_values($errors)[0], 'savings.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
     verifyCsrf();
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
-        setFlashAndRedirect('error', 'Invalid saving ID.', 'saving.php');
+        setFlashAndRedirect('error', 'Invalid saving ID.', 'savings.php');
     }
 
     $stmt = $pdo->prepare("DELETE FROM savings WHERE id = :id AND user_id = :user_id");
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
     ]);
 
     if ($stmt->rowCount() === 0) {
-        setFlashAndRedirect('error', 'Saving not found or access denied.', 'saving.php');
+        setFlashAndRedirect('error', 'Saving not found or access denied.', 'savings.php');
     }
 
     setFlashAndRedirect('success', 'Saving has been deleted!', 'savings.php');

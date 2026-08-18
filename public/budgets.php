@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteBudget'])) {
     verifyCsrf();
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
-        setFlashAndRedirect('error', 'Invalid budget ID.', 'budget.php');
+        setFlashAndRedirect('error', 'Invalid budget ID.', 'budgets.php');
     }
 
     $stmt = $pdo->prepare("DELETE FROM budgets WHERE id = :id AND user_id = :user_id");

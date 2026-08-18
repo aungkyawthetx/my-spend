@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveExpense'])) {
     $stmt->execute([$userId, $categoryId, $paymentMethodId, (float) $amount, $note, $expenseDate, isset($_POST['paid']) ? 'paid' : 'unpaid']);
     setFlash('success', 'Expense has been added!');
   } else {
-    setFlash('error', 'Something went wrong!');
+    setFlash('error', array_values($errors)[0]);
   }
 
   header('Location: expenses.php');

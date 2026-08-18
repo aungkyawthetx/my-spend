@@ -52,16 +52,16 @@
         // register
         if (empty($errors)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            // insert
-            $stmt = $pdo->prepare("INSERT INTO users(name, email, password, role) VALUES (?, ?, ?, ?)");
-            $result = $stmt->execute([
-                $name,
-                $email,
-                $hashedPassword,
-                'user'
-            ]);
 
-            if ($result) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO users(name, email, password, role) VALUES (?, ?, ?, ?)");
+                $stmt->execute([
+                    $name,
+                    $email,
+                    $hashedPassword,
+                    'user'
+                ]);
+
                 $success = true;
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['user_email'] = $email;
@@ -69,8 +69,14 @@
 
                 header("Location: ../public/index.php");
                 exit();
-            } else {
-                $errors['database'] = 'Registration failed. Please try again';
+            } catch (PDOException $e) {
+                logThrowable($e, 'registration failed');
+
+                if ($e->getCode() === '23000') {
+                    $errors['email'] = 'This email is already registered';
+                } else {
+                    $errors['database'] = 'Registration failed. Please try again';
+                }
             }
         }
     }

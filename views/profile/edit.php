@@ -13,6 +13,9 @@
         </div>
 
         <div class="px-6 py-6 space-y-5">
+            <?php if (!empty($updateErrors['update'])): ?>
+                <p class="rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-sm text-red-700"><?= htmlspecialchars($updateErrors['update']) ?></p>
+            <?php endif; ?>
             <div>
                 <label class="block text-xs font-semibold tracking-wide text-gray-500 uppercase" for="profile-name">Full name</label>
                 <div class="mt-2">

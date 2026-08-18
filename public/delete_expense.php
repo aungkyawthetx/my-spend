@@ -4,6 +4,8 @@ require_once __DIR__ . '/../src/bootstrap.php';
 require __DIR__ . '/../src/helpers/flash.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['btnDeleteExpense'])) {
+  setFlash('error', 'Invalid delete request.');
+  header('Location: expenses.php');
   exit;
 }
 

@@ -31,17 +31,27 @@ $userId = (int) $_SESSION['user_id'];
     }
 
     if (empty($updateErrors)) {
-      $updateStmt = $pdo->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
-      $updateStmt->execute([
-        ':name' => $name,
-        ':email' => $email,
-        ':id' => $userId
-      ]);
+      try {
+        $updateStmt = $pdo->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
+        $updateStmt->execute([
+          ':name' => $name,
+          ':email' => $email,
+          ':id' => $userId
+        ]);
 
-      $_SESSION['user_name'] = $name;
-      $_SESSION['user_email'] = $email;
-      header("Location: profile.php");
-      exit;
+        $_SESSION['user_name'] = $name;
+        $_SESSION['user_email'] = $email;
+        header("Location: profile.php");
+        exit;
+      } catch (PDOException $e) {
+        logThrowable($e, 'profile update failed');
+
+        if ($e->getCode() === '23000') {
+          $updateErrors['email'] = 'Email is already exists.';
+        } else {
+          $updateErrors['update'] = 'Could not update your profile. Please try again.';
+        }
+      }
     }
   }
 

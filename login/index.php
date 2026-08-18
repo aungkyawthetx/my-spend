@@ -24,27 +24,33 @@
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->execute([$email]);
             $user = $stmt->fetch();
-        }
 
-        // check password
-        if(!empty($user) && password_verify($password, $user['password'])) {
-            session_regenerate_id(true);
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_name'] = $user['name'];
+            if(!empty($user) && password_verify($password, $user['password'])) {
+                session_regenerate_id(true);
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_name'] = $user['name'];
 
-            if($remember) {
-                $token = bin2hex(random_bytes(32));
-                $expiry = time() + 60 * 60 * 24; // one day
-                $stmt = $pdo->prepare("UPDATE users SET remember_token = ?, token_expiry = ? WHERE id = ?");
-                $stmt->execute([$token, date('Y-m-d H:i:s', $expiry), $user['id']]);
-                // set cookie
-                $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-                setcookie('remember_token', $token, $expiry, '/', '', $isHttps, true);
+                if($remember) {
+                    $token = bin2hex(random_bytes(32));
+                    $expiry = time() + 60 * 60 * 24; // one day
+
+                    // A failed remember-me token must not block an otherwise valid sign-in.
+                    try {
+                        $stmt = $pdo->prepare("UPDATE users SET remember_token = ?, token_expiry = ? WHERE id = ?");
+                        $stmt->execute([$token, date('Y-m-d H:i:s', $expiry), $user['id']]);
+
+                        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+                        setcookie('remember_token', $token, $expiry, '/', '', $isHttps, true);
+                    } catch (PDOException $e) {
+                        logThrowable($e, 'failed to store remember-me token');
+                    }
+                }
+
+                header("Location: ../public/index.php");
+                exit();
             }
-            header("Location: ../public/index.php");
-            exit();
-        } else {
+
             $errors['login'] = "Invalid email or password";
         }
     }

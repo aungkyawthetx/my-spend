@@ -212,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteBudget'])) {
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
         setFlash('error', 'Invalid budget ID.');
-        header("Location: budget.php");
+        header("Location: budgets.php");
         exit;
     }
 

@@ -2,12 +2,15 @@
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
 require __DIR__ . '/../src/helpers/flash.php';
+require_once __DIR__ . '/../src/helpers/csrf.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['btnUpdateExpense'])) {
   setFlash('error', 'Invalid update request.');
   header('Location: expenses.php');
   exit;
 }
+
+verifyCsrf();
 
 $userId = (int) $_SESSION['user_id'];
 $expenseId = (int) ($_POST['edit_expense_id'] ?? 0);

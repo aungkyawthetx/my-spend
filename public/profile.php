@@ -2,12 +2,14 @@
 require __DIR__ . '/../src/helpers/url.php';
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
+require_once __DIR__ . '/../src/helpers/csrf.php';
 
 $title = 'Account';
 $updateErrors = [];
 $userId = (int) $_SESSION['user_id'];
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateProfile'])) {
+    verifyCsrf();
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
 

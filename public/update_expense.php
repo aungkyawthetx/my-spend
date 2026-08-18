@@ -5,6 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['btnUpdateExpense']))
   exit;
 }
 
+verifyCsrf();
+
 $expenseId = (int) ($_POST['edit_expense_id'] ?? 0);
 $expenseDate = trim($_POST['expense_date'] ?? '');
 $amount = $_POST['amount'] ?? '';

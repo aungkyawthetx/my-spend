@@ -5,6 +5,7 @@ $title = 'Account';
 $updateErrors = [];
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateProfile'])) {
+    verifyCsrf();
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
 

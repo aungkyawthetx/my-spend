@@ -5,6 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['btnDeleteExpense']))
   exit;
 }
 
+verifyCsrf();
+
 $expenseId = (int) ($_POST['id'] ?? 0);
 if ($expenseId <= 0) {
   setFlashAndRedirect('error', 'Invalid expense ID.', 'expenses.php');

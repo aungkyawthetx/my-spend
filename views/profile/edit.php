@@ -1,4 +1,5 @@
 <form action="profile.php?edit=1" method="POST" class="max-w-2xl">
+    <?= csrfField() ?>
     <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div class="px-6 py-4 border-b border-gray-100">
             <div class="flex items-center gap-3">

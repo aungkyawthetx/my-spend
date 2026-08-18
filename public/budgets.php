@@ -90,6 +90,7 @@ $handleBudgetException = function (PDOException $e, string $operation): void {
 };
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
+    verifyCsrf();
     [$fields, $errors] = $validateBudget(false);
 
     if (empty($errors)) {
@@ -114,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
+    verifyCsrf();
     [$fields, $errors] = $validateBudget(true);
 
     if (empty($errors)) {
@@ -147,6 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateBudget'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteBudget'])) {
+    verifyCsrf();
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
         setFlashAndRedirect('error', 'Invalid budget ID.', 'budget.php');

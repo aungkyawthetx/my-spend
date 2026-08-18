@@ -45,6 +45,7 @@ $validateSaving = function (bool $isUpdate): array {
 };
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSaving'])) {
+    verifyCsrf();
     [$fields, $errors] = $validateSaving(false);
 
     if (empty($errors)) {
@@ -69,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSaving'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
+    verifyCsrf();
     [$fields, $errors] = $validateSaving(true);
 
     if (empty($errors)) {
@@ -104,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
+    verifyCsrf();
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
         setFlashAndRedirect('error', 'Invalid saving ID.', 'saving.php');
@@ -123,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSavingTransaction'])) {
+    verifyCsrf();
     $savingId = isset($_POST['saving_id']) ? (int) $_POST['saving_id'] : 0;
     $type = trim($_POST['type'] ?? '');
     $amount = $_POST['amount'] ?? '';

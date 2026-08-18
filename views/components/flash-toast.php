@@ -6,7 +6,7 @@ if ($flash):
   Swal.fire({
     toast: true,
     position: "top-end",
-    icon: "<?= $flash['type'] ?>",
+    icon: <?= json_encode($flash['type']) ?>,
     title: <?= json_encode($flash['message']) ?>,
     showConfirmButton: false,
     timer: 1500,

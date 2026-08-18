@@ -98,6 +98,7 @@
                         <h3 class="text-lg leading-6 font-medium text-gray-900">Add Monthly Budget</h3>
                         <div class="mt-2">
                             <form id="budgetForm" method="POST" action="">
+                                <?= csrfField() ?>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label for="budget_month" class="block text-sm font-medium text-gray-700">Month</label>
@@ -150,6 +151,7 @@
                         <h3 class="text-lg leading-6 font-medium text-gray-900">Edit Monthly Budget</h3>
                         <div class="mt-2">
                             <form id="editBudgetForm" method="POST" action="">
+                                <?= csrfField() ?>
                                 <input type="hidden" name="edit_budget_id" id="edit_budget_id">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
@@ -208,6 +210,7 @@
                 </div>
             </div>
             <form action="" method="POST">
+                <?= csrfField() ?>
                 <input type="hidden" name="id" id="delete-budget-id">
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="submit" name="btnDeleteBudget" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">

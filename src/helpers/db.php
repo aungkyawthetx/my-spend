@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/schema.php';
 
 if (!function_exists('getUserScopeCondition')) {
   function getUserScopeCondition(PDO $pdo, string $table, int $userId): array

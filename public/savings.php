@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
     }
 
     setFlash('error', array_values($errors)[0]);
-    header("Location: saving.php");
+    header("Location: savings.php");
     exit;
 }
 
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
         setFlash('error', 'Invalid saving ID.');
-        header("Location: saving.php");
+        header("Location: savings.php");
         exit;
     }
 
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
 
     if ($stmt->rowCount() === 0) {
         setFlash('error', 'Saving not found or access denied.');
-        header("Location: saving.php");
+        header("Location: savings.php");
         exit;
     }
 

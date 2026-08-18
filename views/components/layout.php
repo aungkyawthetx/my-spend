@@ -1,15 +1,14 @@
 <?php
-$headLinks = [
-  '  <link rel="preconnect" href="https://fonts.googleapis.com">',
-  '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
-  '  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">',
-  '  <link rel="stylesheet" href="/src/output.css">',
-  '  <!-- fontawesome -->',
-  '  <link rel="stylesheet" href="/public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css">',
-  '  <link rel="stylesheet" href="/public/assets/vendor/flatpickr/flatpickr.min.css">',
-];
 include __DIR__ . '/head.php';
 ?>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/output.css">
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="/public/assets/vendor/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="/public/assets/vendor/flatpickr/flatpickr.min.css">
+</head>
 <body class="bg-gray-100">
   <div class="flex h-screen overflow-hidden">
     <?php include __DIR__ . '/sidebar.php'; ?>

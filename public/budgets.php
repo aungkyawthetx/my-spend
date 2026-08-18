@@ -81,11 +81,12 @@ $validateBudget = function (bool $isUpdate) use ($pdo, $userId): array {
 };
 
 $handleBudgetException = function (PDOException $e, string $operation): void {
+    $message = "Something went wrong while {$operation} budget.";
     if (($e->getCode() ?? '') === '23000') {
-        setFlashAndRedirect('error', 'Budget already exists for this category and month.', 'budgets.php');
+        $message = 'Budget already exists for this category and month.';
     }
 
-    setFlashAndRedirect('error', "Something went wrong while {$operation} budget.", 'budgets.php');
+    setFlashAndRedirect('error', $message, 'budgets.php');
 };
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveBudget'])) {

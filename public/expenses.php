@@ -3,7 +3,6 @@ require __DIR__ . '/../src/auth_page.php';
 
 $title = 'Expenses - TraceX';
 
-$hasCategoryUserId = tableHasColumn($pdo, 'categories', 'user_id');
 $hasPaymentMethodUserId = tableHasColumn($pdo, 'payment_methods', 'user_id');
 
 $category_items = getVisibleLookupRows($pdo, 'categories', '*', $userId);

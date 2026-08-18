@@ -4,12 +4,14 @@ require __DIR__ . '/../src/helpers/flash.php';
 require_once __DIR__ . '/../src/helpers/savings.php';
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
+require_once __DIR__ . '/../src/helpers/csrf.php';
 
 $title = 'Savings - TraceX';
 $userId = (int) $_SESSION['user_id'];
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSaving'])) {
+    verifyCsrf();
     $name = trim($_POST['name'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $targetAmount = $_POST['target_amount'] ?? '';
@@ -64,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSaving'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
+    verifyCsrf();
     $id = isset($_POST['edit_saving_id']) ? (int) $_POST['edit_saving_id'] : 0;
     $name = trim($_POST['name'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -135,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnUpdateSaving'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
+    verifyCsrf();
     $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
     if ($id <= 0) {
         setFlash('error', 'Invalid saving ID.');
@@ -160,6 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnDeleteSaving'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSavingTransaction'])) {
+    verifyCsrf();
     $savingId = isset($_POST['saving_id']) ? (int) $_POST['saving_id'] : 0;
     $type = trim($_POST['type'] ?? '');
     $amount = $_POST['amount'] ?? '';
@@ -243,7 +248,7 @@ if ($flash):
   Swal.fire({
     toast: true,
     position: "top-end",
-    icon: "<?= $flash['type'] ?>",
+    icon: <?= json_encode($flash['type']) ?>,
     title: <?= json_encode($flash['message']) ?>,
     showConfirmButton: false,
     timer: 1500,

@@ -1,32 +1,13 @@
 <?php
 require __DIR__ . '/../src/helpers/url.php';
 require __DIR__ . '/../src/helpers/flash.php';
+require_once __DIR__ . '/../src/helpers/savings.php';
 require_once __DIR__ . '/../src/helpers/isLoggedIn.php';
 require_once __DIR__ . '/../src/bootstrap.php';
 
 $title = 'Savings - TraceX';
 $userId = (int) $_SESSION['user_id'];
 $errors = [];
-
-function getSavingCurrentAmount(PDO $pdo, int $savingId, int $userId): ?float
-{
-    $stmt = $pdo->prepare("
-        SELECT COALESCE(SUM(CASE WHEN st.type = 'deposit' THEN st.amount ELSE -st.amount END), 0) AS current_amount
-        FROM savings s
-        LEFT JOIN saving_transactions st ON st.saving_id = s.id
-        WHERE s.id = :saving_id AND s.user_id = :user_id
-        GROUP BY s.id
-    ");
-    $stmt->execute([
-        ':saving_id' => $savingId,
-        ':user_id' => $userId,
-    ]);
-    $amount = $stmt->fetchColumn();
-    if ($amount === false) {
-        return null;
-    }
-    return (float) $amount;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnSaveSaving'])) {
     $name = trim($_POST['name'] ?? '');
